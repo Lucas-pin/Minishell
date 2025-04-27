@@ -22,7 +22,7 @@ The `minishell` project replicates bash behavior with certain limitations, setti
 
 > 📍 Program Flow Diagram
 
-![Program Flow](./Flujo_Programa_v1.0.jpg)
+![Program Flow](./Flujo_Programa_en_v1.0.jpg)
 
 ---
 
