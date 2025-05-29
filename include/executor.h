@@ -1,0 +1,108 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lucas <lucas@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/06 18:27:21 by lpin              #+#    #+#             */
+/*   Updated: 2025/05/19 00:08:47 by lucas            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef EXECUTOR_H
+# define EXECUTOR_H
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <string.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <fcntl.h>
+# include <stdbool.h>
+# include "../libft/libft.h"
+# include "../pipex/pipex.h"
+# define DEFAULT_PATH "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+# define HASH_SIZE 401 // 401 es primo y es cercano a 400, que es el tamaño máximo esperado de la tabla
+
+typedef struct s_executor
+{
+	char				**cmd;
+	char				*cmd_path;
+	int					fd_in;
+	int					fd_out;
+	struct s_executor	*next;
+}	t_executor;
+
+typedef struct s_env
+{
+	char				*key;
+	char				*value;
+	unsigned int		hide : 1;	
+	struct s_env		*next;
+}	t_env;
+
+typedef struct s_hash
+{
+	t_env			*table[HASH_SIZE];
+}	t_hash;
+
+/**
+* @brief Initializes the environment variables from the provided array. If the array is NULL, it initializes with a default path.
+* @param env An array of strings representing environment variables, typically in the format "KEY=VALUE".
+* If NULL, it initializes with a default path.
+* @param _env a t_env pointer to the head of the linked list that will store the environment variables.
+*/
+void 	built_env(char **env, t_env **_env);
+
+/**
+* @brief
+* @param _env a t_env pointer to the head of the linked list that will store the environment variables.
+* @param argv an array of strings representing the command line arguments.
+* If the first argument is "export", it will add the variables to the environment.
+* If the first argument has more than one argument, it will print the environment variables.
+* If the first argument is NULL, it will print the environment variables.
+*/
+void 	built_export(t_env **_env, char **argv);
+/**
+* @brief create a new list node for the environment variables.
+* @param content the content of the new node, typically a string in the format "KEY=VALUE".
+* @param visibility a boolean indicating whether the variable is visible or not.
+* @return a pointer to the newly created t_env node.
+*/
+t_env	*lst_new(char *content, bool visibility);
+
+/**
+* @brief Adds a new variable to the environment linked list.
+* @param _env a t_env pointer to the head of the linked list that will store the environment variables.
+* @param new_var a pointer to the new t_env node to be added.
+*/
+void	lst_add(t_env **_env, t_env *new_var);
+
+/**
+* @brief Switches the position of the current node with the next node in the linked list until the node is in the correct order.
+* @param head a pointer to the head of the linked list.
+* @param prev a pointer to the previous node in the linked list.
+* @param current a pointer to the current node in the linked list.
+* This function is used to sort the linked list of environment variables in alphabetical order.
+*/
+void	node_switch(t_env **head, t_env *prev, t_env *current);
+
+/*
+* @brief Checks if a variable exists in the environment linked list.
+* @param _env a t_env pointer to the head of the linked list that will store the environment variables.
+* @param var a string representing the variable to be checked, typically in the format "KEY=VALUE".
+* @return true if the variable exists in the linked list, false otherwise.
+*/
+bool 	exist_key(t_env *_env, char *var);
+
+/**
+* @brief Updates the value of an existing variable in the environment linked list.
+* If the variable exists, it updates its value and visibility. If the variable does not exist, it adds it to the linked list.
+* @param _env a t_env pointer to the head of the linked list that will store the environment variables.
+* @param var a string representing the variable to be updated, typically in the format "KEY=VALUE".
+* If the variable has an equal sign, it updates the value. If it does not have an equal sign, it hides the variable.
+*/
+void 	update_value(t_env **_env, char *var);
+
+#endif
