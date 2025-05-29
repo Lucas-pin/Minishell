@@ -6,11 +6,39 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 20:34:19 by lpin              #+#    #+#             */
-/*   Updated: 2025/05/29 21:36:11 by lpin             ###   ########.fr       */
+/*   Updated: 2025/05/29 22:08:49 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/executor.h"
+
+void	remove_node(t_env **_env, t_env *node)
+{
+	t_env	*aux;
+
+	if (!_env || !*_env || !node)
+		return ;
+	if (*_env == node) // Si el nodo a eliminar es el primero de la lista
+	{
+		*_env = node->next;
+		free(node->key);
+		free(node->value);
+		free(node);
+		if (*_env == NULL)
+			_env = NULL; // Si la lista queda vacía, se establece _env a NULL
+		return ;
+	}
+	aux = *_env;
+	while (aux && aux->next != node)
+		aux = aux->next;
+	if (aux && aux->next == node)
+	{
+		aux->next = node->next;
+		free(node->key);
+		free(node->value);
+		free(node);
+	}
+}
 
 void	 node_switch(t_env **head, t_env *first, t_env *second)
 {
