@@ -6,11 +6,34 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 23:33:41 by lucas             #+#    #+#             */
-/*   Updated: 2025/05/29 21:36:07 by lpin             ###   ########.fr       */
+/*   Updated: 2025/05/30 18:19:44 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/executor.h"
+
+t_env	*find_key(t_env **_env, char *var)
+{
+	t_env	*aux;
+	char	*equal_pos;
+	int		key_length;
+
+	if (!var || !*_env)
+		return NULL;
+	aux = *_env;
+	equal_pos = ft_strchr(var, '=');
+	if (equal_pos)
+		key_length = equal_pos - var;
+	else
+		key_length = ft_strlen(var);
+	while (aux)
+	{
+		if (ft_strncmp(aux->key, var, key_length) == 0 && 
+			aux->key[key_length] == '\0')
+			return aux;
+		aux = aux->next;
+	}
+}
 
 bool exist_key(t_env *_env, char *var)
 {
