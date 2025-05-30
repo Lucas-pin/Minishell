@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:27:21 by lpin              #+#    #+#             */
-/*   Updated: 2025/05/29 22:10:34 by lpin             ###   ########.fr       */
+/*   Updated: 2025/05/30 18:18:45 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct s_hash
 * If NULL, it initializes with a default path.
 * @param _env a t_env pointer to the head of the linked list that will store the environment variables.
 */
-void 	env(char **env, t_env **_env);
+void 	built_env(char **env, t_env **_env);
 
 /**
 * @brief
@@ -63,7 +63,7 @@ void 	env(char **env, t_env **_env);
 * If the first argument has more than one argument, it will print the environment variables.
 * If the first argument is NULL, it will print the environment variables.
 */
-void 	export(t_env **_env, char **argv);
+void 	built_export(t_env **_env, char **argv);
 /**
 * @brief create a new list node for the environment variables.
 * @param content the content of the new node, typically a string in the format "KEY=VALUE".
@@ -112,12 +112,20 @@ void 	update_value(t_env **_env, char *var);
 */
 void	remove_node(t_env **_env, t_env *node);
 
+/*
+* @brief Finds a node in the environment linked list by its key.
+* @param _env a t_env pointer to the head of the linked list that will store the environment variables.
+* @param var a string representing the key of the variable to be found, typically in the format "KEY=VALUE".
+* @return a pointer to the t_env node that matches the key, or NULL if not found.
+*/
+t_env	*find_key(t_env **_env, char *var);
+
 /**
 * @brief Unsets (removes) the specified variables from the environment linked list.
 * @param _env a t_env pointer to the head of the linked list that will store the environment variables.
 * @param vars an array of strings representing the variables to be removed.
 * Each string should be the name of the variable to be unset, without the "KEY=VALUE" format.
 */
-void	unset(t_env **_env, char **vars);
+void	built_unset(t_env **_env, char **vars);
 
 #endif
