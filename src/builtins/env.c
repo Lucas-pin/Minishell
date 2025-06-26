@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 20:49:34 by lucas             #+#    #+#             */
-/*   Updated: 2025/05/30 17:23:17 by lpin             ###   ########.fr       */
+/*   Updated: 2025/06/18 22:21:59 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ static void create_default_env(t_env **_env)
 	char *pwd = NULL;
 	lst_add(_env, lst_new(DEFAULT_PATH, false));
 	lst_add(_env, lst_new(ft_strjoin("PWD=", getcwd(pwd, 1024)), true));
+	if (pwd)
+		free(pwd);
 }
 
 void built_env(char **env, t_env **_env)
