@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 23:33:41 by lucas             #+#    #+#             */
-/*   Updated: 2025/05/30 18:19:44 by lpin             ###   ########.fr       */
+/*   Updated: 2025/06/18 22:53:01 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ t_env	*find_key(t_env **_env, char *var)
 			return aux;
 		aux = aux->next;
 	}
+	return NULL;
 }
 
 bool exist_key(t_env *_env, char *var)
