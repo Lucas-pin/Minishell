@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:27:21 by lpin              #+#    #+#             */
-/*   Updated: 2025/05/30 18:18:45 by lpin             ###   ########.fr       */
+/*   Updated: 2025/06/18 22:42:55 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,5 +127,14 @@ t_env	*find_key(t_env **_env, char *var);
 * Each string should be the name of the variable to be unset, without the "KEY=VALUE" format.
 */
 void	built_unset(t_env **_env, char **vars);
+
+/**
+* @brief Changes the current working directory to the specified path.
+* @param args an array of strings where the first element is the command (e.g., "cd") and the second element is the path to change to.
+* @param _env a t_env pointer to the head of the linked list that will store the environment variables.
+* This function updates the "PWD" and "OLDPWD" environment variables accordingly.
+* If the path is invalid or the change directory operation fails, it prints an error message.
+*/
+void	built_cd(t_env **_env, char **args);
 
 #endif
