@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 21:02:48 by lpin              #+#    #+#             */
-/*   Updated: 2025/07/05 21:55:48 by lpin             ###   ########.fr       */
+/*   Updated: 2025/07/05 22:09:39 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void built_exit(char **argv)
 			}
 			else
 			{
-				ft_putendl_fd("exit: numeric argument required\n", 2);
+				ft_putendl_fd("bash: exit: numeric argument required", 2);
 				exit(2);
 			}
 		}
