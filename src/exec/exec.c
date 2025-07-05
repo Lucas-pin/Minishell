@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:41:38 by lpin              #+#    #+#             */
-/*   Updated: 2025/05/30 18:26:01 by lpin             ###   ########.fr       */
+/*   Updated: 2025/06/27 00:46:51 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,41 @@ int main(int argc, char **argv, char **envp)
     char *cd_home[] = {"cd", NULL};
     built_cd(&_env, cd_home);
     printf("Directorio tras built_cd (HOME): %s\n", getcwd(cwd, sizeof(cwd)));
+
+    // Prueba: Cambiar a ruta relativa (directorio actual)
+    char *cd_dot[] = {"cd", ".", NULL};
+    built_cd(&_env, cd_dot);
+    printf("Directorio tras built_cd .: %s\n", getcwd(cwd, sizeof(cwd)));
+
+    // Prueba: Cambiar a ruta relativa superior
+    char *cd_dotdot[] = {"cd", "..", NULL};
+    built_cd(&_env, cd_dotdot);
+    printf("Directorio tras built_cd ..: %s\n", getcwd(cwd, sizeof(cwd)));
+
+    // Prueba: Cambiar a ruta anterior
+    char *cd_dash[] = {"cd", "-", NULL};
+    built_cd(&_env, cd_dash);
+    printf("Directorio tras built_cd -: %s\n", getcwd(cwd, sizeof(cwd)));
+
+    // Prueba: Cambiar a ruta root
+    char *cd_slash[] = {"cd", "/", NULL};
+    built_cd(&_env, cd_slash);
+    printf("Directorio tras built_cd /: %s\n", getcwd(cwd, sizeof(cwd)));
+
+    // Prueba: Cambiar a ruta ~
+    char *cd_tilde[] = {"cd", "~", NULL};
+    built_cd(&_env, cd_tilde);
+    printf("Directorio tras built_cd ~: %s\n", getcwd(cwd, sizeof(cwd)));
+
+    // Prueba: Cambiar a ruta ~/Github
+    char *cd_tilde_github[] = {"cd", "~/Github", NULL};
+    built_cd(&_env, cd_tilde_github);
+    printf("Directorio tras built_cd ~/Github: %s\n", getcwd(cwd, sizeof(cwd)));
+
+    // Prueba: Cambiar a ruta /Github
+    char *cd_github[] = {"cd", "/Github", NULL};
+    built_cd(&_env, cd_github);
+    printf("Directorio tras built_cd /Github: %s\n", getcwd(cwd, sizeof(cwd)));
 
     return 0;
 }

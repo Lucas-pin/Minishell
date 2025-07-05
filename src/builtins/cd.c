@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 16:39:54 by lpin              #+#    #+#             */
-/*   Updated: 2025/06/26 21:58:24 by lpin             ###   ########.fr       */
+/*   Updated: 2025/06/27 17:09:27 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,67 @@ char *home_exists(t_env **_env)
 	home_env = find_key(_env, "HOME=");
 	if (home_env && home_env->value)
 		return (home_env->value);
+	return (NULL);
+}
+
+int go_home(int argc, char **args, t_env **_env)
+{
+	if (!*_env)
+		return (0);
+	if (argc == 1)
+	{
+		if (home_exists(_env))
+			return (1);
+		else
+		{
+			perror("cd: HOME not set");
+			return (-1);
+		}
+	}
+	if (args[1] && ft_strncmp(args[1], "~", 1) == 0)
+	{
+		if (home_exists(_env))
+			return (1);
+		else
+		{
+			perror("cd: HOME not set");
+			return (-1);
+		}
+	}
+	return (0);
+}
+
+char *change_home(t_env **_env, char **args)
+{
+	char	*home;
+	char	*new_path;
+
+	if (!args || !*_env)
+		return (NULL);
+	if (!args[1])
+	{
+		home = home_exists(_env);
+		if (!home)
+			return (NULL);
+		new_path = ft_strdup(home);
+		return (new_path);
+	}
+	if (ft_strncmp(args[1], "~/", 2) == 0 && ft_strlen(args[1]) > 1)
+	{
+		home = home_exists(_env);
+		if (!home)
+			return (NULL);
+		new_path = ft_strjoin(home, ft_strchr(args[1], '~') + 1);
+		return (new_path);
+	}
+	else if (ft_strncmp(args[1], "~", 1) == 0)
+	{
+		home = home_exists(_env);
+		if (!home)
+			return (NULL);
+		new_path = ft_strdup(home);
+		return (new_path);
+	}
 	return (NULL);
 }
 
@@ -47,15 +108,17 @@ void    built_cd(t_env **_env, char **args)
 	argc = check_argc(args);
 	if (argc < 1 || argc > 2)
 		return ;
-	if (argc == 1)
+	if (go_home(argc, args, _env))
 	{
-		path = home_exists(_env);
+		path = change_home(_env, args);
 		if (!path)
 		{
-			perror("cd: Error accessing path");
+			perror("cd: HOME not set");
 			return ;
 		}
 	}
+	else if (argc = 2 && ft_strcmp(args[1], "-") == 0)
+		path = find_key(_env, "OLDPWD")->value;
 	else
 		path = args[1];
 	oldpwd = NULL;
