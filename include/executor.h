@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:27:21 by lpin              #+#    #+#             */
-/*   Updated: 2025/07/05 13:21:10 by lpin             ###   ########.fr       */
+/*   Updated: 2025/07/05 20:51:15 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,16 @@ typedef struct s_hash
 */
 void 	built_env(char **env, t_env **_env);
 
+/*
+* @brief Creates the default environment variables.
+* @param _env a t_env pointer to the head of the linked list that will store the environment variables.
+* It initializes the "PATH", "PWD", "OLDPWD", "SHLVL", and "?" variables.
+* The "PATH" variable is set to a default value, and "PWD" and "OLDPWD" are set to the current working directory.
+* The "SHLVL" variable is initialized to 1, and the "?" variable is set to 0.
+* If the "SHLVL" variable already exists, it increments its value by 1
+*/
+void create_default_env(t_env **_env);
+
 /**
 * @brief
 * @param _env a t_env pointer to the head of the linked list that will store the environment variables.
@@ -63,6 +73,7 @@ void 	built_env(char **env, t_env **_env);
 * If the first argument is NULL, it will print the environment variables.
 */
 void 	built_export(t_env **_env, char **argv);
+
 /**
 * @brief create a new list node for the environment variables.
 * @param content the content of the new node, typically a string in the format "KEY=VALUE".

@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:41:38 by lpin              #+#    #+#             */
-/*   Updated: 2025/07/05 20:05:28 by lpin             ###   ########.fr       */
+/*   Updated: 2025/07/05 20:51:45 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,10 @@ int main(int argc, char **argv, char **envp)
     char *unset_d_e[] = {"unset", "d=4", "e=5", NULL};
     char *unset_noexiste[] = {"unset", "noexiste", NULL};
 
+    if (!envp || !*envp)
+    {
+        create_default_env(&_env);
+    }
     // Inicializar entorno
     built_env(envp, &_env);
 

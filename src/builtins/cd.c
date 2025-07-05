@@ -6,13 +6,13 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 16:39:54 by lpin              #+#    #+#             */
-/*   Updated: 2025/06/27 17:09:27 by lpin             ###   ########.fr       */
+/*   Updated: 2025/07/05 13:24:32 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/executor.h"
 
-char *home_exists(t_env **_env)
+static char *home_exists(t_env **_env)
 {
 	t_env	*home_env;
 
@@ -24,7 +24,7 @@ char *home_exists(t_env **_env)
 	return (NULL);
 }
 
-int go_home(int argc, char **args, t_env **_env)
+static int go_home(int argc, char **args, t_env **_env)
 {
 	if (!*_env)
 		return (0);
@@ -51,7 +51,7 @@ int go_home(int argc, char **args, t_env **_env)
 	return (0);
 }
 
-char *change_home(t_env **_env, char **args)
+static char *change_home(t_env **_env, char **args)
 {
 	char	*home;
 	char	*new_path;
@@ -85,7 +85,7 @@ char *change_home(t_env **_env, char **args)
 	return (NULL);
 }
 
-int check_argc(char **args)
+static int check_argc(char **args)
 {
 	int i;
 
