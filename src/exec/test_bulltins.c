@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:41:38 by lpin              #+#    #+#             */
-/*   Updated: 2025/07/05 20:51:45 by lpin             ###   ########.fr       */
+/*   Updated: 2025/07/05 22:02:42 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ int main(int argc, char **argv, char **envp)
     }
     // Inicializar entorno
     built_env(envp, &_env);
-
+/*------------------------------------------------------------------------------*/
+    // Pruebas unitarias para export y unset
     // Añadir variables
     built_export(&_env, export1);
     printf("Lista tras export a=1 b=2 c=3:\n");
@@ -101,7 +102,7 @@ int main(int argc, char **argv, char **envp)
     printf("Tras built_unset 'd=4' y 'e=5':\n");
     built_export(&_env, export2);
     printf("\n");
-
+/*------------------------------------------------------------------------------*/
     // Pruebas para built_cd
     char cwd[1024];
     printf("Directorio actual inicial: %s\n", getcwd(cwd, sizeof(cwd)));
@@ -155,7 +156,7 @@ int main(int argc, char **argv, char **envp)
     char *cd_github[] = {"cd", "/Github", NULL};
     built_cd(&_env, cd_github);
     printf("Directorio tras built_cd /Github: %s\n", getcwd(cwd, sizeof(cwd)));
-
+/*------------------------------------------------------------------------------*/
     // Pruebas unitarias para built_echo
     printf("\n--- Pruebas built_echo ---\n");
 
@@ -203,6 +204,62 @@ int main(int argc, char **argv, char **envp)
     built_echo(echo5);
     printf("<<<\n");
     fflush(stdout);
+/*------------------------------------------------------------------------------*/
+    // Pruebas unitarias para built_exit
+    printf("\n--- Pruebas built_exit ---\n");
+    pid_t pid;
+    int status;
+    // Test 1: exit sin argumentos (debe salir con 0)
+    pid = fork();
+    if (pid == 0)
+    {
+        char *args1[] = {"exit", NULL};
+        built_exit(args1);
+    }
+    wait(&status);
+    printf("Test 1: exit sin argumentos. Esperado: 0, Real: %d\n", WEXITSTATUS(status));
 
+    // Test 2: exit 42 (debe salir con 42)
+    pid = fork();
+    if (pid == 0)
+    {
+        char *args2[] = {"exit", "42", NULL};
+        built_exit(args2);
+    }
+    wait(&status);
+    printf("Test 2: exit 42. Esperado: 42, Real: %d\n", WEXITSTATUS(status));
+
+    // Test 3: exit argumento no numérico (debe salir con 2)
+    pid = fork();
+    if (pid == 0)
+    {
+        char *args3[] = {"exit", "foo", NULL};
+        built_exit(args3);
+    }
+    wait(&status);
+    printf("Test 3: exit foo. Esperado: 2, Real: %d\n", WEXITSTATUS(status));
+
+    // Test 4: exit -5 (debe salir con -5)
+    pid = fork();
+    if (pid == 0)
+    {
+        char *args4[] = {"exit", "-5", NULL};
+        built_exit(args4);
+    }
+    wait(&status);
+    printf("Test 4: exit -5. Esperado: 251, Real: %d\n", WEXITSTATUS(status));
+    // Nota: exit(-5) realmente retorna 251 (256-5) por conversión a unsigned char
+
+    // Test 5: exit --42 (debe salir con 2 por argumento inválido)
+    pid = fork();
+    if (pid == 0)
+    {
+        char *args5[] = {"exit", "--42", NULL};
+        built_exit(args5);
+    }
+    wait(&status);
+    printf("Test 5: exit --42. Esperado: 2, Real: %d\n", WEXITSTATUS(status));
+
+    exit(42); // Salida de prueba para verificar el comportamiento de exit
     return 0;
 }

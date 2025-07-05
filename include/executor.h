@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:27:21 by lpin              #+#    #+#             */
-/*   Updated: 2025/07/05 20:51:15 by lpin             ###   ########.fr       */
+/*   Updated: 2025/07/05 21:37:01 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,4 +155,15 @@ void	built_cd(t_env **_env, char **args);
  */
 
 void	built_echo(char **argv);
+
+/**
+ * @brief Terminates the shell with the specified exit status.
+ * @param argv an array of strings where the first element is the command (e.g., "exit") and the second element is the exit status.
+ * If no arguments are provided, it exits with status 0.
+ * If the first argument is "exit", it increments the exit status by 1.
+ * If the second argument is not a valid integer, it prints an error message
+ * and exits with status 2.
+ * If the second argument is a valid integer, it exits with that status.
+ */
+void	built_exit(char **argv);
 #endif
