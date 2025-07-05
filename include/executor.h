@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:27:21 by lpin              #+#    #+#             */
-/*   Updated: 2025/06/18 22:42:55 by lpin             ###   ########.fr       */
+/*   Updated: 2025/07/05 12:28:50 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <fcntl.h>
 # include <stdbool.h>
 # include "../libft/libft.h"
-# include "../pipex/pipex.h"
 # define DEFAULT_PATH "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 # define HASH_SIZE 401 // 401 es primo y es cercano a 400, que es el tamaño máximo esperado de la tabla
 
