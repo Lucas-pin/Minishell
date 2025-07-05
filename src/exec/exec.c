@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:41:38 by lpin              #+#    #+#             */
-/*   Updated: 2025/06/27 00:46:51 by lpin             ###   ########.fr       */
+/*   Updated: 2025/07/05 20:05:28 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,54 @@ int main(int argc, char **argv, char **envp)
     char *cd_github[] = {"cd", "/Github", NULL};
     built_cd(&_env, cd_github);
     printf("Directorio tras built_cd /Github: %s\n", getcwd(cwd, sizeof(cwd)));
+
+    // Pruebas unitarias para built_echo
+    printf("\n--- Pruebas built_echo ---\n");
+
+    char *echo1[] = {"echo", "Hola", "Mundo", NULL};
+    printf("\nTest 1: echo Hola Mundo\n");
+    printf("Esperado: >>>Hola Mundo\\n<<<\n");
+    printf("Salida real: >>>");
+    fflush(stdout);
+    built_echo(echo1);
+    printf("<<<\n");
+    fflush(stdout);
+
+    char *echo2[] = {"echo", "-n", "Hola", "Mundo", NULL};
+    printf("\nTest 2: echo -n Hola Mundo\n");
+    printf("Esperado: >>>Hola Mundo<<< (sin salto de linea)\n");
+    printf("Salida real: >>>");
+    fflush(stdout);
+    built_echo(echo2);
+    printf("<<<\n");
+    fflush(stdout);
+
+    char *echo3[] = {"echo", NULL};
+    printf("\nTest 3: echo (sin argumentos)\n");
+    printf("Esperado: >>>\\n<<< (solo salto de linea)\n");
+    printf("Salida real: >>>");
+    fflush(stdout);
+    built_echo(echo3);
+    printf("<<<\n");
+    fflush(stdout);
+
+    char *echo4[] = {"echo", "-n", NULL};
+    printf("\nTest 4: echo -n (sin argumentos)\n");
+    printf("Esperado: >>><<< (nada, sin salto de linea)\n");
+    printf("Salida real: >>>");
+    fflush(stdout);
+    built_echo(echo4);
+    printf("<<<\n");
+    fflush(stdout);
+
+    char *echo5[] = {"echo", "", NULL};
+    printf("\nTest 5: echo '' (cadena vacía)\n");
+    printf("Esperado: >>>\\n<<< (salto de linea vacio)\n");
+    printf("Salida real: >>>");
+    fflush(stdout);
+    built_echo(echo5);
+    printf("<<<\n");
+    fflush(stdout);
 
     return 0;
 }

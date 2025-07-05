@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:27:21 by lpin              #+#    #+#             */
-/*   Updated: 2025/07/05 12:28:50 by lpin             ###   ########.fr       */
+/*   Updated: 2025/07/05 13:21:10 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,4 +136,12 @@ void	built_unset(t_env **_env, char **vars);
 */
 void	built_cd(t_env **_env, char **args);
 
+/**
+ * @brief Prints the arguments to the standard output
+ * @param argv an array of strings representing the arguments to be printed.
+ * If the first argument is "-n", it prints without a newline at the end.
+ * Otherwise, it prints with a newline at the end.
+ */
+
+void	built_echo(char **argv);
 #endif
