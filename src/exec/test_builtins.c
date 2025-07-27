@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:41:38 by lpin              #+#    #+#             */
-/*   Updated: 2025/07/26 19:54:21 by lpin             ###   ########.fr       */
+/*   Updated: 2025/07/27 20:01:39 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,7 +223,19 @@ int main(int argc, char **argv, char **envp)
     fflush(stdout);
     int ret2 = builtin_pwd(pwd_args2);
     printf("<<<\nRetorno: %d (esperado: 1)\n", ret2);
-    
+
+/*------------------------------------------------------------------------------*/
+    // Pruebas unitarias de memoria
+    printf("\n--- Pruebas de memoria ---\n");
+    // Liberar memoria de la lista de entorno
+    lst_free(&_env);
+    printf("Memoria de la lista de entorno liberada.\n");
+
+    //Compilar y ejecutar el programa utilizando valgrind o addressSanitizer
+    // Para valgrind: valgrind --leak-check=full ./test_builtins
+    // Para addressSanitizer: gcc -fsanitize=address -g -o test_builtins test_builtins.c -I../include -L../lib -lexecutor -lft
+    // ./test_builtins
+
 /*------------------------------------------------------------------------------*/
     // Pruebas unitarias para built_exit
     printf("\n--- Pruebas built_exit ---\n");

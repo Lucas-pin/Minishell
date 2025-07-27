@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:27:21 by lpin              #+#    #+#             */
-/*   Updated: 2025/07/26 18:27:40 by lpin             ###   ########.fr       */
+/*   Updated: 2025/07/27 19:58:51 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,13 @@ void 	built_export(t_env **_env, char **argv);
 t_env	*lst_new(char *content, bool visibility);
 
 /**
+* @brief Frees the memory allocated for the environment linked list.
+* @param _env a t_env pointer to the head of the linked list that will store the environment variables.
+* This function iterates through the linked list and frees each node's key, value, and the node itself.
+*/
+void	lst_free(t_env **_env);
+
+/**
 * @brief Adds a new variable to the environment linked list.
 * @param _env a t_env pointer to the head of the linked list that will store the environment variables.
 * @param new_var a pointer to the new t_env node to be added.
@@ -98,7 +105,7 @@ void	lst_add(t_env **_env, t_env *new_var);
 */
 void	node_switch(t_env **head, t_env *prev, t_env *current);
 
-/*
+/**
 * @brief Checks if a variable exists in the environment linked list.
 * @param _env a t_env pointer to the head of the linked list that will store the environment variables.
 * @param var a string representing the variable to be checked, typically in the format "KEY=VALUE".
@@ -122,7 +129,7 @@ void 	update_value(t_env **_env, char *var);
 */
 void	remove_node(t_env **_env, t_env *node);
 
-/*
+/**
 * @brief Finds a node in the environment linked list by its key.
 * @param _env a t_env pointer to the head of the linked list that will store the environment variables.
 * @param var a string representing the key of the variable to be found, typically in the format "KEY=VALUE".
