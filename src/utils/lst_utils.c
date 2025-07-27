@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 20:34:19 by lpin              #+#    #+#             */
-/*   Updated: 2025/05/29 22:08:49 by lpin             ###   ########.fr       */
+/*   Updated: 2025/07/27 19:56:50 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,4 +110,23 @@ t_env	*lst_new(char *content, bool hide)
 	new_var->hide = hide;
 	new_var->next = NULL;
 	return (new_var);
+}
+
+void	lst_free(t_env **_env)
+{
+	t_env	*aux;
+	t_env	*next;
+
+	if (!_env || !*_env)
+		return ;
+	aux = *_env;
+	while (aux)
+	{
+		next = aux->next;
+		free(aux->key);
+		free(aux->value);
+		free(aux);
+		aux = next;
+	}
+	*_env = NULL;
 }
