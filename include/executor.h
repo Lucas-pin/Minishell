@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:27:21 by lpin              #+#    #+#             */
-/*   Updated: 2025/07/05 21:37:01 by lpin             ###   ########.fr       */
+/*   Updated: 2025/07/26 18:27:40 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,4 +166,14 @@ void	built_echo(char **argv);
  * If the second argument is a valid integer, it exits with that status.
  */
 void	built_exit(char **argv);
+
+/**
+ * @brief Prints the current working directory to the standard output.
+ * @param argv an array of strings where the first element is the command (e.g., "pwd").
+ * If the first argument is not "pwd", it returns 1.
+ * Otherwise, it retrieves the current working directory using getcwd and prints it.
+ * If getcwd fails, it returns 1.
+ */
+int	builtin_pwd(char **argv);
+
 #endif

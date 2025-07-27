@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   test_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:41:38 by lpin              #+#    #+#             */
-/*   Updated: 2025/07/05 22:02:42 by lpin             ###   ########.fr       */
+/*   Updated: 2025/07/26 19:54:21 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,6 +204,26 @@ int main(int argc, char **argv, char **envp)
     built_echo(echo5);
     printf("<<<\n");
     fflush(stdout);
+
+/*------------------------------------------------------------------------------*/
+    // Pruebas unitarias para built_pwd
+    printf("\n--- Pruebas built_pwd ---\n");
+    char *pwd_args1[] = {"pwd", NULL};
+    printf("Test 1: pwd sin argumentos\n");
+    printf("Esperado: ruta actual (verifica visualmente)\n");
+    printf("Salida real: >>>");
+    fflush(stdout);
+    int ret1 = builtin_pwd(pwd_args1);
+    printf("<<<\nRetorno: %d (esperado: 0)\n", ret1);
+
+    char *pwd_args2[] = {"pwd", "extra", NULL};
+    printf("Test 2: pwd con argumento extra\n");
+    printf("Esperado: retorno 1 (no imprime ruta)\n");
+    printf("Salida real: >>>");
+    fflush(stdout);
+    int ret2 = builtin_pwd(pwd_args2);
+    printf("<<<\nRetorno: %d (esperado: 1)\n", ret2);
+    
 /*------------------------------------------------------------------------------*/
     // Pruebas unitarias para built_exit
     printf("\n--- Pruebas built_exit ---\n");
