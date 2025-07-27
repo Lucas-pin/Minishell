@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 16:39:54 by lpin              #+#    #+#             */
-/*   Updated: 2025/07/05 13:24:32 by lpin             ###   ########.fr       */
+/*   Updated: 2025/07/27 20:51:21 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,8 @@ static int check_argc(char **args)
 void    built_cd(t_env **_env, char **args)
 {
 	char	*path;
-	t_env	*pwd_env;
 	char	*oldpwd;
-	char	**pwd;
+	char	*aux;
 	int		argc;
 
 	argc = check_argc(args);
@@ -118,21 +117,26 @@ void    built_cd(t_env **_env, char **args)
 		}
 	}
 	else if (argc = 2 && ft_strcmp(args[1], "-") == 0)
-		path = find_key(_env, "OLDPWD")->value;
+		path = ft_strdup(find_key(_env, "OLDPWD")->value);
 	else
-		path = args[1];
+		path = ft_strdup(args[1]);
 	oldpwd = NULL;
 	oldpwd = getcwd(NULL, 0);
 	if (access(path, F_OK |R_OK | X_OK) == -1 | chdir(path) == -1)
 	{
 		perror("cd: Error accessing path");
-		if (oldpwd)
-			free(oldpwd);
+		ft_destroyer(&oldpwd);
+		ft_destroyer(&path);
 		return ;
 	}
 	else
 	{
-		update_value(_env, ft_strjoin_free_s2("OLDPWD=", oldpwd));
-		update_value(_env, ft_strjoin_free_s2("PWD=", getcwd(NULL, 0)));
+		aux = ft_strjoin_free_s2("OLDPWD=", oldpwd);
+		update_value(_env, aux);
+		ft_destroyer(&aux);
+		aux = ft_strjoin_free_s2("PWD=", getcwd(NULL, 0));
+		update_value(_env, aux);
+		ft_destroyer(&aux);
+		ft_destroyer(&path);
 	}
 }
