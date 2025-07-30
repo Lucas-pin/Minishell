@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:27:21 by lpin              #+#    #+#             */
-/*   Updated: 2025/07/27 19:58:51 by lpin             ###   ########.fr       */
+/*   Updated: 2025/07/30 19:45:31 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,16 @@
 # include "../libft/libft.h"
 # define DEFAULT_PATH "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 # define HASH_SIZE 401 // 401 es primo y es cercano a 400, que es el tamaño máximo esperado de la tabla
+
+typedef struct s_cmd
+{
+	char			**argv;
+	int				fd_in;
+	int				fd_out;
+	struct s_cmd	*next;
+	char			*cmd;
+	char			*cmd_path;
+}	t_cmd;
 
 typedef struct s_executor
 {
@@ -52,7 +62,7 @@ typedef struct s_hash
 * If NULL, it initializes with a default path.
 * @param _env a t_env pointer to the head of the linked list that will store the environment variables.
 */
-void 	built_env(char **env, t_env **_env);
+int		built_env(char **env, t_env **_env);
 
 /*
 * @brief Creates the default environment variables.
@@ -62,7 +72,7 @@ void 	built_env(char **env, t_env **_env);
 * The "SHLVL" variable is initialized to 1, and the "?" variable is set to 0.
 * If the "SHLVL" variable already exists, it increments its value by 1
 */
-void create_default_env(t_env **_env);
+void 	create_default_env(t_env **_env);
 
 /**
 * @brief
@@ -72,7 +82,7 @@ void create_default_env(t_env **_env);
 * If the first argument has more than one argument, it will print the environment variables.
 * If the first argument is NULL, it will print the environment variables.
 */
-void 	built_export(t_env **_env, char **argv);
+int 	built_export(char **args, t_env **_env);
 
 /**
 * @brief create a new list node for the environment variables.
@@ -143,7 +153,7 @@ t_env	*find_key(t_env **_env, char *var);
 * @param vars an array of strings representing the variables to be removed.
 * Each string should be the name of the variable to be unset, without the "KEY=VALUE" format.
 */
-void	built_unset(t_env **_env, char **vars);
+int		built_unset(char **args, t_env **_env);
 
 /**
 * @brief Changes the current working directory to the specified path.
@@ -152,7 +162,7 @@ void	built_unset(t_env **_env, char **vars);
 * This function updates the "PWD" and "OLDPWD" environment variables accordingly.
 * If the path is invalid or the change directory operation fails, it prints an error message.
 */
-void	built_cd(t_env **_env, char **args);
+int		built_cd(char **args, t_env **_env);
 
 /**
  * @brief Prints the arguments to the standard output
@@ -161,7 +171,7 @@ void	built_cd(t_env **_env, char **args);
  * Otherwise, it prints with a newline at the end.
  */
 
-void	built_echo(char **argv);
+int		built_echo(char **args, t_env **_env);
 
 /**
  * @brief Terminates the shell with the specified exit status.
@@ -172,7 +182,7 @@ void	built_echo(char **argv);
  * and exits with status 2.
  * If the second argument is a valid integer, it exits with that status.
  */
-void	built_exit(char **argv);
+int		built_exit(char **args, t_env **_env);
 
 /**
  * @brief Prints the current working directory to the standard output.
@@ -181,6 +191,6 @@ void	built_exit(char **argv);
  * Otherwise, it retrieves the current working directory using getcwd and prints it.
  * If getcwd fails, it returns 1.
  */
-int	builtin_pwd(char **argv);
+int		builtin_pwd(char **args, t_env **_env);
 
 #endif

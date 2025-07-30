@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:41:38 by lpin              #+#    #+#             */
-/*   Updated: 2025/07/27 20:01:39 by lpin             ###   ########.fr       */
+/*   Updated: 2025/07/30 19:37:46 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,59 +48,67 @@ int main(int argc, char **argv, char **envp)
     char *unset_d_e[] = {"unset", "d=4", "e=5", NULL};
     char *unset_noexiste[] = {"unset", "noexiste", NULL};
 
+    (void)argv;
+    (void)argc;
     if (!envp || !*envp)
-    {
         create_default_env(&_env);
+    else
+    {
+        while (*envp)
+        {
+            lst_add(&_env, lst_new(*envp, false));
+            envp++;
+        }
     }
     // Inicializar entorno
     built_env(envp, &_env);
 /*------------------------------------------------------------------------------*/
     // Pruebas unitarias para export y unset
     // Añadir variables
-    built_export(&_env, export1);
+    built_export(export1, &_env);
     printf("Lista tras export a=1 b=2 c=3:\n");
-    built_export(&_env, export2);
+    built_export(export2, &_env);
     printf("\n");
     // Eliminar 'b'
-    built_unset(&_env, unset_b);
+    built_unset(unset_b, &_env);
     printf("Tras built_unset 'b':\n");
-    built_export(&_env, export2);
+    built_export(export2, &_env);
     printf("\n");
 
     // Eliminar 'a'
-    built_unset(&_env, unset_a);
+    built_unset(unset_a, &_env);
     printf("Tras built_unset 'a':\n");
-    built_export(&_env, export2);
+    built_export(export2, &_env);
     printf("\n");
 
     // Eliminar 'c'
-    built_unset(&_env, unset_c);
+    built_unset(unset_c, &_env);
     printf("Tras built_unset 'c':\n");
-    built_export(&_env, export2);
+    built_export(export2, &_env);
     printf("\n");
 
     // Eliminar 'd' con valor erroneo
-    built_unset(&_env, unset_d);
+    built_unset(unset_d, &_env);
     printf("Tras built_unset 'd' con value erroneo:\n");
-    built_export(&_env, export2);
+    built_export(export2, &_env);
     printf("\n");
 
     // Eliminar 'e' con valor erroneo
-    built_unset(&_env, unset_e);
+    built_unset(unset_e, &_env);
     printf("Tras built_unset 'd' con value erroneo:\n");
-    built_export(&_env, export2);
+    built_export(export2, &_env);
     printf("\n");
     
     // Eliminar variable que no existe
-    built_unset(&_env, unset_noexiste);
+    built_unset(unset_noexiste, &_env);
     printf("Tras built_unset 'noexiste' (no debería cambiar nada):\n");
-    built_export(&_env, export2);
+    built_export(export2, &_env);
     printf("\n");
 
     // Eliminar 'd' y 'e' con valores correctos
-    built_unset(&_env, unset_d_e);
+    built_unset(unset_d_e, &_env);
     printf("Tras built_unset 'd=4' y 'e=5':\n");
-    built_export(&_env, export2);
+    built_export(export2, &_env);
     printf("\n");
 /*------------------------------------------------------------------------------*/
     // Pruebas para built_cd
@@ -109,52 +117,52 @@ int main(int argc, char **argv, char **envp)
 
     // Cambiar a /tmp (o cualquier directorio que exista en tu sistema)
     char *cd_tmp[] = {"cd", "/tmp", NULL};
-    built_cd(&_env, cd_tmp);
+    built_cd(cd_tmp, &_env);
     printf("Directorio tras built_cd /tmp: %s\n", getcwd(cwd, sizeof(cwd)));
 
     // Cambiar a un directorio inválido
     char *cd_invalido[] = {"cd", "/noexiste", NULL};
-    built_cd(&_env, cd_invalido);
+    built_cd(cd_invalido, &_env);
     printf("Directorio tras built_cd /noexiste (debe fallar y quedarse igual): %s\n", getcwd(cwd, sizeof(cwd)));
 
     // Cambiar a HOME (sin argumentos)
     char *cd_home[] = {"cd", NULL};
-    built_cd(&_env, cd_home);
+    built_cd(cd_home, &_env);
     printf("Directorio tras built_cd (HOME): %s\n", getcwd(cwd, sizeof(cwd)));
 
     // Prueba: Cambiar a ruta relativa (directorio actual)
     char *cd_dot[] = {"cd", ".", NULL};
-    built_cd(&_env, cd_dot);
+    built_cd(cd_dot, &_env);
     printf("Directorio tras built_cd .: %s\n", getcwd(cwd, sizeof(cwd)));
 
     // Prueba: Cambiar a ruta relativa superior
     char *cd_dotdot[] = {"cd", "..", NULL};
-    built_cd(&_env, cd_dotdot);
+    built_cd(cd_dotdot, &_env);
     printf("Directorio tras built_cd ..: %s\n", getcwd(cwd, sizeof(cwd)));
 
     // Prueba: Cambiar a ruta anterior
     char *cd_dash[] = {"cd", "-", NULL};
-    built_cd(&_env, cd_dash);
+    built_cd(cd_dash, &_env);
     printf("Directorio tras built_cd -: %s\n", getcwd(cwd, sizeof(cwd)));
 
     // Prueba: Cambiar a ruta root
     char *cd_slash[] = {"cd", "/", NULL};
-    built_cd(&_env, cd_slash);
+    built_cd(cd_slash, &_env);
     printf("Directorio tras built_cd /: %s\n", getcwd(cwd, sizeof(cwd)));
 
     // Prueba: Cambiar a ruta ~
     char *cd_tilde[] = {"cd", "~", NULL};
-    built_cd(&_env, cd_tilde);
+    built_cd(cd_tilde, &_env);
     printf("Directorio tras built_cd ~: %s\n", getcwd(cwd, sizeof(cwd)));
 
     // Prueba: Cambiar a ruta ~/Github
     char *cd_tilde_github[] = {"cd", "~/Github", NULL};
-    built_cd(&_env, cd_tilde_github);
+    built_cd(cd_tilde_github, &_env);
     printf("Directorio tras built_cd ~/Github: %s\n", getcwd(cwd, sizeof(cwd)));
 
     // Prueba: Cambiar a ruta /Github
     char *cd_github[] = {"cd", "/Github", NULL};
-    built_cd(&_env, cd_github);
+    built_cd(cd_github, &_env);
     printf("Directorio tras built_cd /Github: %s\n", getcwd(cwd, sizeof(cwd)));
 /*------------------------------------------------------------------------------*/
     // Pruebas unitarias para built_echo
@@ -165,7 +173,7 @@ int main(int argc, char **argv, char **envp)
     printf("Esperado: >>>Hola Mundo\\n<<<\n");
     printf("Salida real: >>>");
     fflush(stdout);
-    built_echo(echo1);
+    built_echo(echo1, &_env);
     printf("<<<\n");
     fflush(stdout);
 
@@ -174,7 +182,7 @@ int main(int argc, char **argv, char **envp)
     printf("Esperado: >>>Hola Mundo<<< (sin salto de linea)\n");
     printf("Salida real: >>>");
     fflush(stdout);
-    built_echo(echo2);
+    built_echo(echo2, &_env);
     printf("<<<\n");
     fflush(stdout);
 
@@ -183,7 +191,7 @@ int main(int argc, char **argv, char **envp)
     printf("Esperado: >>>\\n<<< (solo salto de linea)\n");
     printf("Salida real: >>>");
     fflush(stdout);
-    built_echo(echo3);
+    built_echo(echo3, &_env);
     printf("<<<\n");
     fflush(stdout);
 
@@ -192,7 +200,7 @@ int main(int argc, char **argv, char **envp)
     printf("Esperado: >>><<< (nada, sin salto de linea)\n");
     printf("Salida real: >>>");
     fflush(stdout);
-    built_echo(echo4);
+    built_echo(echo4, &_env);
     printf("<<<\n");
     fflush(stdout);
 
@@ -201,7 +209,7 @@ int main(int argc, char **argv, char **envp)
     printf("Esperado: >>>\\n<<< (salto de linea vacio)\n");
     printf("Salida real: >>>");
     fflush(stdout);
-    built_echo(echo5);
+    built_echo(echo5, &_env);
     printf("<<<\n");
     fflush(stdout);
 
@@ -213,7 +221,7 @@ int main(int argc, char **argv, char **envp)
     printf("Esperado: ruta actual (verifica visualmente)\n");
     printf("Salida real: >>>");
     fflush(stdout);
-    int ret1 = builtin_pwd(pwd_args1);
+    int ret1 = builtin_pwd(pwd_args1, &_env);
     printf("<<<\nRetorno: %d (esperado: 0)\n", ret1);
 
     char *pwd_args2[] = {"pwd", "extra", NULL};
@@ -221,7 +229,7 @@ int main(int argc, char **argv, char **envp)
     printf("Esperado: retorno 1 (no imprime ruta)\n");
     printf("Salida real: >>>");
     fflush(stdout);
-    int ret2 = builtin_pwd(pwd_args2);
+    int ret2 = builtin_pwd(pwd_args2, &_env);
     printf("<<<\nRetorno: %d (esperado: 1)\n", ret2);
 
 /*------------------------------------------------------------------------------*/
@@ -246,7 +254,7 @@ int main(int argc, char **argv, char **envp)
     if (pid == 0)
     {
         char *args1[] = {"exit", NULL};
-        built_exit(args1);
+        built_exit(args1, &_env);
     }
     wait(&status);
     printf("Test 1: exit sin argumentos. Esperado: 0, Real: %d\n", WEXITSTATUS(status));
@@ -256,7 +264,7 @@ int main(int argc, char **argv, char **envp)
     if (pid == 0)
     {
         char *args2[] = {"exit", "42", NULL};
-        built_exit(args2);
+        built_exit(args2, &_env);
     }
     wait(&status);
     printf("Test 2: exit 42. Esperado: 42, Real: %d\n", WEXITSTATUS(status));
@@ -266,7 +274,7 @@ int main(int argc, char **argv, char **envp)
     if (pid == 0)
     {
         char *args3[] = {"exit", "foo", NULL};
-        built_exit(args3);
+        built_exit(args3, &_env);
     }
     wait(&status);
     printf("Test 3: exit foo. Esperado: 2, Real: %d\n", WEXITSTATUS(status));
@@ -276,7 +284,7 @@ int main(int argc, char **argv, char **envp)
     if (pid == 0)
     {
         char *args4[] = {"exit", "-5", NULL};
-        built_exit(args4);
+        built_exit(args4, &_env);
     }
     wait(&status);
     printf("Test 4: exit -5. Esperado: 251, Real: %d\n", WEXITSTATUS(status));
@@ -287,7 +295,7 @@ int main(int argc, char **argv, char **envp)
     if (pid == 0)
     {
         char *args5[] = {"exit", "--42", NULL};
-        built_exit(args5);
+        built_exit(args5, &_env);
     }
     wait(&status);
     printf("Test 5: exit --42. Esperado: 2, Real: %d\n", WEXITSTATUS(status));

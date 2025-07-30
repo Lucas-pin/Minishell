@@ -6,26 +6,11 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 20:49:34 by lucas             #+#    #+#             */
-/*   Updated: 2025/07/05 21:00:27 by lpin             ###   ########.fr       */
+/*   Updated: 2025/07/30 19:42:12 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/executor.h"
-
-static void print_env(t_env *_env)
-{
-	if (!_env)
-	return;
-	while (_env)
-	{
-		if (!_env->hide)
-		{
-			printf("%s", (_env)->key);
-			printf("=%s\n", (_env)->value);
-		}
-		_env = (_env)->next;
-	}
-}
 
 void create_default_env(t_env **_env)
 {
@@ -53,12 +38,22 @@ void create_default_env(t_env **_env)
 		free(pwd);
 }
 
-void built_env(char **env, t_env **_env)
+int built_env(char **args, t_env **_env)
 {
-	while (*env)
+	(void)args;
+	t_env *aux;
+
+	if (!_env || !*_env)
+		return (1);
+	aux = *_env;
+	while (aux)
 	{
-		lst_add(_env, lst_new(*env, false));
-		env++;
+		if (!aux->hide)
+		{
+			printf("%s", aux->key);
+			printf("=%s\n", aux->value);
+		}
+		aux = aux->next;
 	}
-	print_env(*_env);
+	return (0);
 }

@@ -6,18 +6,19 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 18:23:58 by lpin              #+#    #+#             */
-/*   Updated: 2025/07/26 19:57:03 by lpin             ###   ########.fr       */
+/*   Updated: 2025/07/30 19:11:38 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/executor.h"
 
-int	builtin_pwd(char **argv)
+int	builtin_pwd(char **argv, t_env **_env)
 {
 	char	*cwd;
 	int		i;
 
 	i = 0;
+	(void)_env;
 	if (!argv || ft_strcmp(*argv, "pwd"))
         return (1);
 	while (*argv)

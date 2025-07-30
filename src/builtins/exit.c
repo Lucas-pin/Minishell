@@ -6,20 +6,24 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 21:02:48 by lpin              #+#    #+#             */
-/*   Updated: 2025/07/05 22:09:39 by lpin             ###   ########.fr       */
+/*   Updated: 2025/07/30 19:44:09 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/executor.h"
 
-void built_exit(char **argv)
+int built_exit(char **argv, t_env **_env)
 {
 	int status = 0;
 	char *aux;
 
+	(void)_env;
 	printf("exit\n"); // Bash imprime "exit" al salir
 	if (!argv || !*argv)
-		exit(0);
+	{
+		exit(1);
+		return (1);
+	}
 	else if (ft_strcmp(*argv, "exit") == 0)
 		argv++;
 	aux = *argv;
@@ -43,4 +47,5 @@ void built_exit(char **argv)
 		status = ft_atoi(*argv);
 	}
 	exit(status);
+	return (status);
 }

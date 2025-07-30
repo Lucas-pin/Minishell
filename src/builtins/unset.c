@@ -6,21 +6,25 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 21:35:29 by lpin              #+#    #+#             */
-/*   Updated: 2025/05/30 18:40:02 by lpin             ###   ########.fr       */
+/*   Updated: 2025/07/30 19:46:12 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/executor.h"
 
-void built_unset(t_env **_env, char **vars)
+int built_unset(char **vars, t_env **_env)
 {
     t_env	*aux;
 	char	*aux_value;
 
-    if (!vars || !*_env)
-        return ;
+    if (!vars || !*vars || !*_env)
+	{
+        return (1);
+	}
 	if (ft_strcmp(*vars, "unset") == 0)
-		vars++;
+	{
+		vars++ ;
+	}
     while (*vars)
     {
         aux = *_env;
@@ -35,4 +39,5 @@ void built_unset(t_env **_env, char **vars)
 		}
         vars++;
     }
+	return (0);
 }

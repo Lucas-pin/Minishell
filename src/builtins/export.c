@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 20:03:51 by lpin              #+#    #+#             */
-/*   Updated: 2025/05/30 17:23:15 by lpin             ###   ########.fr       */
+/*   Updated: 2025/07/30 19:44:22 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,15 +83,15 @@ static void modify_vars(t_env **_env, char **vars)
 	}
 }
 
-void built_export(t_env **_env, char **argv)
+int built_export(char **args, t_env **_env)
 {
 	int		count;
 	char	**temp;
 
 	count = 0;
-	if (!argv || !*argv)
-		return ;
-	temp = argv;
+	if (!args || !*args)
+		return (1);
+	temp = args;
 	while (*temp)
 	{
 		count ++;
@@ -99,11 +99,12 @@ void built_export(t_env **_env, char **argv)
 	}
 	if (count > 1)
 	{
-		modify_vars(_env, argv);
+		modify_vars(_env, args);
 	}
 	else
 	{
 		buble_export(_env);
 		print_export(*_env);
 	}
+	return (0);
 }

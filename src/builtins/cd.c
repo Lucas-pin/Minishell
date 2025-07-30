@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 16:39:54 by lpin              #+#    #+#             */
-/*   Updated: 2025/07/27 20:51:21 by lpin             ###   ########.fr       */
+/*   Updated: 2025/07/30 19:46:39 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static int check_argc(char **args)
 	return (i);
 }
 
-void    built_cd(t_env **_env, char **args)
+int    built_cd(char **args, t_env **_env)
 {
 	char	*path;
 	char	*oldpwd;
@@ -106,28 +106,28 @@ void    built_cd(t_env **_env, char **args)
 
 	argc = check_argc(args);
 	if (argc < 1 || argc > 2)
-		return ;
+		return (1);
 	if (go_home(argc, args, _env))
 	{
 		path = change_home(_env, args);
 		if (!path)
 		{
 			perror("cd: HOME not set");
-			return ;
+			return (1);
 		}
 	}
-	else if (argc = 2 && ft_strcmp(args[1], "-") == 0)
+	else if (argc == 2 && ft_strcmp(args[1], "-") == 0)
 		path = ft_strdup(find_key(_env, "OLDPWD")->value);
 	else
 		path = ft_strdup(args[1]);
 	oldpwd = NULL;
 	oldpwd = getcwd(NULL, 0);
-	if (access(path, F_OK |R_OK | X_OK) == -1 | chdir(path) == -1)
+	if (access(path, F_OK |R_OK | X_OK) == -1 || chdir(path) == -1)
 	{
 		perror("cd: Error accessing path");
 		ft_destroyer(&oldpwd);
 		ft_destroyer(&path);
-		return ;
+		return (1);
 	}
 	else
 	{
@@ -139,4 +139,5 @@ void    built_cd(t_env **_env, char **args)
 		ft_destroyer(&aux);
 		ft_destroyer(&path);
 	}
+	return (0);
 }

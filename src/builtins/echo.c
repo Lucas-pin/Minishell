@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 12:47:09 by lpin              #+#    #+#             */
-/*   Updated: 2025/07/05 20:00:35 by lpin             ###   ########.fr       */
+/*   Updated: 2025/07/30 19:41:52 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	print_without_newline(char **argv)
 {
 	char *temp;
 
-	if (*argv == "" || !*argv)
+	if (ft_strcmp(*argv, "") == 0 || !*argv)
 		return ;
 	temp = NULL;
 	temp = ft_strdup(*argv);
@@ -36,7 +36,7 @@ static void	print_with_newline(char **argv)
 {
 	char *temp;
 
-	if (*argv == "" || !*argv)
+	if (ft_strcmp(*argv, "") == 0 || !*argv)
 	{
 		printf("\n");
 		return ;
@@ -55,11 +55,12 @@ static void	print_with_newline(char **argv)
 		free(temp);
 }
 
-void built_echo(char **argv)
+int built_echo(char **argv, t_env **_env)
 {
 
+	(void)_env;
 	if (!argv)
-		return ;
+		return (1);
 	argv++;
 	if (ft_strcmp(*argv, "-n") == 0)
 	{
@@ -68,4 +69,5 @@ void built_echo(char **argv)
 	}
 	else
 		print_with_newline(argv);
+	return (0);
 }
