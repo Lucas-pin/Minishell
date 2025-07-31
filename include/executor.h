@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:27:21 by lpin              #+#    #+#             */
-/*   Updated: 2025/07/30 19:45:31 by lpin             ###   ########.fr       */
+/*   Updated: 2025/07/30 20:35:49 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,19 @@
 # define DEFAULT_PATH "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 # define HASH_SIZE 401 // 401 es primo y es cercano a 400, que es el tamaño máximo esperado de la tabla
 
+typedef enum e_builtin
+{
+	ECHO,
+	CD,
+	PWD,
+	EXPORT,
+	UNSET,
+	ENV,
+	EXIT,
+	INVALID
+}	t_builtin;
+
+
 typedef struct s_cmd
 {
 	char			**argv;
@@ -31,7 +44,7 @@ typedef struct s_cmd
 	int				fd_out;
 	struct s_cmd	*next;
 	char			*cmd;
-	char			*cmd_path;
+	void			*cmd_path;
 }	t_cmd;
 
 typedef struct s_executor
@@ -50,6 +63,8 @@ typedef struct s_env
 	unsigned int		hide : 1;	
 	struct s_env		*next;
 }	t_env;
+
+typedef int (*builtin_func)(char **, t_env **);
 
 typedef struct s_hash
 {
@@ -191,6 +206,21 @@ int		built_exit(char **args, t_env **_env);
  * Otherwise, it retrieves the current working directory using getcwd and prints it.
  * If getcwd fails, it returns 1.
  */
-int		builtin_pwd(char **args, t_env **_env);
+int		built_pwd(char **args, t_env **_env);
+
+/**
+ * @brief Checks if the command is a built-in command.
+ * @param cmd a string representing the command to be checked.
+ * @return an integer representing the built-in command type, or -1 if not a built-in command.
+ */
+int		is_builtin(const char *cmd);
+
+/**
+ * @brief Gets the command path fot the command list.
+ * @param cmd a pointer to the t_cmd structure representing the command.
+ * @param env a pointer to the t_env structure representing the environment variables.
+ * @return a pointer to the t_cmd structure with the command path set.
+ */
+t_cmd	*cmd_path(t_cmd *cmd, t_env **env);
 
 #endif

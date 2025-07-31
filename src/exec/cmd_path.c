@@ -6,44 +6,45 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 00:56:47 by lpin              #+#    #+#             */
-/*   Updated: 2025/07/28 01:31:21 by lpin             ###   ########.fr       */
+/*   Updated: 2025/07/31 08:57:32 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/executor.h"
 
+static builtin_func get_builtin_func(const t_builtin cmd) {
+	if (cmd == CD) return built_cd;
+	if (cmd == ECHO) return built_echo;
+	if (cmd == EXIT) return built_exit;
+	if (cmd == PWD) return built_pwd;
+	if (cmd == EXPORT) return built_export;
+	if (cmd == UNSET) return built_unset;
+	if (cmd == ENV) return built_env;
+	return NULL;
+}
+
 int	is_builtin(const char *cmd)
 {
 	if (!cmd)
-		return (0);
-	if (ft_strcmp(cmd, "cd") == 0 || ft_strcmp(cmd, "echo") == 0 ||
-		ft_strcmp(cmd, "exit") == 0 || ft_strcmp(cmd, "pwd") == 0 ||
-		ft_strcmp(cmd, "export") == 0 || ft_strcmp(cmd, "unset") == 0 ||
-		ft_strcmp(cmd, "env") == 0)
-		return (1);
-	return (0);
-}
-
-char	*builtin_path(const char *cmd)
-{
+		return (-1);
 	if (ft_strcmp(cmd, "cd") == 0)
-		return (ft_strdup("../builtins/cd"));
-	else if (ft_strcmp(cmd, "echo") == 0)
-		return (ft_strdup("../builtins/echo"));
-	else if (ft_strcmp(cmd, "exit") == 0)
-		return (ft_strdup("../builtins/exit"));
-	else if (ft_strcmp(cmd, "pwd") == 0)
-		return (ft_strdup("../builtins/pwd"));
-	else if (ft_strcmp(cmd, "export") == 0)
-		return (ft_strdup("../builtins/export"));
-	else if (ft_strcmp(cmd, "unset") == 0)
-		return (ft_strdup("../builtins/unset"));
-	else if (ft_strcmp(cmd, "env") == 0)
-		return (ft_strdup("../builtins/env"));
-	return (NULL);
+		return (CD);
+	if (ft_strcmp(cmd, "echo") == 0)
+		return (ECHO);
+	if (ft_strcmp(cmd, "exit") == 0)
+		return (EXIT);
+	if (ft_strcmp(cmd, "pwd") == 0)
+		return (PWD);
+	if (ft_strcmp(cmd, "export") == 0)
+		return (EXPORT);
+	if (ft_strcmp(cmd, "unset") == 0)
+		return (UNSET);
+	if (ft_strcmp(cmd, "env") == 0)	
+		return (ENV);
+	return (-1);
 }
 
-char	**path_cleaner(t_env **env)
+static char	**path_cleaner(t_env **env)
 {
 	t_env	*path_env;
 	char	**raw_path;
@@ -57,16 +58,13 @@ char	**path_cleaner(t_env **env)
 	return (raw_path);
 }
 
-char	*get_cmd_path(t_cmd *cmd, char **raw_path)
+static char	*get_cmd_path(t_cmd *cmd, char **raw_path)
 {
 	char	*cmd_path;
-	int		i;
 
 	cmd_path = NULL;
 	if (!cmd || !cmd->cmd || !raw_path || !*raw_path)
 		return (NULL);
-	if (is_builtin(cmd->cmd))
-		return (builtin_path(cmd->cmd));
 	while (*raw_path)
 	{
 		cmd_path = ft_strjoin(*raw_path, "/");
@@ -83,11 +81,11 @@ char	*get_cmd_path(t_cmd *cmd, char **raw_path)
 	return (cmd_path);
 }
 
-char	*cmd_path(t_cmd *cmd, t_env **env)
+t_cmd	*cmd_path(t_cmd *cmd, t_env **env)
 {
 	char	**raw_path;
-	char	*cmd_path;
 	t_cmd	*head;
+	int		builtin_index;
 
 	if (!cmd || !env || !*env)
 		return (NULL);
@@ -97,9 +95,13 @@ char	*cmd_path(t_cmd *cmd, t_env **env)
 	head = cmd;
 	while (cmd)
 	{
-		cmd->cmd_path = get_cmd_path(cmd, &raw_path);
+		builtin_index = is_builtin(cmd->cmd);
+		if (builtin_index > -1)
+			cmd->cmd_path = (void *)get_builtin_func(builtin_index);
+		else
+			cmd->cmd_path = (void *)get_cmd_path(cmd, raw_path);
 		cmd = cmd->next;
 	}
-	ft_split_destroyer(&raw_path);
+	ft_split_destroyer(raw_path);
 	return (head);
 }
