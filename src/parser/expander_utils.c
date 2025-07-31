@@ -6,11 +6,11 @@
 /*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:13:29 by manualva          #+#    #+#             */
-/*   Updated: 2025/07/14 11:17:56 by manualva         ###   ########.fr       */
+/*   Updated: 2025/07/28 18:05:09 by manualva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/parser.h"
+#include "../../include/minishell.h"
 
 char	*get_var_name(const char *input, int start, int *end)
 {

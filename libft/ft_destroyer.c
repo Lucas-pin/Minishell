@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_utils.c                                         :+:      :+:    :+:   */
+/*   ft_destroyer.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lpin <lpin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/08 11:20:07 by manualva          #+#    #+#             */
-/*   Updated: 2025/07/28 18:05:53 by manualva         ###   ########.fr       */
+/*   Created: 2024/06/16 17:57:22 by lpin              #+#    #+#             */
+/*   Updated: 2024/09/03 17:37:36 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "libft.h"
 
-int	is_space(int c)
+void	*ft_destroyer(char **to_destroy)
 {
-	return (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f'
-		|| c == '\r');
-}
+	char	*temp;
 
-int	is_operator(char c)
-{
-	return (c == '|' || c == '>' || c == '<' || c == '&');
+	temp = *to_destroy;
+	if (!temp)
+		return (NULL);
+	while (*temp)
+	{
+		*temp = '\0';
+		temp++;
+	}
+	free(*to_destroy);
+	*to_destroy = NULL;
+	return (NULL);
 }

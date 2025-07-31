@@ -6,11 +6,11 @@
 /*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 09:12:14 by manualva          #+#    #+#             */
-/*   Updated: 2025/07/14 11:23:48 by manualva         ###   ########.fr       */
+/*   Updated: 2025/07/29 09:42:39 by manualva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/parser.h"
+#include "../../include/minishell.h"
 
 static int	open_file_for_redirection(t_token *file_token, t_token *redir_token)
 {
@@ -36,15 +36,17 @@ static int	process_redirection(t_token *cur, t_cmd *cmd)
 		print_error("Near unexpected token 'newline'\n", 1);
 		return (-1);
 	}
+	if (cur->type == T_HEREDOC)
+		fd = run_heredoc(file_token->str);
+	else
+		fd = open_file_for_redirection(file_token, cur);
 
-	fd = open_file_for_redirection(file_token, cur);
 	if (fd == -1)
 	{
 		perror("minishell");
 		return (-1);
 	}
-
-	if (cur->type == T_REDIR_IN)
+	if (cur->type == T_REDIR_IN || cur->type == T_HEREDOC)
 		cmd->fd_in = fd;
 	else
 		cmd->fd_out = fd;
@@ -111,7 +113,7 @@ void	handle_redirection(t_token **tokens, t_cmd *cmd)
 	while (cur != NULL && cur->type != T_PIPE)
 	{
 		if (cur->type == T_REDIR_IN || cur->type == T_REDIR_OUT
-			|| cur->type == T_REDIR_APPEND)
+			|| cur->type == T_REDIR_APPEND || cur->type == T_HEREDOC)
 		{
 			result = handle_single_redirection(tokens, &cur, &prev, cmd);
 			if (result == -1)

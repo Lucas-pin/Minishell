@@ -6,11 +6,11 @@
 /*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:28:34 by manualva          #+#    #+#             */
-/*   Updated: 2025/07/14 11:18:15 by manualva         ###   ########.fr       */
+/*   Updated: 2025/07/28 18:05:11 by manualva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/parser.h"
+#include "../../include/minishell.h"
 
 static char	*extract_and_expand(const char *input, int i, int *end, t_env *env)
 {

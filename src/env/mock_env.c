@@ -6,11 +6,11 @@
 /*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:23:07 by manualva          #+#    #+#             */
-/*   Updated: 2025/07/07 10:06:02 by manualva         ###   ########.fr       */
+/*   Updated: 2025/07/29 09:34:31 by manualva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/parser.h"
+#include "../../include/minishell.h"
 
 t_env	*new_env(char *key, char *value)
 {

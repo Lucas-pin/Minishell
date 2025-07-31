@@ -6,11 +6,11 @@
 /*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:08:27 by manualva          #+#    #+#             */
-/*   Updated: 2025/07/14 11:24:31 by manualva         ###   ########.fr       */
+/*   Updated: 2025/07/28 18:05:39 by manualva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/parser.h"
+#include "../../include/minishell.h"
 
 t_token	*new_token(char *str, int type)
 {

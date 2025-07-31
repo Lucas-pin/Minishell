@@ -6,11 +6,11 @@
 /*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:07:26 by manualva          #+#    #+#             */
-/*   Updated: 2025/07/14 11:17:32 by manualva         ###   ########.fr       */
+/*   Updated: 2025/07/29 10:10:08 by manualva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/parser.h"
+#include "../../include/minishell.h"
 
 t_cmd	*init_cmd(void)
 {
@@ -50,6 +50,11 @@ void	free_cmds(t_cmd *cmds)
 	while (cmds)
 	{
 		tmp = cmds->next;
+
+		if (cmds->fd_in != -1)
+			close(cmds->fd_in);
+		if (cmds->fd_out != -1)
+			close(cmds->fd_out);
 		if (cmds->argv)
 		{
 			i = 0;
@@ -59,6 +64,7 @@ void	free_cmds(t_cmd *cmds)
 		}
 		if (cmds->cmd)
 			free(cmds->cmd);
+
 		free(cmds);
 		cmds = tmp;
 	}

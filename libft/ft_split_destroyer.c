@@ -1,24 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_utils.c                                         :+:      :+:    :+:   */
+/*   ft_split_destroyer.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lpin <lpin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/08 11:20:07 by manualva          #+#    #+#             */
-/*   Updated: 2025/07/28 18:05:53 by manualva         ###   ########.fr       */
+/*   Created: 2024/06/16 17:57:22 by lpin              #+#    #+#             */
+/*   Updated: 2024/09/03 17:39:25 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "libft.h"
 
-int	is_space(int c)
+void	*ft_split_destroyer(char **split)
 {
-	return (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f'
-		|| c == '\r');
-}
+	int	i;
 
-int	is_operator(char c)
-{
-	return (c == '|' || c == '>' || c == '<' || c == '&');
+	i = 0;
+	while (split[i] != NULL)
+	{
+		ft_destroyer(split + i);
+		i++;
+	}
+	free (split[i]);
+	return (NULL);
 }

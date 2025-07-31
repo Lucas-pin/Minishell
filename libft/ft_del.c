@@ -1,24 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_utils.c                                         :+:      :+:    :+:   */
+/*   ft_del.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lpin <lpin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/08 11:20:07 by manualva          #+#    #+#             */
-/*   Updated: 2025/07/28 18:05:53 by manualva         ###   ########.fr       */
+/*   Created: 2024/09/26 22:44:40 by lpin              #+#    #+#             */
+/*   Updated: 2024/10/03 19:18:05 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "libft.h"
 
-int	is_space(int c)
+void	ft_del(void *s)
 {
-	return (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f'
-		|| c == '\r');
-}
-
-int	is_operator(char c)
-{
-	return (c == '|' || c == '>' || c == '<' || c == '&');
+	while (*(char *)s)
+	{
+		*(char *)s = 0;
+		s++;
+	}
 }

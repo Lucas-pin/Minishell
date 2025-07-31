@@ -6,11 +6,11 @@
 /*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:43:39 by manualva          #+#    #+#             */
-/*   Updated: 2025/07/14 11:21:36 by manualva         ###   ########.fr       */
+/*   Updated: 2025/07/28 18:05:18 by manualva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/parser.h"
+#include "../../include/minishell.h"
 
 
 /* Processes operators like pipes, redirection, and heredoc tokens in the input

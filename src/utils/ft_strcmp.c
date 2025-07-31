@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_utils.c                                         :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/08 11:20:07 by manualva          #+#    #+#             */
-/*   Updated: 2025/07/28 18:05:53 by manualva         ###   ########.fr       */
+/*   Created: 2023/11/06 07:36:55 by manualva          #+#    #+#             */
+/*   Updated: 2025/07/29 09:41:20 by manualva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "libft.h"
 
-int	is_space(int c)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	return (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f'
-		|| c == '\r');
-}
-
-int	is_operator(char c)
-{
-	return (c == '|' || c == '>' || c == '<' || c == '&');
+	while (*s1 == *s2 && *s1)
+	{
+		s1++;
+		s2++;
+	}
+	return (*s1 - *s2);
 }

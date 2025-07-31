@@ -6,11 +6,11 @@
 /*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 08:52:07 by manualva          #+#    #+#             */
-/*   Updated: 2025/07/07 10:05:17 by manualva         ###   ########.fr       */
+/*   Updated: 2025/07/28 18:06:00 by manualva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/parser.h"
+#include "../../include/minishell.h"
 
 static void	print_error_type(int i)
 {

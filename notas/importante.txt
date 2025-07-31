@@ -1,0 +1,9 @@
+Primero el parser, luego el ejecutor, luego las señales
+Preparar los errores de parseo es importante
+El orden de infiles y outfiles importa
+Empezar con las variables de entorno
+Hacer que cada tipo de token tenga un intérprete
+Dejar las señales para el final
+Cuidado con lo que dice la gente, hay gente que pide de más
+El heredoc NO debe parchear, no lo dice el subject, la justificación es que no es un prompt
+Siempre va a pedir un char **pointer para las variables de entorno

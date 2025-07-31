@@ -6,11 +6,11 @@
 /*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:50:58 by manualva          #+#    #+#             */
-/*   Updated: 2025/07/14 11:20:23 by manualva         ###   ########.fr       */
+/*   Updated: 2025/07/28 18:05:21 by manualva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/parser.h"
+#include "../../include/minishell.h"
 
 /* Processes tokens until a pipe is encountered, then creates a new command from
 the tokens. */

@@ -1,0 +1,12 @@
+manualva@c3r3s1 ~/Desktop/minishell
+ % e'cho' hola
+hola
+manualva@c3r3s1 ~/Desktop/minishell
+ % echo 'h'ola
+hola
+manualva@c3r3s1 ~/Desktop/minishell
+ % echo 'h'"o"la
+hola
+manualva@c3r3s1 ~/Desktop/minishell
+ % echo 'h'"ol"a
+hola

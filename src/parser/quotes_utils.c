@@ -6,11 +6,11 @@
 /*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 19:49:26 by manualva          #+#    #+#             */
-/*   Updated: 2025/07/14 11:21:56 by manualva         ###   ########.fr       */
+/*   Updated: 2025/07/28 18:05:27 by manualva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/parser.h"
+#include "../../include/minishell.h"
 
 static char	*collect_quoted(const char *input, int *i)
 {
