@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:41:38 by lpin              #+#    #+#             */
-/*   Updated: 2025/07/30 19:37:46 by lpin             ###   ########.fr       */
+/*   Updated: 2025/07/30 20:26:26 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,7 +221,7 @@ int main(int argc, char **argv, char **envp)
     printf("Esperado: ruta actual (verifica visualmente)\n");
     printf("Salida real: >>>");
     fflush(stdout);
-    int ret1 = builtin_pwd(pwd_args1, &_env);
+    int ret1 = built_pwd(pwd_args1, &_env);
     printf("<<<\nRetorno: %d (esperado: 0)\n", ret1);
 
     char *pwd_args2[] = {"pwd", "extra", NULL};
@@ -229,7 +229,7 @@ int main(int argc, char **argv, char **envp)
     printf("Esperado: retorno 1 (no imprime ruta)\n");
     printf("Salida real: >>>");
     fflush(stdout);
-    int ret2 = builtin_pwd(pwd_args2, &_env);
+    int ret2 = built_pwd(pwd_args2, &_env);
     printf("<<<\nRetorno: %d (esperado: 1)\n", ret2);
 
 /*------------------------------------------------------------------------------*/
