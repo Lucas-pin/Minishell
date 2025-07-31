@@ -1,0 +1,4 @@
+las cosas del expander
+syntax error si no se cierran las comillas
+syntax error si encuentra caracteres especiales fuera de comillas
+mirar si hay una redirección y generar el FD si la hay, y si no, dejas los valores en -1

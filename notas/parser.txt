@@ -1,0 +1,24 @@
+1- Lexer
+	Escanea el string por caracteres. Omite los espacios, recoge las palabras hasta el siguiente operador o espacio, y añade los operadores como sus propios tokens.
+
+2- Expander
+	Reemplaza variables como podrían ser $USER con las variables del entorno requeridas. Itera por cada token, y si encuentra un $, llama a la función para reemplazar.
+
+3- Parser
+	Separa la lista de tokens en comandos separados por pipes. Construye un array de argv, crea una estructura de comandos, y los añade a la lista.
+
+0
+echo $user | grep a
+
+1
+[echo], [$USER], [|], [grep], [a]
+
+2
+[echo], [manualva], [|], [grep], [a]
+
+3
+[0] argv[0] = "echo"
+[0] argv[1] = "manualva"
+
+[1] argv[0] = "grep"
+[1] argv[1] = "a"
