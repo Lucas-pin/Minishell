@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mock_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:23:07 by manualva          #+#    #+#             */
-/*   Updated: 2025/07/29 09:34:31 by manualva         ###   ########.fr       */
+/*   Updated: 2025/08/04 18:11:15 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,12 @@ t_env	*new_env(char *key, char *value)
 
 t_env	*mock_env(void)
 {
-	t_env *env1 = new_env("USER", "tester");
-	t_env *env2 = new_env("HOME", "/home/tester");
+	char 	*key = calloc(5, sizeof(char));
+	char 	*value = calloc(20, sizeof(char));
+	char	*key_2 = calloc(5, sizeof(char));
+	char	*value_2 = calloc(20, sizeof(char));
+	t_env 	*env1 = new_env(key, value);
+	t_env 	*env2 = new_env(key_2, value_2);
 
 	env1->next = env2;
 	return (env1);

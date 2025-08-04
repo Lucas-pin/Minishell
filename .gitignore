@@ -1,0 +1,19 @@
+
+# Ignorar archivos compilados y binarios
+*.o
+*.a
+*.so
+*.exe
+minishell
+a.out
+
+# Ignorar archivos de sistema
+.DS_Store
+*.swp
+*.tmp
+
+# Ignorar todo el contenido de estas carpetas específicas
+Minishell/pipex/**
+Minishell/allow_functions/**
+Minishell/unit_testing/**
+# Mantener todos los archivos fuente

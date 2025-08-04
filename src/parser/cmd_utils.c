@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:07:26 by manualva          #+#    #+#             */
-/*   Updated: 2025/07/29 10:10:08 by manualva         ###   ########.fr       */
+/*   Updated: 2025/08/04 18:21:10 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include "../../include/builtins_utils.h"
 
 t_cmd	*init_cmd(void)
 {
@@ -24,6 +25,7 @@ t_cmd	*init_cmd(void)
 	cmd->fd_out = -1;
 	cmd->next = NULL;
 	cmd->cmd = NULL;
+	cmd->cmd_path = NULL;
 	return (cmd);
 }
 
@@ -64,7 +66,8 @@ void	free_cmds(t_cmd *cmds)
 		}
 		if (cmds->cmd)
 			free(cmds->cmd);
-
+		if (cmds->cmd_path && cmds->cmd && is_builtin(cmds->cmd) == -1)
+			free(cmds->cmd_path); // Solo liberar si es un comando externo
 		free(cmds);
 		cmds = tmp;
 	}

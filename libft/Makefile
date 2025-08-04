@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: manualva <manualva@student.42.fr>          +#+  +:+       +#+         #
+#    By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/10 11:22:27 by lpin              #+#    #+#              #
-#    Updated: 2025/07/29 09:33:58 by manualva         ###   ########.fr        #
+#    Updated: 2025/08/04 18:18:27 by lpin             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ SRCS = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
 	  ft_strjoin.c ft_strlcat.c ft_strlcpy.c ft_strlen.c ft_strmapi.c ft_strncmp.c \
 	  ft_strnstr.c ft_strrchr.c ft_strtrim.c ft_substr.c ft_tolower.c ft_toupper.c \
 	  ft_strjoin_free_s1.c ft_strjoin_free_s2.c ft_destroyer.c ft_split_destroyer.c\
-	  get_next_line.c get_next_line_utils.c ft_printf.c ft_printf_utils.c ft_del.c
+	  get_next_line.c get_next_line_utils.c ft_printf.c ft_printf_utils.c ft_del.c \
+	  ft_strcmp.c
 
 BONUS_SRCS = ft_lstadd_back_bonus.c ft_lstadd_front_bonus.c ft_lstclear_bonus.c ft_lstdelone_bonus.c \
 			 ft_lstiter_bonus.c ft_lstlast_bonus.c ft_lstmap_bonus.c ft_lstnew_bonus.c ft_lstsize_bonus.c
