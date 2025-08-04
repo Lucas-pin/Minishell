@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 12:10:50 by lpin              #+#    #+#             */
-/*   Updated: 2025/05/08 11:19:50 by manualva         ###   ########.fr       */
+/*   Updated: 2025/08/01 20:08:12 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,17 @@ to match, or be greater than s2.
 //@param s1 The pointer to the first string to be compared.
 //@param s2 The pointer to the second string to be compared.
 //@param n The maximum number of characters to be compared.
+//@return The difference between the first two differing characters
+(when interpreted as unsigned char values, they are compared).
+*/
+
+int		ft_strcmp(const char *s1, const char *s2);
+/*
+//@brief Compares the two strings s1 and s2. It returns an integer less than,
+equal to, or greater than zero if s1 is found, respectively, to be less than,
+to match, or be greater than s2.
+//@param s1 The pointer to the first string to be compared.
+//@param s2 The pointer to the second string to be compared.
 //@return The difference between the first two differing characters
 (when interpreted as unsigned char values, they are compared).
 */

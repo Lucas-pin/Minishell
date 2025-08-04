@@ -6,21 +6,31 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 00:56:47 by lpin              #+#    #+#             */
-/*   Updated: 2025/07/31 08:57:32 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/04 17:18:09 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/executor.h"
+#include "../../include/builtins.h"
+#include "../../include/builtins_utils.h"
 
-static builtin_func get_builtin_func(const t_builtin cmd) {
-	if (cmd == CD) return built_cd;
-	if (cmd == ECHO) return built_echo;
-	if (cmd == EXIT) return built_exit;
-	if (cmd == PWD) return built_pwd;
-	if (cmd == EXPORT) return built_export;
-	if (cmd == UNSET) return built_unset;
-	if (cmd == ENV) return built_env;
-	return NULL;
+static builtin_func	get_builtin_func(const t_builtin cmd)
+{
+	if (cmd == CD)
+		return (built_cd);
+	if (cmd == ECHO)
+		return (built_echo);
+	if (cmd == EXIT)
+		return (built_exit);
+	if (cmd == PWD)
+		return (built_pwd);
+	if (cmd == EXPORT)
+		return (built_export);
+	if (cmd == UNSET)
+		return (built_unset);
+	if (cmd == ENV)
+		return (built_env);
+	return (NULL);
 }
 
 int	is_builtin(const char *cmd)
@@ -78,7 +88,7 @@ static char	*get_cmd_path(t_cmd *cmd, char **raw_path)
 		ft_destroyer(&cmd_path);
 		raw_path++;
 	}
-	return (cmd_path);
+	return (NULL);
 }
 
 t_cmd	*cmd_path(t_cmd *cmd, t_env **env)
@@ -87,7 +97,7 @@ t_cmd	*cmd_path(t_cmd *cmd, t_env **env)
 	t_cmd	*head;
 	int		builtin_index;
 
-	if (!cmd || !env || !*env)
+	if (!cmd || !env || !*env || ft_strcmp(cmd->cmd, "") == 0)
 		return (NULL);
 	raw_path = path_cleaner(env);
 	if (!raw_path)

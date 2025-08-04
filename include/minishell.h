@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 09:45:07 by manualva          #+#    #+#             */
-/*   Updated: 2025/07/29 09:39:35 by manualva         ###   ########.fr       */
+/*   Updated: 2025/08/01 19:41:22 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <readline/history.h>
 # include <sys/wait.h>
 # include <ctype.h>
+# include "../include/structs.h"
 # include "../libft/libft.h"
 # include "../libft/ft_printf.h"
 
@@ -36,30 +37,6 @@
 # define T_HEREDOC      4
 # define T_REDIR_APPEND 5
 # define FORBIDDEN_CHARS "*;\\&(){}[]`"
-
-typedef struct s_env
-{
-	char			*key;
-	char			*value;
-	struct s_env	*next;
-}	t_env;
-
-typedef struct s_token
-{
-	char			*str;
-	int				type;
-	char			quote_type;
-	struct s_token	*next;
-}	t_token;
-
-typedef struct s_cmd
-{
-	char			**argv;
-	int				fd_in;
-	int				fd_out;
-	struct s_cmd	*next;
-	char			*cmd;
-}	t_cmd;
 
 //Splits the input line into a linked list of tokens.
 t_token		*lexer(char *input);

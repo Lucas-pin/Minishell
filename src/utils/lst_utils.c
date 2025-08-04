@@ -6,11 +6,11 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 20:34:19 by lpin              #+#    #+#             */
-/*   Updated: 2025/07/27 19:56:50 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/01 20:19:46 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/executor.h"
+#include "../../include/builtins_utils.h"
 
 void	remove_node(t_env **_env, t_env *node)
 {
