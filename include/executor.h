@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
+/*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:27:21 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/01 20:09:17 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/05 16:45:04 by manualva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@
 /**
  * @brief Gets the command path fot the command list.
  * @param cmd a pointer to the t_cmd structure representing the command.
- * @param env a pointer to the t_env structure representing the environment variables.
+ * @param env a pointer to the t_env structure representing the environment
+ * variables.
  * @return a pointer to the t_cmd structure with the command path set.
  */
 t_cmd	*cmd_path(t_cmd *cmd, t_env **env);
