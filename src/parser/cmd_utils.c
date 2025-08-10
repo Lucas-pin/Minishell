@@ -6,12 +6,29 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:07:26 by manualva          #+#    #+#             */
-/*   Updated: 2025/08/04 18:21:10 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/11 00:59:49 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include "../../include/builtins_utils.h"
+
+int	count_cmd(t_cmd *cmd)
+{
+	t_cmd	*aux;
+	int		cmd_qty;
+
+	aux = cmd;
+	cmd_qty = 0;
+	if (!cmd)
+		return (0);
+	while (aux)
+	{
+		cmd_qty++;
+		aux = aux->next;
+	}
+	return (cmd_qty);
+}
 
 t_cmd	*init_cmd(void)
 {
@@ -48,6 +65,7 @@ void	free_cmds(t_cmd *cmds)
 {
 	t_cmd	*tmp;
 	int		i;
+	int		is_ext;
 
 	while (cmds)
 	{
@@ -64,10 +82,11 @@ void	free_cmds(t_cmd *cmds)
 				free(cmds->argv[i++]);
 			free(cmds->argv);
 		}
+		is_ext = (cmds->cmd && is_builtin(cmds->cmd) == -1);
 		if (cmds->cmd)
 			free(cmds->cmd);
-		if (cmds->cmd_path && cmds->cmd && is_builtin(cmds->cmd) == -1)
-			free(cmds->cmd_path); // Solo liberar si es un comando externo
+		if (cmds->cmd_path && is_ext)
+			free(cmds->cmd_path);
 		free(cmds);
 		cmds = tmp;
 	}

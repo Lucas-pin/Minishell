@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 09:45:07 by manualva          #+#    #+#             */
-/*   Updated: 2025/08/01 19:41:22 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/11 00:42:58 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,6 @@ char		*collect_word(const char *input, int *i, char *quote_type);
 
 //Duplicates a substring from the source string (start, length).
 char		*substr_dup(const char *src, int start, int len);
-
-//Compares two strings.
-int			ft_strcmp(const char *s1, const char *s2);
 
 //Creates a new token with the given string and type.
 t_token		*new_token(char *str, int type);
@@ -109,6 +106,9 @@ void		append_cmd(t_cmd **head, t_cmd *new_tok);
 
 //Frees a linked list of commands.
 void		free_cmds(t_cmd *cmds);
+
+//Return the cmd list lenght.
+int			count_cmd(t_cmd *cmd);
 
 //Determines the error type and prints an error message.
 int			print_error(char *str, int error);
