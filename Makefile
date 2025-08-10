@@ -6,7 +6,7 @@
 #    By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 19:58:06 by manualva          #+#    #+#              #
-#    Updated: 2025/08/04 18:21:56 by lpin             ###   ########.fr        #
+#    Updated: 2025/08/11 01:15:11 by lpin             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,24 +16,23 @@ SRCS = parser_tester.c \
        \
        src/parser/cmd_utils.c \
        src/parser/expander.c \
-       src/utils/expander_utils.c\
-       src/parser/lexer.c \
-       src/parser/parser.c \
-       src/utils/quotes_utils.c \
        src/parser/syntax_checker.c \
        src/parser/token_utils.c \
        src/parser/redirect.c \
        src/parser/heredoc.c \
+       src/parser/lexer.c \
+       src/parser/parser.c \
        src/signals/status.c \
        src/signals/signals.c \
-       \
+       src/env/mock_env.c \
+       src/utils/expander_utils.c\
+       src/utils/quotes_utils.c \
        src/utils/is_utils.c \
        src/utils/substr_dup.c \
        src/utils/print_error.c \
-       src/env/mock_env.c \
        src/utils/export_utils.c \
        src/utils/lst_utils.c \
-       src/exec/cmd_path.c \
+       src/utils/env_utils.c \
        src/builtins/cd.c \
        src/builtins/echo.c \
        src/builtins/env.c \
@@ -41,6 +40,10 @@ SRCS = parser_tester.c \
        src/builtins/pwd.c \
        src/builtins/unset.c \
        src/builtins/exit.c \
+       src/exec/cmd_path.c \
+       src/exec/exec.c \
+       src/exec/pipe_utils.c \
+
 
 OBJS = $(SRCS:.c=.o)
 
