@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 19:39:24 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/04 17:28:04 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/10 23:53:33 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,6 @@ typedef enum e_builtin
 	ENV,
 	EXIT,
 }	t_builtin;
-
-typedef struct s_hash
-{
-	t_env			*table[HASH_SIZE];
-}	t_hash;
 
 typedef int (*builtin_func)(char **, t_env **);
 
