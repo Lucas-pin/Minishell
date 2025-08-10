@@ -5,75 +5,182 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/30 20:14:46 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/01 20:11:39 by lpin             ###   ########.fr       */
+/*   Created: 2025/08/05 18:00:14 by lpin              #+#    #+#             */
+/*   Updated: 2025/08/11 01:05:50 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/executor.h"
+#include "../../include/minishell.h"
 #include "../../include/builtins.h"
 
-// Helper para crear nodos de comandos
-t_cmd *cmd_new(char *cmd, char **argv) {
-    t_cmd *node = malloc(sizeof(t_cmd));
-    node->cmd = cmd;
-    node->argv = argv;
-    node->cmd_path = NULL;
-    node->next = NULL;
-    return node;
+static int	apply_file_redirs(t_cmd *cmd)
+{
+	if (cmd->fd_in != -1)
+	{
+		if (dup2(cmd->fd_in, STDIN_FILENO) == -1)
+			return (-1);
+		close(cmd->fd_in);
+		cmd->fd_in = -1;
+	}
+	if (cmd->fd_out != -1)
+	{
+		if (dup2(cmd->fd_out, STDOUT_FILENO) == -1)
+			return (-1);
+		close(cmd->fd_out);
+		cmd->fd_out = -1;
+	}
+	return (0);
 }
 
-// Test unitario para cmd_path
-int main(void) {
-    t_env *env = NULL;
-    create_default_env(&env);
+static void	child_process(t_cmd *cmd, t_env **env)
+{
+	builtin_func	func;
+	int			bi;
 
-    // Comandos de prueba
-    char *argv_echo[] = {"echo", "Hola", "Mundo", NULL};
-    char *argv_pwd[] = {"pwd", NULL};
-    char *argv_ls[] = {"ls", NULL};
-    char *argv_cd[] = {"cd", "/", NULL};
+	if (apply_file_redirs(cmd) == -1)
+		exit(1);
+	bi = is_builtin(cmd->cmd);
+	if (bi != -1)
+	{
+		func = (builtin_func)cmd->cmd_path;
+		if (func)
+			exit(func(cmd->argv, env));
+		exit(1);
+	}
+	if (!cmd->cmd_path || ((char *)cmd->cmd_path)[0] == '\0')
+		exit(127);
+	execve((char *)cmd->cmd_path, cmd->argv, env_to_envp(*env));
+	exit(127);
+}
 
-    // Crear lista de comandos
-    t_cmd *cmd1 = cmd_new("echo", argv_echo);
-    t_cmd *cmd2 = cmd_new("pwd", argv_pwd);
-    t_cmd *cmd3 = cmd_new("ls", argv_ls);
-    t_cmd *cmd4 = cmd_new("cd", argv_cd);
+static int	run_builtin_parent(t_cmd *cmd, t_env **env)
+{
+	int			fd_bkp[2];
+	builtin_func	func;
+	int			status;
 
-    // Enlazar lista
-    cmd1->next = cmd2;
-    cmd2->next = cmd3;
-    cmd3->next = cmd4;
+	fd_bkp[0] = dup(STDIN_FILENO);
+	fd_bkp[1] = dup(STDOUT_FILENO);
+	if (apply_file_redirs(cmd) == -1)
+		return (-1);
+	func = (builtin_func)cmd->cmd_path;
+	status = func(cmd->argv, env);
+	dup2(fd_bkp[0], STDIN_FILENO);
+	dup2(fd_bkp[1], STDOUT_FILENO);
+	close(fd_bkp[0]);
+	close(fd_bkp[1]);
+	return (status);
+}
 
-    // Ejecutar cmd_path sobre la lista
-    t_cmd *result = cmd_path(cmd1, &env);
+static int	run_external_fork(t_cmd *cmd, t_env **env)
+{
+	pid_t	pid;
+	int		status;
 
-    // Mostrar resultados
-    printf("--- Test cmd_path ---\n");
-    t_cmd *aux = result;
-    while (aux) {
-        int builtin_index = is_builtin(aux->cmd);
-        if (builtin_index > -1) {
-            printf("Comando '%s' es builtin. Puntero a función: %p\n", aux->cmd, aux->cmd_path);
-            // Ejecutar la función builtin mediante el puntero
-            builtin_func func = (builtin_func)aux->cmd_path;
-            printf("Ejecutando '%s':\n", aux->cmd);
-            func(aux->argv, &env);
-        } else {
-            printf("Comando '%s' externo. Ruta encontrada: %s\n", aux->cmd, (char *)aux->cmd_path);
-        }
-        aux = aux->next;
-    }
+	pid = fork();
+	if (pid < 0)
+		return (perror("fork"), -1);
+	if (pid == 0)
+	{
+		if (apply_file_redirs(cmd) == -1)
+			exit(1);
+		if (!cmd->cmd_path || ((char *)cmd->cmd_path)[0] == '\0')
+			exit(127);
+		execve((char *)cmd->cmd_path, cmd->argv, env_to_envp(*env));
+		exit(127);
+	}
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	if (WIFSIGNALED(status))
+		return (128 + WTERMSIG(status));
+	return (1);
+}
 
-    // Liberar memoria (simplificado)
-    aux = result;
-    while (aux) {
-        t_cmd *tmp = aux->next;
-        if (is_builtin(aux->cmd) == -1 && aux->cmd_path)
-            free(aux->cmd_path);
-        free(aux);
-        aux = tmp;
-    }
-    lst_free(&env);
-    return 0;
+static int	execute_single_cmd(t_cmd *cmd, t_env **env)
+{
+	int	bi;
+
+	if (!cmd || !env)
+		return (-1);
+	bi = is_builtin(cmd->cmd);
+	if (bi != -1)
+		return (run_builtin_parent(cmd, env));
+	return (run_external_fork(cmd, env));
+}
+
+static int	wait_pipeline(int total, pid_t last_pid)
+{
+	int		i;
+	int		st;
+	int		code;
+	pid_t	wpid;
+
+	i = 0;
+	code = 1;
+	while (i < total)
+	{
+		wpid = wait(&st);
+		if (wpid == last_pid)
+		{
+			if (WIFEXITED(st))
+				code = WEXITSTATUS(st);
+			else if (WIFSIGNALED(st))
+				code = 128 + WTERMSIG(st);
+		}
+		i++;
+	}
+	return (code);
+}
+
+static int	execute_multiple_cmds(t_cmd *cmds, t_env **env)
+{
+	pid_t	pid;
+	int		cmd_qty;
+	int		remaining_cmd;
+	int		pipes[2];
+	int		prev_pipe;
+	pid_t	last_pid;
+
+	cmd_qty = count_cmd(cmds);
+	remaining_cmd = cmd_qty;
+	prev_pipe = -1;
+	last_pid = -1;
+	while (remaining_cmd > 0)
+	{
+		pipe_creator(pipes, remaining_cmd, cmd_qty);
+		pid = fork();
+		if (pid < 0)
+			return (perror("fork"), -1);
+		if (pid == 0)
+		{
+			pipe_closer(pipes, remaining_cmd, cmd_qty);
+			redirect_pipes(pipes, prev_pipe, remaining_cmd, cmd_qty);
+			child_process(cmds, env);
+		}
+		if (prev_pipe != -1)
+			close(prev_pipe);
+		if (remaining_cmd > 1)
+		{
+			close(pipes[1]);
+			prev_pipe = pipes[0];
+		}
+		else
+			last_pid = pid;
+		cmds = cmds->next;
+		remaining_cmd--;
+	}
+	if (prev_pipe != -1)
+		close(prev_pipe);
+	return (wait_pipeline(cmd_qty, last_pid));
+}
+
+int	executor(t_cmd *cmds, t_env **env)
+{
+	if (!cmds || !env)
+		return (-1);
+	if (!cmds->next)
+		return (execute_single_cmd(cmds, env));
+	return (execute_multiple_cmds(cmds, env));
 }
