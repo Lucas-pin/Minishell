@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 19:48:33 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/01 19:55:48 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/11 00:14:11 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,13 @@ int		is_builtin(const char *cmd);
 * If the "SHLVL" variable already exists, it increments its value by 1
 */
 void 	create_default_env(t_env **_env);
+
+/**
+ * @brief Converts the environment linked list to an array of strings.
+ * @param env a t_env pointer to the head of the linked list that will store the environment variables.
+ * @return an array of strings representing the environment variables in the format "KEY=VALUE".
+ * The last element of the array is NULL.
+ */
+char	**env_to_envp(t_env *env);
 
 #endif
