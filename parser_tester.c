@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 19:56:55 by manualva          #+#    #+#             */
-/*   Updated: 2025/08/04 18:39:03 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/11 01:25:40 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,29 +77,34 @@ int	main(void)
 			continue;
 		}
 
-		printf("--- Before Expansion ---\n");
-		print_tokens(tokens);
+		//printf("--- Before Expansion ---\n");
+		//print_tokens(tokens);
 
 		expander(tokens, _env);
-		printf("--- After Expansion ---\n");
-		print_tokens(tokens);
+		//printf("--- After Expansion ---\n");
+		//print_tokens(tokens);
 
 		cmds = parser(tokens);
-		print_cmds(cmds);
+		//print_cmds(cmds);
 		
-		// Iterar sobre la lista enlazada de comandos
+		// set cmd from argv[0] duplicating to avoid double-free
 		t_cmd *current = cmds;
 		while (current)
 		{
 			if (current->argv && current->argv[0])
-			current->cmd = current->argv[0];
+				current->cmd = ft_strdup(current->argv[0]);
 			current = current->next;
 		}
 		
 		cmds = cmd_path(cmds, &_env);
-		print_cmds(cmds);
-		//free_cmds(cmds);
-		// TODO: Free cmds here when ready
+		//print_cmds(cmds);
+		
+		// execute and show status
+		//int status = executor(cmds, &_env);
+		//printf("[exec] status=%d\n", status);
+		executor(cmds, &_env);
+		
+		free_cmds(cmds);
 	}
 	lst_free(&_env);
 	return (0);
