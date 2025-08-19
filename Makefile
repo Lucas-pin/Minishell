@@ -21,6 +21,7 @@ SRCS = parser_tester.c \
        src/parser/parser.c \
        src/utils/quotes_utils.c \
        src/parser/syntax_checker.c \
+       src/parser/syntax_utils.c \
        src/parser/token_utils.c \
        src/parser/redirect.c \
        src/parser/heredoc.c \

@@ -92,14 +92,10 @@ int			run_heredoc(const char *delimiter);
 //Handles I/O redirection for a command based on redirection tokens.
 void		handle_redirection(t_token **tokens, t_cmd *cmd);
 
-//Checks for basic syntax errors in the token list.
+int			check_pipe(t_token *tok, t_token *prev);
+int			check_redirection(t_token *tok);
+int			check_word(t_token *tok);
 int			check_syntax(t_token *tokens);
-
-//Checks for unsupported or forbidden characters in a string.
-int			contains_forbidden_chars(const char *str);
-
-//Checks special syntax rules (e.g., consecutive operators).
-int			check_special_syntax(t_token *tokens);
 
 //Allocates and initializes a new command node.
 t_cmd		*init_cmd(void);
@@ -112,9 +108,5 @@ void		free_cmds(t_cmd *cmds);
 
 //Determines the error type and prints an error message.
 int			print_error(char *str, int error);
-
-//PARA TESTEAR CON ENVIRONMENTS, BORRAR AL ACABAR DE USARLO
-t_env		*new_env(char *key, char *value);
-t_env		*mock_env(void);
 
 #endif

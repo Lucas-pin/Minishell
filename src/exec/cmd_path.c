@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 00:56:47 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/04 17:18:09 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/11 01:06:25 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,5 +113,6 @@ t_cmd	*cmd_path(t_cmd *cmd, t_env **env)
 		cmd = cmd->next;
 	}
 	ft_split_destroyer(raw_path);
+	free(raw_path);
 	return (head);
 }
