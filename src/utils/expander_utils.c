@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:13:29 by manualva          #+#    #+#             */
-/*   Updated: 2025/07/28 18:05:09 by manualva         ###   ########.fr       */
+/*   Updated: 2025/08/16 22:38:25 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ char	*get_env_value(t_env *env, const char *name)
 {
 	while (env)
 	{
-		printf("DEBUG: Checking env key '%s'\n", env->key);
 		if (strcmp(env->key, name) == 0)
 			return (env->value);
 		env = env->next;
