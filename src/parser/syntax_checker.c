@@ -14,56 +14,20 @@
 
 int	check_syntax(t_token *tokens)
 {
-	t_token	*prev;
+	t_token	*prev = NULL;
 
-	prev = NULL;
 	while (tokens)
 	{
-		if (tokens->type == T_PIPE)
-		{
-			if (!prev || prev->type == T_PIPE)
-			{
-				return (print_error("Unexpected token '|'\n", 1));
-			}
-			if (!tokens->next)
-			{
-				return (print_error("Unexpected end after '|'\n", 1));
-			}
-		}
+		if (tokens->type == T_PIPE && check_pipe(tokens, prev))
+			return (1);
+		if ((tokens->type == T_REDIR_IN || tokens->type == T_REDIR_OUT
+			|| tokens->type == T_APPEND || tokens->type == T_HEREDOC)
+			&& check_redirection(tokens))
+			return (1);
+		if (tokens->type == T_WORD && check_word(tokens))
+			return (1);
 		prev = tokens;
 		tokens = tokens->next;
 	}
 	return (0);
-}
-
-int	contains_forbidden_chars(const char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (strchr(FORBIDDEN_CHARS, str[i]))
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-int	check_special_syntax(t_token *tokens)
-{
-	while (tokens)
-	{
-		if (tokens->type == T_WORD && tokens->quote_type == 0)
-		{
-			if (contains_forbidden_chars(tokens->str))
-			{
-				ft_printf("Syntax Error: Forbidden character in token '%s'\n",
-					tokens->str);
-				return (0);
-			}
-		}
-		tokens = tokens->next;
-	}
-	return (1);
 }
