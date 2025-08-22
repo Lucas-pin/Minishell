@@ -6,13 +6,12 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 00:00:00 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/11 01:05:47 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/22 10:07:33 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/executor.h"
 #include "../include/builtins.h"
-#include "../include/structs.h"
 #include "../include/minishell.h"
 #include <fcntl.h>
 #include <unistd.h>
@@ -106,30 +105,33 @@ static void log_cmds(t_cmd *head)
 
 static void case_single_builtin(t_env **env)
 {
-    char *av1[] = {"echo", "hola", NULL};
-    t_cmd *c1 = cmd_new("echo", av1);
+    char *av1[] = {"cd", "pepito", NULL};
+    char *debug[] = {"export", NULL};
+    t_cmd *c1 = cmd_new("cd", av1);
     int   st;
 
-    printf("\n== single builtin (echo)\n");
-    set_out_file(c1, "ut_out1.txt", 0);
+    printf("\n== single builtin (cd)\n");
+    //set_out_file(c1, "ut_out1.txt", 0);
     printf("[setup] cmd_path...\n");
     cmd_path(c1, env);
     log_cmds(c1);
     printf("[exec] run...\n");
     st = executor(c1, env);
     printf("[exec] status=%d\n", st);
-    show_file("ut_out1.txt", "out1: ");
+    //show_file("ut_out1.txt", "out1: ");
     if (c1->fd_out != -1)
     {
         close(c1->fd_out);
         c1->fd_out = -1;
     }
     free_cmds(c1);
+    printf("Retorno de built_export: %d\n", built_export(debug, env));
 }
 
 static void case_single_external(t_env **env)
 {
     char *av1[] = {"ls", "-1", NULL};
+    char *debug[] = {"export", NULL};
     t_cmd *c1 = cmd_new("ls", av1);
     int   st;
 
@@ -144,6 +146,7 @@ static void case_single_external(t_env **env)
     show_file("ut_out2.txt", "out2: ");
     if (c1->fd_out != -1) { close(c1->fd_out); c1->fd_out = -1; }
     free_cmds(c1);
+    printf("Retorno de built_export: %d\n", built_export(debug, env));
 }
 
 static void case_pipe_echo_cat(t_env **env)
@@ -210,13 +213,15 @@ static void case_not_found(t_env **env)
     free_cmds(c1);
 }
 
-int main(void)
+int main(int argc, char **argv, char **envp)
 {
     t_env *env;
 
     env = NULL;
+    (void)argc;
+    (void)argv;
     printf("== create_default_env\n");
-    create_default_env(&env);
+    printf("Estado de creacion de environment: %d\n", envp_to_env(&env, envp));
     case_single_builtin(&env);
     case_single_external(&env);
     case_pipe_echo_cat(&env);
