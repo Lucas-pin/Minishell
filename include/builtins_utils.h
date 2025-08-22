@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 19:48:33 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/11 00:14:11 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/20 00:25:28 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 # include "../libft/libft.h"
 # include "../include/structs.h"
 # include <stdbool.h>
+# include <errno.h>
+# include <string.h>
 # define DEFAULT_PATH "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 /**
@@ -87,16 +89,6 @@ t_env	*find_key(t_env **_env, char *var);
  */
 int		is_builtin(const char *cmd);
 
-/*
-* @brief Creates the default environment variables.
-* @param _env a t_env pointer to the head of the linked list that will store the environment variables.
-* It initializes the "PATH", "PWD", "OLDPWD", "SHLVL", and "?" variables.
-* The "PATH" variable is set to a default value, and "PWD" and "OLDPWD" are set to the current working directory.
-* The "SHLVL" variable is initialized to 1, and the "?" variable is set to 0.
-* If the "SHLVL" variable already exists, it increments its value by 1
-*/
-void 	create_default_env(t_env **_env);
-
 /**
  * @brief Converts the environment linked list to an array of strings.
  * @param env a t_env pointer to the head of the linked list that will store the environment variables.
@@ -104,5 +96,45 @@ void 	create_default_env(t_env **_env);
  * The last element of the array is NULL.
  */
 char	**env_to_envp(t_env *env);
+
+/**
+ * @brief Converts an array of strings to an environment linked list.
+ * @param _env a t_env pointer to the head of the linked list that will store the environment variables.
+ * @param envp an array of strings representing the environment variables in the format "KEY=VALUE".
+ * @return 0 on success, -1 on failure.
+ */
+int envp_to_env(t_env **_env, char **envp);
+
+
+/**
+ * @brief Checks if the HOME environment variable exists.
+ * @param _env a t_env pointer to the head of the linked list that stores the environment variables.
+ * @return the value of the HOME environment variable, or NULL if it does not exist.
+ */
+char *home_exists(t_env **_env);
+
+/**
+ * @brief Checks the arguments and environment for errors in the cd command.
+ * @param argc the number of arguments passed to the cd command.
+ * @param args an array of strings representing the arguments passed to the cd command.
+ * @param _env a t_env pointer to the head of the linked list that stores the environment variables.
+ * @return 1 if there is an error, 0 otherwise.
+ */
+int check_cd_error(int argc, char **args, t_env **_env);
+
+/**
+ * @brief Logs an error message for the cd command.
+ * @param msg the error message to be logged.
+ * @return 1 to indicate an error occurred.
+ */
+int cd_logical_error(const char *msg);
+
+/**
+ * @brief Logs a system call error for the cd command.
+ * @param path the path that caused the error.
+ * @param saved the saved errno value.
+ * @return 1 to indicate an error occurred.
+ */
+int cd_syscall_error(const char *path, int saved);
 
 #endif

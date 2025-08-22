@@ -6,86 +6,31 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 16:39:54 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/01 19:44:53 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/22 09:16:22 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/builtins.h"
 
-static char *home_exists(t_env **_env)
-{
-	t_env	*home_env;
-
-	if (!_env || !*_env)
-		return (NULL);
-	home_env = find_key(_env, "HOME=");
-	if (home_env && home_env->value)
-		return (home_env->value);
-	return (NULL);
-}
-
-static int go_home(int argc, char **args, t_env **_env)
-{
-	if (!*_env)
-		return (0);
-	if (argc == 1)
-	{
-		if (home_exists(_env))
-			return (1);
-		else
-		{
-			perror("cd: HOME not set");
-			return (-1);
-		}
-	}
-	if (args[1] && ft_strncmp(args[1], "~", 1) == 0)
-	{
-		if (home_exists(_env))
-			return (1);
-		else
-		{
-			perror("cd: HOME not set");
-			return (-1);
-		}
-	}
-	return (0);
-}
-
-static char *change_home(t_env **_env, char **args)
+static char *change_home(char **args, t_env **_env)
 {
 	char	*home;
-	char	*new_path;
 
 	if (!args || !*_env)
 		return (NULL);
+	home = home_exists(_env);
+	if (!home)
+		return (NULL);
 	if (!args[1])
-	{
-		home = home_exists(_env);
-		if (!home)
-			return (NULL);
-		new_path = ft_strdup(home);
-		return (new_path);
-	}
+		return (ft_strdup(home));
 	if (ft_strncmp(args[1], "~/", 2) == 0 && ft_strlen(args[1]) > 1)
-	{
-		home = home_exists(_env);
-		if (!home)
-			return (NULL);
-		new_path = ft_strjoin(home, ft_strchr(args[1], '~') + 1);
-		return (new_path);
-	}
+		return (ft_strjoin(home, ft_strchr(args[1], '~') + 1));
 	else if (ft_strncmp(args[1], "~", 1) == 0)
-	{
-		home = home_exists(_env);
-		if (!home)
-			return (NULL);
-		new_path = ft_strdup(home);
-		return (new_path);
-	}
+		return (ft_strdup(home));
 	return (NULL);
 }
 
-static int check_argc(char **args)
+static int count_args(char **args)
 {
 	int i;
 
@@ -97,47 +42,66 @@ static int check_argc(char **args)
 	return (i);
 }
 
-int    built_cd(char **args, t_env **_env)
+static char *change_path(int argc, char **args, t_env **_env)
 {
 	char	*path;
-	char	*oldpwd;
-	char	*aux;
-	int		argc;
+	t_env	*oldpwd_env;
 
-	argc = check_argc(args);
-	if (argc < 1 || argc > 2)
-		return (1);
-	if (go_home(argc, args, _env))
-	{
-		path = change_home(_env, args);
-		if (!path)
-		{
-			perror("cd: HOME not set");
-			return (1);
-		}
-	}
+	path = NULL;
+	if (argc == 1 || (argc > 1 && args[1] && ft_strncmp(args[1], "~", 1) == 0))
+		path = change_home(args, _env);
 	else if (argc == 2 && ft_strcmp(args[1], "-") == 0)
-		path = ft_strdup(find_key(_env, "OLDPWD")->value);
+	{
+		oldpwd_env = find_key(_env, "OLDPWD=");
+		if (!oldpwd_env)
+		{
+			cd_logical_error("OLDPWD not set");
+			return (NULL);
+		}
+		path = ft_strdup(oldpwd_env->value);
+	}
 	else
 		path = ft_strdup(args[1]);
-	oldpwd = NULL;
+	return (path);
+}
+
+static void update_path(char *oldpwd, char *new_path, t_env **_env)
+{
+	char	*aux;
+
+	aux = ft_strjoin_free_s2("OLDPWD=", oldpwd);
+	update_value(_env, aux);
+	ft_destroyer(&aux);
+	aux = ft_strjoin_free_s2("PWD=", getcwd(NULL, 0));
+	update_value(_env, aux);
+	ft_destroyer(&aux);
+	ft_destroyer(&new_path);
+}
+
+int    built_cd(char **args, t_env **_env)
+{
+	char	*new_path;
+	char	*oldpwd;
+	int		argc;
+	int		saved;
+
+	argc = count_args(args);
+	if (check_cd_error(argc, args, _env) == 1)
+		return (1);
+	new_path = change_path(argc, args, _env);
+	if (!new_path)
+		return (1);
 	oldpwd = getcwd(NULL, 0);
-	if (access(path, F_OK |R_OK | X_OK) == -1 || chdir(path) == -1)
+	if (chdir(new_path) == -1)
 	{
-		perror("cd: Error accessing path");
+		saved = errno;
+		cd_syscall_error(new_path, saved);
 		ft_destroyer(&oldpwd);
-		ft_destroyer(&path);
+		ft_destroyer(&new_path);
 		return (1);
 	}
 	else
-	{
-		aux = ft_strjoin_free_s2("OLDPWD=", oldpwd);
-		update_value(_env, aux);
-		ft_destroyer(&aux);
-		aux = ft_strjoin_free_s2("PWD=", getcwd(NULL, 0));
-		update_value(_env, aux);
-		ft_destroyer(&aux);
-		ft_destroyer(&path);
-	}
+		update_path(oldpwd, new_path, _env);
+	update_value(_env, ft_strjoin("?", "0"));
 	return (0);
 }
