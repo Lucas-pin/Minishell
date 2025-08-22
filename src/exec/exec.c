@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 18:00:14 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/11 01:05:50 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/22 10:04:51 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,24 @@
 #include "../../include/minishell.h"
 #include "../../include/builtins.h"
 
+static int	set_last_status(t_env **env, int status)
+{
+	char	*num;
+	char	*var;
+
+	if (!env)
+		return (-1);
+	num = ft_itoa(status);
+	if (!num)
+		return (-1);
+	/* builds "?=N" and frees num */
+	var = ft_strjoin_free_s2("?=", num);
+	if (!var)
+		return (-1);
+	update_value(env, var);
+	free(var);
+	return (0);
+}
 static int	apply_file_redirs(t_cmd *cmd)
 {
 	if (cmd->fd_in != -1)
@@ -178,9 +196,15 @@ static int	execute_multiple_cmds(t_cmd *cmds, t_env **env)
 
 int	executor(t_cmd *cmds, t_env **env)
 {
+	int status;
+
+	status = 0;
 	if (!cmds || !env)
 		return (-1);
 	if (!cmds->next)
-		return (execute_single_cmd(cmds, env));
-	return (execute_multiple_cmds(cmds, env));
+		status = execute_single_cmd(cmds, env);
+	else
+		status = execute_multiple_cmds(cmds, env);
+	set_last_status(env, status);
+	return (status);
 }
