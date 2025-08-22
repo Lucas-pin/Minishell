@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 19:56:55 by manualva          #+#    #+#             */
-/*   Updated: 2025/08/11 01:25:40 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/22 10:24:52 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,16 @@ void	print_cmds(t_cmd *cmds)
 }
 
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	char	input[1024];
 	t_token	*tokens;
 	t_cmd	*cmds;
 	t_env	*_env = NULL;
-
+	(void)argc; // Unused parameter
+	(void)argv; // Unused parameter
 	//_env = mock_env();
-	create_default_env(&_env);
+	envp_to_env(&_env, envp);
 	// Setup signal handlers for minishell prompt
 	setup_signals_shell();
 
@@ -71,14 +72,14 @@ int	main(void)
 			break ;
 
 		tokens = lexer(input);
-		if (!tokens || !check_special_syntax(tokens))
+		if (!tokens)
 		{
 			free_tokens(tokens);
 			continue;
 		}
 
-		//printf("--- Before Expansion ---\n");
-		//print_tokens(tokens);
+		printf("--- Before Expansion ---\n");
+		print_tokens(tokens);
 
 		expander(tokens, _env);
 		//printf("--- After Expansion ---\n");
