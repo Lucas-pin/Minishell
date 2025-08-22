@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 19:56:55 by manualva          #+#    #+#             */
-/*   Updated: 2025/08/22 10:24:52 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/22 10:58:25 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ int	main(int argc, char **argv, char **envp)
 			continue;
 		}
 
-		printf("--- Before Expansion ---\n");
-		print_tokens(tokens);
+		//printf("--- Before Expansion ---\n");
+		//print_tokens(tokens);
 
 		expander(tokens, _env);
 		//printf("--- After Expansion ---\n");
