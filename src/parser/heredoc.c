@@ -31,7 +31,7 @@ static int	write_heredoc_content(int write_fd, const char *delimiter)
 		}
 		if (line[read_len - 1] == '\n')
 			line[read_len - 1] = '\0';
-		if (strcmp(line, delimiter) == 0)
+		if (ft_strcmp(line, delimiter) == 0)
 			break ;
 		write(write_fd, line, strlen(line));
 		write(write_fd, "\n", 1);
