@@ -21,7 +21,7 @@ int	check_syntax(t_token *tokens)
 		if (tokens->type == T_PIPE && check_pipe(tokens, prev))
 			return (1);
 		if ((tokens->type == T_REDIR_IN || tokens->type == T_REDIR_OUT
-			|| tokens->type == T_APPEND || tokens->type == T_HEREDOC)
+			|| tokens->type == T_REDIR_APPEND || tokens->type == T_HEREDOC)
 			&& check_redirection(tokens))
 			return (1);
 		if (tokens->type == T_WORD && check_word(tokens))
