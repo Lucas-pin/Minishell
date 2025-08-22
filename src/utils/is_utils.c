@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:20:07 by manualva          #+#    #+#             */
-/*   Updated: 2025/07/28 18:05:53 by manualva         ###   ########.fr       */
+/*   Updated: 2025/08/19 21:47:23 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,4 +21,11 @@ int	is_space(int c)
 int	is_operator(char c)
 {
 	return (c == '|' || c == '>' || c == '<' || c == '&');
+}
+
+int is_null_or_empty(char *str)
+{
+	if (!str || ft_strlen(str) == 0)
+		return (1);
+	return (0);
 }
