@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 20:03:51 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/01 19:46:23 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/24 19:47:19 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,28 +83,63 @@ static void modify_vars(t_env **_env, char **vars)
 	}
 }
 
+static int is_valid_identifier(const char *s)
+{
+	int i;
+
+	if (!s || s[0] == '\0' || s[0] == '=')
+		return (0);
+	if (!(ft_isalpha(s[0]) || s[0] == '_'))
+		return (0);
+	i = 1;
+	while (s[i] && s[i] != '=')
+	{
+		if (!(ft_isalnum(s[i]) || s[i] == '_'))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+static int export_one(t_env **_env, const char *arg)
+{
+	if (!is_valid_identifier(arg))
+	{
+		ft_putstr_fd("export: not a valid identifier: ", 2);
+		ft_putendl_fd((char *)arg, 2);
+		return (1);
+	}
+	if (exist_key(*_env, (char *)arg))
+		update_value(_env, (char *)arg);
+	else if (ft_strchr(arg, '='))
+		lst_add(_env, lst_new((char *)arg, false));
+	else
+		lst_add(_env, lst_new((char *)arg, true));
+	return (0);
+}
+
 int built_export(char **args, t_env **_env)
 {
-	int		count;
-	char	**temp;
+	int arg_count;
+	int has_error;
+	int index;
 
-	count = 0;
 	if (!args || !*args)
 		return (1);
-	temp = args;
-	while (*temp)
-	{
-		count ++;
-		temp ++;
-	}
-	if (count > 1)
-	{
-		modify_vars(_env, args);
-	}
-	else
+	arg_count = args_count(args);
+	if (arg_count == 1)
 	{
 		buble_export(_env);
 		print_export(*_env);
+		return (0);
 	}
-	return (0);
+	has_error = 0;
+	index = 1;
+	while (args[index])
+	{
+		if (export_one(_env, args[index]) != 0)
+			has_error = 1;
+		index++;
+	}
+	return (has_error);
 }
