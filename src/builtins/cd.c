@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 16:39:54 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/22 09:16:22 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/24 19:47:04 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,6 @@ static char *change_home(char **args, t_env **_env)
 	else if (ft_strncmp(args[1], "~", 1) == 0)
 		return (ft_strdup(home));
 	return (NULL);
-}
-
-static int count_args(char **args)
-{
-	int i;
-
-	if (!args || !*args)
-		return (0);
-	i = 0;
-	while (args[i])
-		i++;
-	return (i);
 }
 
 static char *change_path(int argc, char **args, t_env **_env)
@@ -85,7 +73,7 @@ int    built_cd(char **args, t_env **_env)
 	int		argc;
 	int		saved;
 
-	argc = count_args(args);
+	argc = args_count(args);
 	if (check_cd_error(argc, args, _env) == 1)
 		return (1);
 	new_path = change_path(argc, args, _env);
