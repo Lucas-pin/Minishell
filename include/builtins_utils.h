@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 19:48:33 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/24 19:46:05 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/24 20:19:01 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,5 +143,21 @@ int cd_syscall_error(const char *path, int saved);
  * @return the number of arguments in the array.
  */
 int args_count(char **args);
+
+/**
+ * @brief Validates if a string is a valid shell identifier (until '=' if present).
+ * First char: alpha or '_'; subsequent: alnum or '_' up to '=' or end.
+ * @param s the string to be validated.
+ * @return 1 if valid, 0 otherwise.
+ */
+int is_valid_identifier(const char *s);
+
+/**
+ * @brief Like is_valid_identifier, but checks only the first len characters.
+ * @param s the string to be validated.
+ * @param len the number of characters to check.
+ * @return 1 if valid, 0 otherwise.
+ */
+int is_valid_identifier_n(const char *s, int len);
 
 #endif

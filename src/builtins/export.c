@@ -53,53 +53,6 @@ static void buble_export(t_env **_env)
 	}
 }
 
-static void add_var(t_env **_env, char **vars)
-{
-	if (!vars || !*vars)
-		return ;
-	while (*vars)
-	{
-		if (ft_strnstr((const char*)*vars, "=", ft_strlen(*vars)))
-			lst_add(_env, lst_new(*vars, false));
-		else
-			lst_add(_env, lst_new(*vars, true));
-		vars++;
-	}
-}
-
-static void modify_vars(t_env **_env, char **vars)
-{
-	if (!vars || !*vars)
-		return ;
-	if (ft_strncmp((const char *) *vars, "export", ft_strlen(*vars)) == 0)
-		vars ++;
-	while (*vars)
-	{
-		if (exist_key(*_env, *vars))
-			update_value(_env, *vars);
-		else
-			add_var(_env, vars);
-		vars++;
-	}
-}
-
-static int is_valid_identifier(const char *s)
-{
-	int i;
-
-	if (!s || s[0] == '\0' || s[0] == '=')
-		return (0);
-	if (!(ft_isalpha(s[0]) || s[0] == '_'))
-		return (0);
-	i = 1;
-	while (s[i] && s[i] != '=')
-	{
-		if (!(ft_isalnum(s[i]) || s[i] == '_'))
-			return (0);
-		i++;
-	}
-	return (1);
-}
 
 static int export_one(t_env **_env, const char *arg)
 {
