@@ -6,22 +6,11 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 20:49:34 by lucas             #+#    #+#             */
-/*   Updated: 2025/08/24 19:33:54 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/24 19:46:40 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/builtins.h"
-
-static int args_count(char **args)
-{
-	int i;
-
-	i = 0;
-	if (args)
-		while (args[i])
-			i++;
-	return (i);
-}
 
 static int handle_args(char **args)
 {
