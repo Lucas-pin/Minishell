@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 19:48:33 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/20 00:25:28 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/24 19:46:05 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,5 +136,12 @@ int cd_logical_error(const char *msg);
  * @return 1 to indicate an error occurred.
  */
 int cd_syscall_error(const char *path, int saved);
+
+/**
+ * @brief Counts the number of arguments in a null-terminated array of strings.
+ * @param args a null-terminated array of strings.
+ * @return the number of arguments in the array.
+ */
+int args_count(char **args);
 
 #endif
