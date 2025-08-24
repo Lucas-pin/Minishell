@@ -18,7 +18,8 @@ typedef struct s_env
 {
 	char				*key;
 	char				*value;
-	unsigned int		hide : 1;	
+	unsigned int		hide : 1;
+	int					last_status;
 	struct s_env		*next;
 }	t_env;
 
