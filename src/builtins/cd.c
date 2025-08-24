@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 16:39:54 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/24 21:17:55 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/24 21:37:35 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int    built_cd(char **args, t_env **_env)
 {
 	char	*new_path;
 	char	*oldpwd;
-	char	*new_value;
 	int		argc;
 	int		saved;
 
@@ -89,8 +88,5 @@ int    built_cd(char **args, t_env **_env)
 	}
 	else
 		update_path(oldpwd, new_path, _env);
-	new_value = ft_strjoin("?", "0");
-	update_value(_env, new_value);
-	ft_destroyer(&new_value);
 	return (0);
 }
