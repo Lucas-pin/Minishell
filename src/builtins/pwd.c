@@ -6,34 +6,36 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 18:23:58 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/01 19:46:32 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/24 20:51:57 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/builtins.h"
 
-int	built_pwd(char **argv, t_env **_env)
+static int pwd_syscall_error(int saved)
+{
+	ft_putstr_fd("pwd: ", 2);
+	ft_putendl_fd((char *)strerror(saved), 2);
+	return (1);
+}
+
+int	built_pwd(char **args, t_env **_env)
 {
 	char	*cwd;
-	int		i;
+	int		argc;
 
-	i = 0;
 	(void)_env;
-	if (!argv || ft_strcmp(*argv, "pwd"))
-        return (1);
-	while (*argv)
+	if (!args || !*args)
+		return (1);
+	argc = args_count(args);
+	if (argc > 1)
 	{
-		i++;
-		argv++;
-	}
-	if (i > 1)
-	{
-		ft_putendl_fd("bash: pwd: too many arguments", 2);
+		ft_putendl_fd("pwd: too many arguments", 2);
 		return (1);
 	}
-    cwd = getcwd(NULL, 0);
+	cwd = getcwd(NULL, 0);
 	if (!cwd)
-		return (1);
+		return (pwd_syscall_error(errno));
 	ft_putendl_fd(cwd, STDOUT_FILENO);
 	free(cwd);
 	return (0);
