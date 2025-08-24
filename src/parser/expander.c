@@ -34,24 +34,41 @@ static char	*replace_once(char *input, int i, int end, const char *val)
 	return (result);
 }
 
+static char	*expand_variable(char *result, int *i, t_env *env)
+{
+	char	*val;
+	int		end;
+
+	if (result[*i + 1] == '?')
+	{
+		val = ft_itoa(env->last_status);
+		result = replace_once(result, *i, *i + 2, val);
+		*i += ft_strlen(val);
+		free(val);
+	}
+	else if (ft_isalpha(result[*i + 1]))
+	{
+		val = extract_and_expand(result, *i, &end, env);
+		result = replace_once(result, *i, end, val);
+		*i += ft_strlen(val);
+		free(val);
+	}
+	else
+		(*i)++;
+	return (result);
+}
+
 char	*replace_var(const char *input, t_env *env)
 {
 	char	*result;
-	char	*val;
 	int		i;
-	int		end;
 
 	result = ft_strdup(input);
 	i = 0;
 	while (result[i])
 	{
-		if (result[i] == '$' && ft_isalpha(result[i + 1]))
-		{
-			val = extract_and_expand(result, i, &end, env);
-			result = replace_once(result, i, end, val);
-			i += ft_strlen(val);
-			free(val);
-		}
+		if (result[i] == '$')
+			result = expand_variable(result, &i, env);
 		else
 			i++;
 	}
