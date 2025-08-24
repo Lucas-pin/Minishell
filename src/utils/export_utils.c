@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 23:33:41 by lucas             #+#    #+#             */
-/*   Updated: 2025/08/20 00:18:27 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/24 21:14:02 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,39 +58,27 @@ bool exist_key(t_env *_env, char *var)
 	return (false);
 }
 
-void update_value(t_env **_env, char *var)
+void	update_value(t_env **_env, char *var)
 {
-	t_env	*aux;
-	char	*equal_pos;
-	int		key_length;
+	t_env	*target_node;
+	char	*equals_pos;
 
 	if (!var || !*_env)
-		return ;
-	aux = *_env;
-	equal_pos = ft_strchr(var, '=');
-	if (equal_pos)
-		key_length = equal_pos - var;
-	else
-		key_length = ft_strlen(var);
-	while (aux)
+		return;
+	equals_pos = ft_strchr(var, '=');
+	target_node = find_key(_env, var);
+	if (!target_node)
+		return;
+	if (target_node->value)
+		free(target_node->value);
+	if (equals_pos)
 	{
-		if (ft_strncmp(aux->key, var, key_length) == 0 && 
-			aux->key[key_length] == '\0')
-		{
-			if (aux->value) //Libero el valor si es que tenia
-				free(aux->value);
-			if (equal_pos) //Actualizo si tiene igual y hago visible el nodo
-			{
-				aux->value = ft_strdup(equal_pos + 1);
-				aux->hide = false;
-			}
-			else //Sino elimino y oculto el nodo
-			{
-				aux->value = NULL;
-				aux->hide = true;
-			}
-			return;
-		}
-		aux = aux->next;
+		target_node->value = ft_strdup(equals_pos + 1);
+		target_node->hide = false;
+	}
+	else
+	{
+		target_node->value = NULL;
+		target_node->hide = true;
 	}
 }
