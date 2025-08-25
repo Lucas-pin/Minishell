@@ -6,7 +6,7 @@
 #    By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 19:58:06 by manualva          #+#    #+#              #
-#    Updated: 2025/08/20 00:28:15 by lpin             ###   ########.fr        #
+#    Updated: 2025/08/25 22:30:51 by lpin             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRCS = parser_tester.c \
        src/utils/lst_utils.c \
        src/utils/env_utils.c \
        src/utils/cd_utils.c \
+       src/utils/builtins_utils.c \
        src/builtins/cd.c \
        src/builtins/echo.c \
        src/builtins/env.c \
