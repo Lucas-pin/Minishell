@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 18:00:14 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/22 10:04:51 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/25 22:45:00 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,79 @@ static int	apply_file_redirs(t_cmd *cmd)
 	return (0);
 }
 
+/* ---- external command error helpers ---- */
+static int has_slash(const char *s)
+{
+	return (s && ft_strchr(s, '/') != NULL);
+}
+
+static void print_prefixed_err(const char *cmd, const char *msg)
+{
+	ft_putstr_fd("minishell: ", 2);
+	if (cmd && *cmd)
+	{
+		ft_putstr_fd((char *)cmd, 2);
+		ft_putstr_fd(": ", 2);
+	}
+	ft_putendl_fd((char *)msg, 2);
+}
+
+static void exit_with_exec_error(const char *name, int err, int name_has_slash)
+{
+	int code;
+
+	if (!name_has_slash && err == 0)
+	{
+		print_prefixed_err(name, "command not found");
+		exit(127);
+	}
+	if (err == EACCES)
+	{
+		print_prefixed_err(name, "Permission denied");
+		exit(126);
+	}
+	if (err == EISDIR)
+	{
+		print_prefixed_err(name, "Is a directory");
+		exit(126);
+	}
+	if (err == ENOENT)
+	{
+		print_prefixed_err(name, "No such file or directory");
+		exit(127);
+	}
+	print_prefixed_err(name, (char *)strerror(err));
+	code = 126;
+	exit(code);
+}
+
+static void try_exec_or_complain(t_cmd *cmd, t_env **env)
+{
+	char **envp;
+	int err;
+	int slash;
+	struct stat st;
+
+	slash = has_slash(cmd->cmd);
+	if (!cmd->cmd_path || ((char *)cmd->cmd_path)[0] == '\0')
+	{
+		if (slash)
+		{
+			if (stat(cmd->cmd, &st) == -1)
+				exit_with_exec_error(cmd->cmd, errno, 1);
+			if (S_ISDIR(st.st_mode))
+				exit_with_exec_error(cmd->cmd, EISDIR, 1);
+			if (access(cmd->cmd, X_OK) == -1)
+				exit_with_exec_error(cmd->cmd, errno, 1);
+		}
+		exit_with_exec_error(cmd->cmd, 0, 0);
+	}
+	envp = env_to_envp(*env);
+	execve((char *)cmd->cmd_path, cmd->argv, envp);
+	err = errno;
+	exit_with_exec_error(cmd->cmd, err, slash);
+}
+
 static void	child_process(t_cmd *cmd, t_env **env)
 {
 	builtin_func	func;
@@ -66,10 +139,7 @@ static void	child_process(t_cmd *cmd, t_env **env)
 			exit(func(cmd->argv, env));
 		exit(1);
 	}
-	if (!cmd->cmd_path || ((char *)cmd->cmd_path)[0] == '\0')
-		exit(127);
-	execve((char *)cmd->cmd_path, cmd->argv, env_to_envp(*env));
-	exit(127);
+	try_exec_or_complain(cmd, env);
 }
 
 static int	run_builtin_parent(t_cmd *cmd, t_env **env)
@@ -103,10 +173,7 @@ static int	run_external_fork(t_cmd *cmd, t_env **env)
 	{
 		if (apply_file_redirs(cmd) == -1)
 			exit(1);
-		if (!cmd->cmd_path || ((char *)cmd->cmd_path)[0] == '\0')
-			exit(127);
-		execve((char *)cmd->cmd_path, cmd->argv, env_to_envp(*env));
-		exit(127);
+		try_exec_or_complain(cmd, env);
 	}
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
@@ -118,12 +185,12 @@ static int	run_external_fork(t_cmd *cmd, t_env **env)
 
 static int	execute_single_cmd(t_cmd *cmd, t_env **env)
 {
-	int	bi;
+	int	builtin_index;
 
 	if (!cmd || !env)
 		return (-1);
-	bi = is_builtin(cmd->cmd);
-	if (bi != -1)
+	builtin_index = is_builtin(cmd->cmd);
+	if (builtin_index != -1)
 		return (run_builtin_parent(cmd, env));
 	return (run_external_fork(cmd, env));
 }
@@ -131,7 +198,7 @@ static int	execute_single_cmd(t_cmd *cmd, t_env **env)
 static int	wait_pipeline(int total, pid_t last_pid)
 {
 	int		i;
-	int		st;
+	int		status;
 	int		code;
 	pid_t	wpid;
 
@@ -139,13 +206,13 @@ static int	wait_pipeline(int total, pid_t last_pid)
 	code = 1;
 	while (i < total)
 	{
-		wpid = wait(&st);
+		wpid = wait(&status);
 		if (wpid == last_pid)
 		{
-			if (WIFEXITED(st))
-				code = WEXITSTATUS(st);
-			else if (WIFSIGNALED(st))
-				code = 128 + WTERMSIG(st);
+			if (WIFEXITED(status))
+				code = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				code = 128 + WTERMSIG(status);
 		}
 		i++;
 	}

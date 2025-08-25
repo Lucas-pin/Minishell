@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:27:21 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/19 21:50:37 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/25 22:29:07 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # include <unistd.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <errno.h>
+# include <sys/stat.h>
+# include <string.h>
 # include <fcntl.h>
 # include <stdbool.h>
 # include "../include/structs.h"
