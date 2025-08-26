@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 11:09:49 by manualva          #+#    #+#             */
-/*   Updated: 2025/08/05 17:01:16 by manualva         ###   ########.fr       */
+/*   Updated: 2025/08/25 23:52:00 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ void	setup_signals_shell(void);
 /*Restores default signal behavior. Used for child processes or external 
 commands.*/
 void	setup_signals_default(void);
+
+// Ignore SIGINT/SIGQUIT in parent while waiting children
+void	setup_signals_parent_wait(void);
 
 //Sets the global exit status.
 void	set_exit_status(int status);
