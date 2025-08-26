@@ -43,6 +43,8 @@ static int	process_redirection(t_token *cur, t_cmd *cmd)
 
 	if (fd == -1)
 	{
+		if (cur->type == T_HEREDOC && errno == EINTR)
+			return (-2);
 		perror("minishell");
 		return (-1);
 	}
@@ -84,13 +86,16 @@ static void	remove_redirection_tokens(t_token **tokens, t_token *prev,
 static int	handle_single_redirection(t_token **tokens, t_token **cur,
 	t_token **prev, t_cmd *cmd)
 {
+	int	redir_result;
+
 	if (!(*cur)->next)
 	{
 		print_error("Near unexpected token 'newline'\n", 1);
 		return (-1);
 	}
-	if (process_redirection(*cur, cmd) == -1)
-		return (-1);
+	redir_result = process_redirection(*cur, cmd);
+	if (redir_result != 0)
+		return (redir_result);
 	remove_redirection_tokens(tokens, *prev, *cur);
 	if (*prev != NULL)
 		*cur = (*prev)->next;
@@ -102,11 +107,11 @@ static int	handle_single_redirection(t_token **tokens, t_token **cur,
 	return (0);
 }
 
-void	handle_redirection(t_token **tokens, t_cmd *cmd)
+int		handle_redirection(t_token **tokens, t_cmd *cmd)
 {
 	t_token	*cur;
 	t_token	*prev;
-	int		result;
+	int		step_result;
 
 	cur = *tokens;
 	prev = NULL;
@@ -115,14 +120,17 @@ void	handle_redirection(t_token **tokens, t_cmd *cmd)
 		if (cur->type == T_REDIR_IN || cur->type == T_REDIR_OUT
 			|| cur->type == T_REDIR_APPEND || cur->type == T_HEREDOC)
 		{
-			result = handle_single_redirection(tokens, &cur, &prev, cmd);
-			if (result == -1)
-				return ;
-			if (result == 1)
+			step_result = handle_single_redirection(tokens, &cur, &prev, cmd);
+			if (step_result == -1)
+				return (-1);
+			if (step_result == -2)
+				return (-2);
+			if (step_result == 1)
 				break ;
 			continue ;
 		}
 		prev = cur;
 		cur = cur->next;
 	}
+	return (0);
 }

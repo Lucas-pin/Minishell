@@ -17,11 +17,22 @@ the tokens. */
 static void	parse_till_pipe(t_token **cur, t_token **start, t_cmd **cmds)
 {
 	t_cmd	*cmd;
+	int	 redir_status;
 
 	cmd = init_cmd();
 	if (!cmd)
 		return ;
-	handle_redirection(start, cmd);
+	redir_status = handle_redirection(start, cmd);
+	if (redir_status == -1)
+		return ;
+	if (redir_status == -2)
+	{
+		free(cmd);
+		free_tokens(*start);
+		*start = NULL;
+		*cur = NULL;
+		return ;
+	}
 	cmd->argv = token_list_to_argv(*start, *cur);
 	append_cmd(cmds, cmd);
 	if (*cur)
@@ -34,11 +45,19 @@ static void	parse_till_pipe(t_token **cur, t_token **start, t_cmd **cmds)
 static int	handle_last_command(t_token **start, t_cmd **cmds)
 {
 	t_cmd	*cmd;
+	int	 redir_status;
 
 	cmd = init_cmd();
 	if (!cmd)
 		return (0);
-	handle_redirection(start, cmd);
+	redir_status = handle_redirection(start, cmd);
+	if (redir_status == -1)
+		return (0);
+	if (redir_status == -2)
+	{
+		free(cmd);
+		return (0);
+	}
 	cmd->argv = token_list_to_argv(*start, NULL);
 	append_cmd(cmds, cmd);
 	return (1);
