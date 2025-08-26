@@ -6,13 +6,14 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 18:00:14 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/25 22:45:00 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/25 23:52:02 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/executor.h"
 #include "../../include/minishell.h"
 #include "../../include/builtins.h"
+#include "../../include/signals.h"
 
 static int	set_last_status(t_env **env, int status)
 {
@@ -131,6 +132,7 @@ static void	child_process(t_cmd *cmd, t_env **env)
 
 	if (apply_file_redirs(cmd) == -1)
 		exit(1);
+	setup_signals_default();
 	bi = is_builtin(cmd->cmd);
 	if (bi != -1)
 	{
@@ -173,13 +175,23 @@ static int	run_external_fork(t_cmd *cmd, t_env **env)
 	{
 		if (apply_file_redirs(cmd) == -1)
 			exit(1);
+		setup_signals_default();
 		try_exec_or_complain(cmd, env);
 	}
+	setup_signals_parent_wait();
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	if (WIFSIGNALED(status))
-		return (128 + WTERMSIG(status));
+	{
+		int sig = WTERMSIG(status);
+		if (sig == SIGINT)
+			write(STDERR_FILENO, "\n", 1);
+		else if (sig == SIGQUIT)
+			ft_putendl_fd("Quit (core dumped)", 2);
+		return (128 + sig);
+	}
+	setup_signals_shell();
 	return (1);
 }
 
@@ -204,6 +216,7 @@ static int	wait_pipeline(int total, pid_t last_pid)
 
 	i = 0;
 	code = 1;
+	setup_signals_parent_wait();
 	while (i < total)
 	{
 		wpid = wait(&status);
@@ -212,10 +225,18 @@ static int	wait_pipeline(int total, pid_t last_pid)
 			if (WIFEXITED(status))
 				code = WEXITSTATUS(status);
 			else if (WIFSIGNALED(status))
-				code = 128 + WTERMSIG(status);
+			{
+				int sig = WTERMSIG(status);
+				if (sig == SIGINT)
+					write(STDERR_FILENO, "\n", 1);
+				else if (sig == SIGQUIT)
+					ft_putendl_fd("Quit (core dumped)", 2);
+				code = 128 + sig;
+			}
 		}
 		i++;
 	}
+	setup_signals_shell();
 	return (code);
 }
 
