@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 19:56:55 by manualva          #+#    #+#             */
-/*   Updated: 2025/08/22 10:58:25 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/26 15:24:56 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "include/signals.h"
 #include "include/builtins_utils.h"
 #include "include/executor.h"
-#include <stdio.h>
 
 // Print token list for debugging
 void	print_tokens(t_token *tokens)
@@ -54,7 +53,7 @@ void	print_cmds(t_cmd *cmds)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	input[1024];
+	char	*line;
 	t_token	*tokens;
 	t_cmd	*cmds;
 	t_env	*_env = NULL;
@@ -67,14 +66,17 @@ int	main(int argc, char **argv, char **envp)
 
 	while (1)
 	{
-		printf("minishell> ");
-		if (!fgets(input, sizeof(input), stdin))
+		line = readline("minishell> ");
+		if (!line)
 			break ;
+		if (*line)
+			add_history(line);
 
-		tokens = lexer(input);
+	tokens = lexer(line);
 		if (!tokens)
 		{
 			free_tokens(tokens);
+			free(line);
 			continue;
 		}
 
@@ -106,7 +108,9 @@ int	main(int argc, char **argv, char **envp)
 		executor(cmds, &_env);
 		
 		free_cmds(cmds);
+		free(line);
 	}
+	rl_clear_history();
 	lst_free(&_env);
 	return (0);
 }
