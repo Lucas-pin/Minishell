@@ -6,53 +6,53 @@
 #    By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 19:58:06 by manualva          #+#    #+#              #
-#    Updated: 2025/08/25 22:30:51 by lpin             ###   ########.fr        #
+#    Updated: 2025/08/25 23:56:36 by lpin             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 SRCS = parser_tester.c \
-       \
-       src/env/default_env.c \
-       src/parser/cmd_utils.c \
-       src/parser/expander.c \
-       src/parser/syntax_checker.c \
-       src/parser/syntax_utils.c \
-       src/parser/token_utils.c \
-       src/parser/redirect.c \
-       src/parser/heredoc.c \
-       src/parser/lexer.c \
-       src/parser/parser.c \
-       src/signals/status.c \
-       src/signals/signals.c \
-       src/env/mock_env.c \
-       src/utils/expander_utils.c\
-       src/utils/quotes_utils.c \
-       src/utils/is_utils.c \
-       src/utils/substr_dup.c \
-       src/utils/print_error.c \
-       src/utils/export_utils.c \
-       src/utils/lst_utils.c \
-       src/utils/env_utils.c \
-       src/utils/cd_utils.c \
-       src/utils/builtins_utils.c \
-       src/builtins/cd.c \
-       src/builtins/echo.c \
-       src/builtins/env.c \
-       src/builtins/export.c \
-       src/builtins/pwd.c \
-       src/builtins/unset.c \
-       src/builtins/exit.c \
-       src/exec/cmd_path.c \
-       src/exec/exec.c \
-       src/exec/pipe_utils.c \
+	\
+	src/env/default_env.c \
+	src/parser/cmd_utils.c \
+	src/parser/expander.c \
+	src/parser/syntax_checker.c \
+	src/parser/syntax_utils.c \
+	src/parser/token_utils.c \
+	src/parser/redirect.c \
+	src/parser/heredoc.c \
+	src/parser/lexer.c \
+	src/parser/parser.c \
+	src/signals/status.c \
+	src/signals/signals.c \
+	src/env/mock_env.c \
+	src/utils/expander_utils.c\
+	src/utils/quotes_utils.c \
+	src/utils/is_utils.c \
+	src/utils/substr_dup.c \
+	src/utils/print_error.c \
+	src/utils/export_utils.c \
+	src/utils/lst_utils.c \
+	src/utils/env_utils.c \
+	src/utils/cd_utils.c \
+	src/utils/builtins_utils.c \
+	src/builtins/cd.c \
+	src/builtins/echo.c \
+	src/builtins/env.c \
+	src/builtins/export.c \
+	src/builtins/pwd.c \
+	src/builtins/unset.c \
+	src/builtins/exit.c \
+	src/exec/cmd_path.c \
+	src/exec/exec.c \
+	src/exec/pipe_utils.c \
 
 
 OBJS = $(SRCS:.c=.o)
 
 CC = cc
-CFLAGS = -g -Wall -Wextra -Werror -Iinclude -Ilibft
+CFLAGS = -fsanitize=address -g -Wall -Wextra -Werror -Iinclude -Ilibft
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -63,7 +63,7 @@ $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -lreadline -ltermcap -o $(NAME)
 
 clean:
 	$(MAKE) -C $(LIBFT_DIR) clean
