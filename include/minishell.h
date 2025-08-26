@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 09:45:07 by manualva          #+#    #+#             */
-/*   Updated: 2025/08/11 00:42:58 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/26 14:53:35 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,8 @@ t_cmd		*parser(t_token *tokens);
 int			run_heredoc(const char *delimiter);
 
 //Handles I/O redirection for a command based on redirection tokens.
-void		handle_redirection(t_token **tokens, t_cmd *cmd);
+// returns: 0 ok, -1 error, -2 heredoc canceled
+int			handle_redirection(t_token **tokens, t_cmd *cmd);
 
 int			check_pipe(t_token *tok, t_token *prev);
 int			check_redirection(t_token *tok);
