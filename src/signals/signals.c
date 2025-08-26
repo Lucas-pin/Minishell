@@ -3,19 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 11:11:13 by manualva          #+#    #+#             */
-/*   Updated: 2025/08/05 17:04:15 by manualva         ###   ########.fr       */
+/*   Updated: 2025/08/26 15:19:19 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/signals.h"
+#include "../../include/minishell.h"
 
 static void	sigint_handler(int sig)
 {
 	(void)sig;
-	write(STDOUT_FILENO, "\nminishell> ", 12);
+	write(STDOUT_FILENO, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 	set_exit_status(130);
 }
 
@@ -29,4 +33,10 @@ void	setup_signals_default(void)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
+}
+
+void	setup_signals_parent_wait(void)
+{
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 }
