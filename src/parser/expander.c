@@ -6,11 +6,12 @@
 /*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:28:34 by manualva          #+#    #+#             */
-/*   Updated: 2025/07/28 18:05:11 by manualva         ###   ########.fr       */
+/*   Updated: 2025/08/27 17:00:36 by manualva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include "../../include/signals.h"
 
 static char	*extract_and_expand(const char *input, int i, int *end, t_env *env)
 {
@@ -41,7 +42,7 @@ static char	*expand_variable(char *result, int *i, t_env *env)
 
 	if (result[*i + 1] == '?')
 	{
-		val = ft_itoa(env->last_status);
+		val = ft_itoa(get_exit_status());
 		result = replace_once(result, *i, *i + 2, val);
 		*i += ft_strlen(val);
 		free(val);

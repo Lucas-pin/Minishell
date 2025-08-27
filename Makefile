@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+         #
+#    By: manualva <manualva@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 19:58:06 by manualva          #+#    #+#              #
-#    Updated: 2025/08/25 23:56:36 by lpin             ###   ########.fr        #
+#    Updated: 2025/08/27 16:48:46 by manualva         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ SRCS = parser_tester.c \
 	src/signals/status.c \
 	src/signals/signals.c \
 	src/env/mock_env.c \
-	src/utils/expander_utils.c\
+	src/parser/expander_utils.c\
 	src/utils/quotes_utils.c \
 	src/utils/is_utils.c \
 	src/utils/substr_dup.c \
