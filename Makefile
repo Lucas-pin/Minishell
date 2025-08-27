@@ -6,7 +6,7 @@
 #    By: manualva <manualva@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 19:58:06 by manualva          #+#    #+#              #
-#    Updated: 2025/08/27 16:48:46 by manualva         ###   ########.fr        #
+#    Updated: 2025/08/27 17:45:02 by manualva         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRCS = parser_tester.c \
 	src/parser/syntax_utils.c \
 	src/parser/token_utils.c \
 	src/parser/redirect.c \
+	src/parser/redirect_utils.c \
 	src/parser/heredoc.c \
 	src/parser/lexer.c \
 	src/parser/parser.c \
