@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
+/*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:07:26 by manualva          #+#    #+#             */
-/*   Updated: 2025/08/11 00:59:49 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/27 17:24:29 by manualva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,33 +61,40 @@ void	append_cmd(t_cmd **head, t_cmd *new_tok)
 	}
 }
 
+static void	free_single_cmd(t_cmd *cmd)
+{
+	int	i;
+	int	is_ext;
+
+	if (!cmd)
+		return ;
+	if (cmd->fd_in != -1)
+		close(cmd->fd_in);
+	if (cmd->fd_out != -1)
+		close(cmd->fd_out);
+	if (cmd->argv)
+	{
+		i = 0;
+		while (cmd->argv[i])
+			free(cmd->argv[i++]);
+		free(cmd->argv);
+	}
+	is_ext = (cmd->cmd && is_builtin(cmd->cmd) == -1);
+	if (cmd->cmd)
+		free(cmd->cmd);
+	if (cmd->cmd_path && is_ext)
+		free(cmd->cmd_path);
+	free(cmd);
+}
+
 void	free_cmds(t_cmd *cmds)
 {
 	t_cmd	*tmp;
-	int		i;
-	int		is_ext;
 
 	while (cmds)
 	{
 		tmp = cmds->next;
-
-		if (cmds->fd_in != -1)
-			close(cmds->fd_in);
-		if (cmds->fd_out != -1)
-			close(cmds->fd_out);
-		if (cmds->argv)
-		{
-			i = 0;
-			while (cmds->argv[i])
-				free(cmds->argv[i++]);
-			free(cmds->argv);
-		}
-		is_ext = (cmds->cmd && is_builtin(cmds->cmd) == -1);
-		if (cmds->cmd)
-			free(cmds->cmd);
-		if (cmds->cmd_path && is_ext)
-			free(cmds->cmd_path);
-		free(cmds);
+		free_single_cmd(cmds);
 		cmds = tmp;
 	}
 }

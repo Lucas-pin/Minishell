@@ -1,9 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   syntax_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/27 17:27:06 by manualva          #+#    #+#             */
+/*   Updated: 2025/08/27 17:27:20 by manualva         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 static int	contains_forbidden_chars(const char *str)
 {
-	int	i = 0;
+	int	i;
 
+	i = 0;
 	while (str[i])
 	{
 		if (ft_strchr(FORBIDDEN_CHARS, str[i]))
@@ -37,7 +50,8 @@ int	check_word(t_token *tok)
 		return (print_error("Unclosed quote\n", 1));
 	if (tok->quote_type == 0 && contains_forbidden_chars(tok->str))
 	{
-		ft_printf("Syntax Error: Forbidden character in token '%s'\n", tok->str);
+		ft_printf("Syntax Error: Forbidden character in token '%s'\n",
+			tok->str);
 		return (1);
 	}
 	return (0);
