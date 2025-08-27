@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
+/*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 09:45:07 by manualva          #+#    #+#             */
-/*   Updated: 2025/08/26 14:53:35 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/27 17:37:30 by manualva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,11 @@ char		*get_env_value(t_env *env, const char *name);
 t_cmd		*parser(t_token *tokens);
 
 int			run_heredoc(const char *delimiter);
+
+int			process_redirection(t_token *cur, t_cmd *cmd);
+
+void		remove_redirection_tokens(t_token **tokens, t_token *prev,
+				t_token *cur);
 
 //Handles I/O redirection for a command based on redirection tokens.
 // returns: 0 ok, -1 error, -2 heredoc canceled
