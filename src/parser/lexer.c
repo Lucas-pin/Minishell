@@ -6,12 +6,11 @@
 /*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:43:39 by manualva          #+#    #+#             */
-/*   Updated: 2025/07/28 18:05:18 by manualva         ###   ########.fr       */
+/*   Updated: 2025/08/27 17:25:36 by manualva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
 
 /* Processes operators like pipes, redirection, and heredoc tokens in the input
 string. */

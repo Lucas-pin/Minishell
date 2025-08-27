@@ -6,7 +6,7 @@
 /*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:08:27 by manualva          #+#    #+#             */
-/*   Updated: 2025/07/28 18:05:39 by manualva         ###   ########.fr       */
+/*   Updated: 2025/08/27 17:28:19 by manualva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,36 +40,42 @@ void	add_token(t_token **head, t_token *new_tok)
 	}
 }
 
-char	**token_list_to_argv(t_token *start, t_token *end)
+static int	count_word_tokens(t_token *start, t_token *end)
 {
 	t_token	*cur;
 	int		count;
-	char	**argv;
-	int		debug_index;
 
-	cur = start;
 	count = 0;
+	cur = start;
 	while (cur && cur != end)
 	{
 		if (cur->type == T_WORD)
 			count++;
 		cur = cur->next;
 	}
+	return (count);
+}
+
+char	**token_list_to_argv(t_token *start, t_token *end)
+{
+	t_token	*cur;
+	int		count;
+	char	**argv;
+	int		i;
+
+	count = count_word_tokens(start, end);
 	argv = malloc(sizeof(char *) * (count + 1));
 	if (!argv)
 		return (NULL);
 	cur = start;
-	debug_index = 0;
+	i = 0;
 	while (cur && cur != end)
 	{
 		if (cur->type == T_WORD)
-		{
-			argv[debug_index] = ft_strdup(cur->str);
-			debug_index++;
-		}
+			argv[i++] = ft_strdup(cur->str);
 		cur = cur->next;
 	}
-	argv[debug_index] = NULL;
+	argv[i] = NULL;
 	return (argv);
 }
 

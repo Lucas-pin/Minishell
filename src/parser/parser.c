@@ -3,39 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
+/*   By: lpin <lpin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:50:58 by manualva          #+#    #+#             */
-/*   Updated: 2025/08/26 16:09:56 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/27 20:44:39 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-/* Processes tokens until a pipe is encountered, then creates a new command
-from the tokens. */
-static void	parse_till_pipe(t_token **cur, t_token **start, t_cmd **cmds)
+static t_cmd	*init_and_handle_redir(t_token **start, t_token **cur)
 {
 	t_cmd	*cmd;
 	int		redir_status;
 
 	cmd = init_cmd();
 	if (!cmd)
-		return ;
+		return (NULL);
 	redir_status = handle_redirection(start, cmd);
 	if (redir_status == -1)
 	{
 		free(cmd);
 		*cur = NULL;
-		return ;
+		return (NULL);
 	}
 	if (redir_status == -2)
 	{
 		free(cmd);
 		*start = NULL;
 		*cur = NULL;
-		return ;
+		return (NULL);
 	}
+	return (cmd);
+}
+
+static void	parse_till_pipe(t_token **cur, t_token **start, t_cmd **cmds)
+{
+	t_cmd	*cmd;
+	int		redir_status;
+
+	cmd = init_and_handle_redir(start, cur);
+	if (!cmd)
+		return ;
 	cmd->argv = token_list_to_argv(*start, *cur);
 	append_cmd(cmds, cmd);
 	if (*cur)
@@ -48,7 +57,7 @@ static void	parse_till_pipe(t_token **cur, t_token **start, t_cmd **cmds)
 static int	handle_last_command(t_token **start, t_cmd **cmds)
 {
 	t_cmd	*cmd;
-	int	 redir_status;
+	int		redir_status;
 
 	cmd = init_cmd();
 	if (!cmd)
@@ -69,34 +78,34 @@ static int	handle_last_command(t_token **start, t_cmd **cmds)
 	return (1);
 }
 
-t_cmd	*parser(t_token *tokens)
+static void	parse_tokens(t_token *tokens, t_cmd **cmds)
 {
-	t_cmd	*cmds;
 	t_token	*cur;
 	t_token	*start;
     t_token	*head;
 
-	cmds = NULL;
 	cur = tokens;
 	start = cur;
     head = tokens;
 	while (cur)
 	{
 		if (cur->type == T_PIPE)
-		{
-			parse_till_pipe(&cur, &start, &cmds);
-		}
+			parse_till_pipe(&cur, &start, cmds);
 		else
 			cur = cur->next;
 	}
 	if (start)
-	{
-		if (!handle_last_command(&start, &cmds))
-		{
-	    free_tokens(head);
-			return (cmds);
-		}
-	}
-    free_tokens(head);
+		handle_last_command(&start, cmds);
+}
+
+t_cmd	*parser(t_token *tokens)
+{
+	t_cmd	*cmds;
+	t_token	*head;
+
+	cmds = NULL;
+	head = tokens;
+	parse_tokens(tokens, &cmds);
+	free_tokens(head);
 	return (cmds);
 }

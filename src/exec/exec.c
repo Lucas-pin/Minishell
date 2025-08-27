@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
+/*   By: lpin <lpin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 18:00:14 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/25 23:52:02 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/27 20:44:58 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,7 +284,7 @@ static int	execute_multiple_cmds(t_cmd *cmds, t_env **env)
 
 int	executor(t_cmd *cmds, t_env **env)
 {
-	int status;
+	int	status;
 
 	status = 0;
 	if (!cmds || !env)
@@ -294,5 +294,7 @@ int	executor(t_cmd *cmds, t_env **env)
 	else
 		status = execute_multiple_cmds(cmds, env);
 	set_last_status(env, status);
+	set_exit_status(status);
+
 	return (status);
 }

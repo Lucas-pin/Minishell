@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
+/*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 19:39:24 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/10 23:53:33 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/27 17:18:39 by manualva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ typedef struct s_env
 {
 	char				*key;
 	char				*value;
-	unsigned int		hide : 1;	
+	unsigned int		hide : 1;
 	struct s_env		*next;
 }	t_env;
 
