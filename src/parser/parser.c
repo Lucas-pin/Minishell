@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpin <lpin@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:50:58 by manualva          #+#    #+#             */
-/*   Updated: 2025/08/27 20:44:39 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/28 21:07:16 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ static t_cmd	*init_and_handle_redir(t_token **start, t_token **cur)
 static void	parse_till_pipe(t_token **cur, t_token **start, t_cmd **cmds)
 {
 	t_cmd	*cmd;
-	int		redir_status;
 
 	cmd = init_and_handle_redir(start, cur);
 	if (!cmd)
@@ -82,11 +81,9 @@ static void	parse_tokens(t_token *tokens, t_cmd **cmds)
 {
 	t_token	*cur;
 	t_token	*start;
-    t_token	*head;
 
 	cur = tokens;
 	start = cur;
-    head = tokens;
 	while (cur)
 	{
 		if (cur->type == T_PIPE)
