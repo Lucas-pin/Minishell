@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 21:54:26 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/19 23:32:52 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/28 21:12:47 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int check_cd_error(int argc, char **args, t_env **_env)
 	if (argc == 2 && ft_strcmp(args[1], "-") == 0)
 	{
 		oldpwd_env = find_key(_env, "OLDPWD=");
-		if (oldpwd_env || oldpwd_env->value == NULL)
+		if (!oldpwd_env || oldpwd_env->value == NULL)
 			return (cd_logical_error("OLDPWD not set"));
 	}
 	if ((argc == 1 || (argc > 1 && ft_strncmp(args[1], "~", 1) == 0))
