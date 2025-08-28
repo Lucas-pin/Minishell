@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lpin <lpin@student.42.fr>                  +#+  +:+       +#+         #
+#    By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 19:58:06 by manualva          #+#    #+#              #
-#    Updated: 2025/08/27 20:42:56 by lpin             ###   ########.fr        #
+#    Updated: 2025/08/28 21:03:26 by lpin             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,11 +25,10 @@ SRCS = parser_tester.c \
 	src/parser/heredoc.c \
 	src/parser/lexer.c \
 	src/parser/parser.c \
+	src/parser/quotes_utils.c \
 	src/signals/status.c \
 	src/signals/signals.c \
-	src/env/mock_env.c \
 	src/parser/expander_utils.c\
-	src/utils/quotes_utils.c \
 	src/utils/is_utils.c \
 	src/utils/substr_dup.c \
 	src/utils/print_error.c \
