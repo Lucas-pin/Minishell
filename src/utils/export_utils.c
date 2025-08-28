@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 23:33:41 by lucas             #+#    #+#             */
-/*   Updated: 2025/08/24 21:14:02 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/28 21:18:26 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,17 +58,17 @@ bool exist_key(t_env *_env, char *var)
 	return (false);
 }
 
-void	update_value(t_env **_env, char *var)
+int	update_value(t_env **_env, char *var)
 {
 	t_env	*target_node;
 	char	*equals_pos;
 
 	if (!var || !*_env)
-		return;
+		return (-2);
 	equals_pos = ft_strchr(var, '=');
 	target_node = find_key(_env, var);
 	if (!target_node)
-		return;
+		return (-1);
 	if (target_node->value)
 		free(target_node->value);
 	if (equals_pos)
@@ -81,4 +81,5 @@ void	update_value(t_env **_env, char *var)
 		target_node->value = NULL;
 		target_node->hide = true;
 	}
+	return (0);
 }

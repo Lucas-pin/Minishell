@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 16:39:54 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/24 21:37:35 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/28 21:17:33 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,6 @@ static char *change_path(int argc, char **args, t_env **_env)
 	else if (argc == 2 && ft_strcmp(args[1], "-") == 0)
 	{
 		oldpwd_env = find_key(_env, "OLDPWD=");
-		if (!oldpwd_env)
-		{
-			cd_logical_error("OLDPWD not set");
-			return (NULL);
-		}
 		path = ft_strdup(oldpwd_env->value);
 	}
 	else
@@ -58,10 +53,12 @@ static void update_path(char *oldpwd, char *new_path, t_env **_env)
 	char	*aux;
 
 	aux = ft_strjoin_free_s2("OLDPWD=", oldpwd);
-	update_value(_env, aux);
+	if (update_value(_env, aux) == -1)
+		lst_add(_env, lst_new(aux, false));
 	ft_destroyer(&aux);
 	aux = ft_strjoin_free_s2("PWD=", getcwd(NULL, 0));
-	update_value(_env, aux);
+	if (update_value(_env, aux) == -1)
+		lst_add(_env, lst_new(aux, false));
 	ft_destroyer(&aux);
 	ft_destroyer(&new_path);
 }

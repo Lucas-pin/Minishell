@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 19:48:33 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/24 20:19:01 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/28 21:15:20 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,9 @@ bool 	exist_key(t_env *_env, char *var);
  * @param _env a t_env pointer to the head of the linked list that will store the environment variables.
  * @param var a string representing the variable to be updated, typically in the format "KEY=VALUE".
  * If the variable has an equal sign, it updates the value. If it does not have an equal sign, it hides the variable.
+ * @return 0 on success, -1 on failure.
  */
-void 	update_value(t_env **_env, char *var);
+int 	update_value(t_env **_env, char *var);
 
 /**
 * @brief Removes a node from the environment linked list.
