@@ -6,13 +6,13 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 16:39:54 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/28 21:17:33 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/29 19:54:17 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/builtins.h"
 
-static char *change_home(char **args, t_env **_env)
+static char	*change_home(char **args, t_env **_env)
 {
 	char	*home;
 
@@ -30,7 +30,7 @@ static char *change_home(char **args, t_env **_env)
 	return (NULL);
 }
 
-static char *change_path(int argc, char **args, t_env **_env)
+static char	*change_path(int argc, char **args, t_env **_env)
 {
 	char	*path;
 	t_env	*oldpwd_env;
@@ -48,7 +48,7 @@ static char *change_path(int argc, char **args, t_env **_env)
 	return (path);
 }
 
-static void update_path(char *oldpwd, char *new_path, t_env **_env)
+static void	update_path(char *oldpwd, char *new_path, t_env **_env)
 {
 	char	*aux;
 
@@ -63,7 +63,7 @@ static void update_path(char *oldpwd, char *new_path, t_env **_env)
 	ft_destroyer(&new_path);
 }
 
-int    built_cd(char **args, t_env **_env)
+int	built_cd(char **args, t_env **_env)
 {
 	char	*new_path;
 	char	*oldpwd;

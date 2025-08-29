@@ -6,13 +6,13 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 18:23:58 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/24 20:51:57 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/29 19:54:43 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/builtins.h"
 
-static int pwd_syscall_error(int saved)
+static int	pwd_syscall_error(int saved)
 {
 	ft_putstr_fd("pwd: ", 2);
 	ft_putendl_fd((char *)strerror(saved), 2);

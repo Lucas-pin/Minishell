@@ -6,16 +6,16 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 20:03:51 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/24 19:47:19 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/28 22:28:09 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/builtins.h"
 
-static void print_export(t_env *_env)
+static void	print_export(t_env *_env)
 {
 	if (!_env)
-		return;
+		return ;
 	while (_env)
 	{
 		if ((_env)->value != NULL)
@@ -29,12 +29,11 @@ static void print_export(t_env *_env)
 	}
 }
 
-
-static void buble_export(t_env **_env)
+static void	buble_export(t_env **_env)
 {
 	t_env	*aux;
 	int		swapped;
-	
+
 	swapped = 1;
 	while (swapped)
 	{
@@ -48,13 +47,12 @@ static void buble_export(t_env **_env)
 				swapped = 1;
 			}
 			else
-			aux = aux->next;
+				aux = aux->next;
 		}
 	}
 }
 
-
-static int export_one(t_env **_env, const char *arg)
+static int	export_one(t_env **_env, const char *arg)
 {
 	if (!is_valid_identifier(arg))
 	{
@@ -71,11 +69,11 @@ static int export_one(t_env **_env, const char *arg)
 	return (0);
 }
 
-int built_export(char **args, t_env **_env)
+int	built_export(char **args, t_env **_env)
 {
-	int arg_count;
-	int has_error;
-	int index;
+	int	arg_count;
+	int	has_error;
+	int	index;
 
 	if (!args || !*args)
 		return (1);

@@ -6,15 +6,13 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 20:49:34 by lucas             #+#    #+#             */
-/*   Updated: 2025/08/24 21:32:29 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/29 19:53:50 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/builtins.h"
 
-/* options/utilities are not supported; only plain env is allowed */
-
-static int print_env_list(t_env *env)
+static int	print_env_list(t_env *env)
 {
 	while (env)
 	{
@@ -25,9 +23,9 @@ static int print_env_list(t_env *env)
 	return (0);
 }
 
-int built_env(char **args, t_env **_env)
+int	built_env(char **args, t_env **_env)
 {
-	int argc;
+	int	argc;
 
 	if (!_env || !*_env)
 	{

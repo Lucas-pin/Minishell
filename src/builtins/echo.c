@@ -6,15 +6,15 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 12:47:09 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/24 19:58:08 by lpin             ###   ########.fr       */
+/*   Updated: 2025/08/28 22:24:56 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/builtins.h"
 
-static void print_words(char **args)
+static void	print_words(char **args)
 {
-	int index;
+	int	index;
 
 	index = 0;
 	while (args && args[index])
@@ -26,27 +26,26 @@ static void print_words(char **args)
 	}
 }
 
-static int handle_option(char *arg)
+static int	handle_option(char *arg)
 {
 	if (!arg)
 		return (0);
 	if (arg[0] != '-')
 		return (0);
 	if (ft_strcmp(arg, "-n") == 0)
-		return (1); /* -n válido */
+		return (1);
 	ft_putstr_fd("echo: invalid option -- ", 2);
 	ft_putendl_fd(arg, 2);
-	return (-1); /* error opción */
+	return (-1);
 }
 
-int built_echo(char **args, t_env **_env)
+int	built_echo(char **args, t_env **_env)
 {
-	int has_n;
+	int	has_n;
 
 	(void)_env;
 	if (!args || !*args)
 		return (1);
-	/* args[0] == "echo" */
 	has_n = handle_option(args[1]);
 	if (has_n < 0)
 		return (2);
