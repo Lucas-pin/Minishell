@@ -6,7 +6,7 @@
 #    By: manualva <manualva@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 19:58:06 by manualva          #+#    #+#              #
-#    Updated: 2025/08/28 19:30:26 by manualva         ###   ########.fr        #
+#    Updated: 2025/09/01 16:52:00 by manualva         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ SRCS = parser_tester.c \
 	src/signals/status.c \
 	src/signals/signals.c \
 	src/parser/expander_utils.c\
+	src/parser/heredoc_utils.c\
 	src/utils/is_utils.c \
 	src/utils/substr_dup.c \
 	src/utils/print_error.c \
