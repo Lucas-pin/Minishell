@@ -6,7 +6,7 @@
 /*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 09:45:07 by manualva          #+#    #+#             */
-/*   Updated: 2025/08/27 17:37:30 by manualva         ###   ########.fr       */
+/*   Updated: 2025/09/01 16:54:06 by manualva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ int			check_pipe(t_token *tok, t_token *prev);
 int			check_redirection(t_token *tok);
 int			check_word(t_token *tok);
 int			check_syntax(t_token *tokens);
+
+int			spawn_heredoc_writer(int wfd, const char *delim);
 
 //Allocates and initializes a new command node.
 t_cmd		*init_cmd(void);
