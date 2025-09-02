@@ -6,13 +6,14 @@
 /*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 17:08:14 by manualva          #+#    #+#             */
-/*   Updated: 2025/09/01 18:13:03 by manualva         ###   ########.fr       */
+/*   Updated: 2025/09/02 18:35:07 by manualva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include "../../include/signals.h"
 
+//Safely write a string s followed by a newline to a file descriptor fd.
 static int	write_line(int fd, const char *s)
 {
 	size_t	len;
@@ -32,6 +33,8 @@ static int	write_line(int fd, const char *s)
 	return (0);
 }
 
+/*Reads one line of input from the user, checks if it’s the delimiter, and
+writes it to the heredoc file if not.*/
 static int	heredoc_read_line(int wfd, const char *delim, const char *prompt)
 {
 	char	*line;
@@ -58,6 +61,7 @@ static int	heredoc_read_line(int wfd, const char *delim, const char *prompt)
 	return (0);
 }
 
+//Continuously read lines until the delimiter or EOF is reached.
 static int	heredoc_loop(int wfd, const char *delim)
 {
 	const char	*prompt;
@@ -81,6 +85,7 @@ static int	heredoc_loop(int wfd, const char *delim)
 	}
 }
 
+//Function executed by the child process to actually gather heredoc input.
 static void	heredoc_writer_child(int wfd, const char *delim)
 {
 	setup_signals_default();
@@ -89,6 +94,8 @@ static void	heredoc_writer_child(int wfd, const char *delim)
 	exit(0);
 }
 
+/*Spawns a child process to handle heredoc input, waits for it, and returns
+a status code.*/
 int	spawn_heredoc_writer(int wfd, const char *delim)
 {
 	pid_t	pid;
@@ -103,7 +110,6 @@ int	spawn_heredoc_writer(int wfd, const char *delim)
 	close(wfd);
 	if (waitpid(pid, &st, 0) == -1)
 		return (-1);
-	setup_signals_shell();
 	if (WIFSIGNALED(st) && WTERMSIG(st) == SIGINT)
 	{
 		set_exit_status(130);
@@ -113,3 +119,4 @@ int	spawn_heredoc_writer(int wfd, const char *delim)
 		return (0);
 	return (-1);
 }
+
