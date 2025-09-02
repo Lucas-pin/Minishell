@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:27:21 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/25 22:29:07 by lpin             ###   ########.fr       */
+/*   Updated: 2025/09/02 11:33:26 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,49 +34,62 @@
 t_cmd	*cmd_path(t_cmd *cmd, t_env **env);
 
 /**
+ * @brief Matches the command with its corresponding path in the raw_path array.
+ * @param cmd a pointer to the t_cmd structure representing the command.
+ * @param raw_path an array of strings representing the raw paths.
+ * @return a pointer to the matched command path, or NULL if not found.
+ */
+char	*match_path(t_cmd *cmd, char **raw_path);
+
+/**
  * @brief Creates pipes for the command execution.
- * @param pipes an array of integers representing the file descriptors for the pipes.
+ * @param pipes an array of integers representing the fds for the pipes.
  * @param remaining_cmd the number of remaining commands to be executed.
  * @param cmd_qty the total number of commands in the pipeline.
  * @return a pointer to the pipes array.
  */
-int	*pipe_creator(int *pipes, int remaining_cmd, int cmq_qty);
+int		*pipe_creator(int *pipes, t_cmd_data *data);
 
 /**
- * @brief Redirects the input and output of the current command to the appropriate pipes.
+ * @brief Redirects the i/o of the current command to the appropriate pipes.
  * @param current_pipe the current pipe file descriptors.
  * @param prev_pipe the previous pipe file descriptor.
  * @param remaining_cmd the number of remaining commands to be executed.
  * @param cmd_qty the total number of commands in the pipeline.
  * @return void
  */
-void	redirect_pipes(int *current_pipe, int prev_pipe,
-		int remaining_cmd, int cmd_qty);
+void	redirect_pipes(int *current_pipe, t_cmd_data *data);
 
 /**
  * @brief Closes the pipes used for redirection.
  * @param current_pipe the current pipe file descriptors.
  * @return void
  */
-void	pipe_closer(int *current_pipe, int remaining_cmd, int cmd_qty);
-
-/**
- * @brief Waits for all child processes to finish.
- * @param remaining_cmd the number of remaining commands to be executed.
- * @return void
- */
-void	ft_wait(int remaining_cmd);
+void	pipe_closer(int *current_pipe, t_cmd_data *data);
 
 /**
  * @brief Evaluate how many commands are in the list and execute them.
  * If there is only one command, it executes it directly.
- * If there are multiple commands, it sets up pipes and executes them in a pipeline.
+ * If there are multiple cmds, it sets up pipes and executes them in a pipeline.
  * If the command is a built-in, it executes it directly.
  * If the command is not found, it returns an error.
  * @param cmds a pointer to the t_cmd structure representing the command list.
- * @param env a pointer to the t_env structure representing the environment variables.
+ * @param env a pointer to the t_env representing the environment variables.
  * @return the exit status of the last executed command, or -1 on error.
  */
-int	executor(t_cmd *cmds, t_env **env);
+int		executor(t_cmd *cmds, t_env **env);
+
+/**
+ * @brief Initialize the structure to create, redirect and execute each command
+ * @param cmds a pointer to the t_cmd structure representigs the command list.
+ * @param data a pointer to the t_cmd_data struct representing the command data
+ */
+void	init_cmd_data(t_cmd *cmds, t_cmd_data *data);
+
+/**
+ * @brief Applies files redirections if fd_in/fd_out is != -1
+ * @param cmd a pointer to the t_cmd structure representigs the current cmd.
+ */
+int		apply_file_redirs(t_cmd *cmd);
 
 #endif

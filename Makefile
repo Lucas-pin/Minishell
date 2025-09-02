@@ -6,7 +6,7 @@
 #    By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 19:58:06 by manualva          #+#    #+#              #
-#    Updated: 2025/08/28 21:03:26 by lpin             ###   ########.fr        #
+#    Updated: 2025/09/02 11:24:07 by lpin             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ SRCS = parser_tester.c \
 	src/utils/env_utils.c \
 	src/utils/cd_utils.c \
 	src/utils/builtins_utils.c \
+	src/utils/multiple_cmd_utils.c \
 	src/builtins/cd.c \
 	src/builtins/echo.c \
 	src/builtins/env.c \
@@ -47,6 +48,8 @@ SRCS = parser_tester.c \
 	src/exec/cmd_path.c \
 	src/exec/exec.c \
 	src/exec/pipe_utils.c \
+	src/exec/single_cmd.c \
+	src/exec/multiple_cmds.c \
 
 
 OBJS = $(SRCS:.c=.o)

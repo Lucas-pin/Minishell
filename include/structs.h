@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 19:39:24 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/27 17:18:39 by manualva         ###   ########.fr       */
+/*   Updated: 2025/09/02 12:02:06 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
-# define HASH_SIZE 401 // 401 es primo y es cercano a 400, que es el tamaño máximo esperado de la tabla
+# include <unistd.h>
 
 typedef struct s_env
 {
@@ -52,5 +52,13 @@ typedef struct s_cmd
 	char			*cmd;
 	void			*cmd_path;
 }	t_cmd;
+
+typedef struct s_cmd_data
+{
+	int		cmd_qty;
+	int		remaining_cmd;
+	int		prev_pipe;
+	pid_t	last_pid;
+}	t_cmd_data;
 
 #endif

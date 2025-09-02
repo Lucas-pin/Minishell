@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 00:56:47 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/25 22:47:05 by lpin             ###   ########.fr       */
+/*   Updated: 2025/09/02 11:33:01 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	is_builtin(const char *cmd)
 		return (EXPORT);
 	if (ft_strcmp(cmd, "unset") == 0)
 		return (UNSET);
-	if (ft_strcmp(cmd, "env") == 0)	
+	if (ft_strcmp(cmd, "env") == 0)
 		return (ENV);
 	return (-1);
 }
@@ -74,7 +74,6 @@ static char	*get_cmd_path(t_cmd *cmd, char **raw_path)
 	cmd_path = NULL;
 	if (!cmd || !cmd->cmd)
 		return (NULL);
-	/* If command contains '/', attempt to exec directly */
 	if (ft_strchr(cmd->cmd, '/'))
 	{
 		if (access(cmd->cmd, X_OK) == 0)
@@ -85,15 +84,9 @@ static char	*get_cmd_path(t_cmd *cmd, char **raw_path)
 		return (NULL);
 	while (*raw_path)
 	{
-		cmd_path = ft_strjoin(*raw_path, "/");
-		if (!cmd_path)
-			return (NULL);
-		cmd_path = ft_strjoin_free_s1(cmd_path, cmd->cmd);
-		if (!cmd_path)
-			return (NULL);
-		if (access(cmd_path, X_OK) == 0)
+		cmd_path = match_path(cmd, raw_path);
+		if (cmd_path)
 			return (cmd_path);
-		ft_destroyer(&cmd_path);
 		raw_path++;
 	}
 	return (NULL);
