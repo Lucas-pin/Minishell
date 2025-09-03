@@ -6,28 +6,28 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 00:14:13 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/20 00:41:46 by lpin             ###   ########.fr       */
+/*   Updated: 2025/09/03 17:54:24 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/builtins.h"
 
-static void create_default_env(t_env **_env)
+static void	create_default_env(t_env **_env)
 {
-	char *pwd;
-	char *oldpwd;
-	char *pwd_var;
-	char *oldpwd_var;
+	char	*pwd;
+	char	*oldpwd;
+	char	*pwd_var;
+	char	*oldpwd_var;
 
-	pwd = getcwd(NULL, 0);  // malloc automático
+	pwd = getcwd(NULL, 0);
 	if (!pwd)
-		pwd = ft_strdup("/");  // fallback si getcwd falla
-	oldpwd = getcwd(NULL, 0);  // otra llamada independiente
+		pwd = ft_strdup("/");
+	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)
-		oldpwd = ft_strdup("/");  // fallback
+		oldpwd = ft_strdup("/");
 	pwd_var = ft_strjoin_free_s2("PWD=", pwd);
 	oldpwd_var = ft_strjoin_free_s2("OLDPWD=", oldpwd);
-	lst_add(_env, lst_new(DEFAULT_PATH, false));	
+	lst_add(_env, lst_new(DEFAULT_PATH, false));
 	lst_add(_env, lst_new(pwd_var, false));
 	lst_add(_env, lst_new(oldpwd_var, false));
 	lst_add(_env, lst_new("SHLVL=1", false));
@@ -36,20 +36,20 @@ static void create_default_env(t_env **_env)
 	free(oldpwd_var);
 }
 
-static void bump_shlvl(t_env **_env)
+static void	bump_shlvl(t_env **_env)
 {
-	t_env *var;
-	char  *num;
-	char  *var_value;
-	int    lvl;
-	
+	t_env	*var;
+	char	*num;
+	char	*var_value;
+	int		lvl;
+
 	var = find_key(_env, "SHLVL=");
 	if (var && var->value)
 	{
 		lvl = ft_atoi(var->value) + 1;
 		num = ft_itoa(lvl);
 		if (!num)
-			return;
+			return ;
 		var_value = ft_strjoin("SHLVL=", num);
 		if (var_value)
 		{
@@ -60,16 +60,15 @@ static void bump_shlvl(t_env **_env)
 	}
 }
 
-static void ensure_question_hidden(t_env **_env)
+static void	ensure_question_hidden(t_env **_env)
 {
 	if (!find_key(_env, "?="))
 		lst_add(_env, lst_new("?=0", true));
 }
 
-/* Convierte envp (char**) a t_env**. Si envp es NULL/vacío -> create_default_env */
-int envp_to_env(t_env **_env, char **envp)
+int	envp_to_env(t_env **_env, char **envp)
 {
-	int i;
+	int	i;
 
 	if (!_env)
 		return (-1);
@@ -85,8 +84,7 @@ int envp_to_env(t_env **_env, char **envp)
 		lst_add(_env, lst_new(envp[i], false));
 		i++;
 	}
-	/* Ajustes de shell al iniciar sobre un env heredado */
-	bump_shlvl(_env);            /* SHLVL++ (o SHLVL=1 si faltaba) */
-	ensure_question_hidden(_env); /* Asegura que ?=0 esté presente */
+	bump_shlvl(_env);
+	ensure_question_hidden(_env);
 	return (0);
 }
