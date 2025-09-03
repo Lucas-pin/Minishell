@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 19:48:33 by lpin              #+#    #+#             */
-/*   Updated: 2025/09/02 19:22:50 by lpin             ###   ########.fr       */
+/*   Updated: 2025/09/03 19:04:43 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@
 # include <stdbool.h>
 # include <errno.h>
 # include <string.h>
-# define DEFAULT_PATH \
-	"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+# define PTH "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 /**
 * @brief create a new list node for the environment variables.
@@ -127,7 +126,6 @@ char	**env_to_envp(t_env *env);
  * @return 0 on success, -1 on failure.
  */
 int		envp_to_env(t_env **_env, char **envp);
-
 
 /**
  * @brief Checks if the HOME environment variable exists.

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:20:07 by manualva          #+#    #+#             */
-/*   Updated: 2025/08/28 18:55:53 by manualva         ###   ########.fr       */
+/*   Updated: 2025/09/03 18:59:47 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	is_null_or_empty(char *str)
 */
 int	is_valid_identifier(const char *s)
 {
-	int i;
+	int	i;
 
 	if (!s || s[0] == '\0' || s[0] == '=')
 		return (0);
@@ -55,7 +55,7 @@ int	is_valid_identifier(const char *s)
 
 int	is_valid_identifier_n(const char *s, int len)
 {
-	int i;
+	int	i;
 
 	if (!s || len <= 0)
 		return (0);

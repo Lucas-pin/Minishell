@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 00:14:13 by lpin              #+#    #+#             */
-/*   Updated: 2025/09/03 17:54:24 by lpin             ###   ########.fr       */
+/*   Updated: 2025/09/03 19:04:24 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	create_default_env(t_env **_env)
 		oldpwd = ft_strdup("/");
 	pwd_var = ft_strjoin_free_s2("PWD=", pwd);
 	oldpwd_var = ft_strjoin_free_s2("OLDPWD=", oldpwd);
-	lst_add(_env, lst_new(DEFAULT_PATH, false));
+	lst_add(_env, lst_new(PTH, false));
 	lst_add(_env, lst_new(pwd_var, false));
 	lst_add(_env, lst_new(oldpwd_var, false));
 	lst_add(_env, lst_new("SHLVL=1", false));

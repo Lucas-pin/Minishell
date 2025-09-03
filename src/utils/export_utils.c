@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 23:33:41 by lucas             #+#    #+#             */
-/*   Updated: 2025/08/28 21:18:26 by lpin             ###   ########.fr       */
+/*   Updated: 2025/09/03 19:00:22 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_env	*find_key(t_env **_env, char *var)
 	int		key_length;
 
 	if (!var || !*_env)
-		return NULL;
+		return (NULL);
 	aux = *_env;
 	equal_pos = ft_strchr(var, '=');
 	if (equal_pos)
@@ -28,15 +28,15 @@ t_env	*find_key(t_env **_env, char *var)
 		key_length = ft_strlen(var);
 	while (aux)
 	{
-		if (ft_strncmp(aux->key, var, key_length) == 0 && 
-			aux->key[key_length] == '\0')
-			return aux;
+		if (ft_strncmp(aux->key, var, key_length) == 0
+			&& aux->key[key_length] == '\0')
+			return (aux);
 		aux = aux->next;
 	}
-	return NULL;
+	return (NULL);
 }
 
-bool exist_key(t_env *_env, char *var)
+bool	exist_key(t_env *_env, char *var)
 {
 	int		key_length;
 	char	*equal_pos;
@@ -50,8 +50,8 @@ bool exist_key(t_env *_env, char *var)
 		key_length = ft_strlen(var);
 	while (_env)
 	{
-		if (ft_strncmp(_env->key, var, key_length) == 0 && 
-			_env->key[key_length] == '\0')
+		if (ft_strncmp(_env->key, var, key_length) == 0
+			&& _env->key[key_length] == '\0')
 			return (true);
 		_env = _env->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 21:54:26 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/28 21:12:47 by lpin             ###   ########.fr       */
+/*   Updated: 2025/09/03 18:56:00 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../../include/minishell.h"
 #include "../../include/structs.h"
 
-char *home_exists(t_env **_env)
+char	*home_exists(t_env **_env)
 {
 	t_env	*home_env;
 
@@ -26,7 +26,7 @@ char *home_exists(t_env **_env)
 	return (NULL);
 }
 
-int check_cd_error(int argc, char **args, t_env **_env)
+int	check_cd_error(int argc, char **args, t_env **_env)
 {
 	t_env	*oldpwd_env;
 
@@ -47,7 +47,7 @@ int check_cd_error(int argc, char **args, t_env **_env)
 	return (0);
 }
 
-int cd_logical_error(const char *msg)
+int	cd_logical_error(const char *msg)
 {
 	if (msg)
 	{
@@ -57,7 +57,7 @@ int cd_logical_error(const char *msg)
 	return (1);
 }
 
-int cd_syscall_error(const char *path, int saved)
+int	cd_syscall_error(const char *path, int saved)
 {
 	ft_putstr_fd("cd: ", 2);
 	if (path)

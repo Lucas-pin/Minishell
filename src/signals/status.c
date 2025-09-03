@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   status.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 11:12:20 by manualva          #+#    #+#             */
-/*   Updated: 2025/08/05 17:03:17 by manualva         ###   ########.fr       */
+/*   Updated: 2025/09/03 18:54:34 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/signals.h"
-
 
 static int	g_status = 0;
 

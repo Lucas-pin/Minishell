@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 00:00:00 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/11 00:04:50 by lpin             ###   ########.fr       */
+/*   Updated: 2025/09/03 18:58:30 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 static int	count_visible(t_env *env)
 {
 	int	cnt;
+
 	cnt = 0;
 	while (env)
 	{
@@ -42,11 +43,9 @@ static char	*join_kv(const char *k, const char *v)
 char	**env_to_envp(t_env *env)
 {
 	char	**envp;
-	int		n;
 	int		i;
 
-	n = count_visible(env);
-	envp = (char **)malloc(sizeof(char *) * (n + 1));
+	envp = (char **)malloc(sizeof(char *) * (count_visible(env) + 1));
 	if (!envp)
 		return (NULL);
 	i = 0;
@@ -72,7 +71,8 @@ char	**env_to_envp(t_env *env)
 
 void	free_envp(char **envp)
 {
-	int i;
+	int	i;
+
 	if (!envp)
 		return ;
 	i = 0;

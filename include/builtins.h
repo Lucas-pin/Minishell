@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:27:21 by lpin              #+#    #+#             */
-/*   Updated: 2025/09/02 11:36:13 by lpin             ###   ########.fr       */
+/*   Updated: 2025/09/03 19:02:25 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int		built_env(char **env, t_env **_env);
 * it will print the environment variables.
 * If the first argument is NULL, it will print the environment variables.
 */
-int 	built_export(char **args, t_env **_env);
+int		built_export(char **args, t_env **_env);
 
 /**
 * @brief Unsets (removes) the specified variables from 

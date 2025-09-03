@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 20:34:19 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/01 20:19:46 by lpin             ###   ########.fr       */
+/*   Updated: 2025/09/03 18:59:23 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@ void	remove_node(t_env **_env, t_env *node)
 
 	if (!_env || !*_env || !node)
 		return ;
-	if (*_env == node) // Si el nodo a eliminar es el primero de la lista
+	if (*_env == node)
 	{
 		*_env = node->next;
 		free(node->key);
 		free(node->value);
 		free(node);
 		if (*_env == NULL)
-			_env = NULL; // Si la lista queda vacía, se establece _env a NULL
+			_env = NULL;
 		return ;
 	}
 	aux = *_env;
@@ -40,13 +40,12 @@ void	remove_node(t_env **_env, t_env *node)
 	}
 }
 
-void	 node_switch(t_env **head, t_env *first, t_env *second)
+void	node_switch(t_env **head, t_env *first, t_env *second)
 {
-	t_env *prev;
+	t_env	*prev;
 
 	if (!head || !*head || !first || !second || first->next != second)
-		return;
-
+		return ;
 	if (*head == first)
 	{
 		*head = second;
@@ -58,7 +57,6 @@ void	 node_switch(t_env **head, t_env *first, t_env *second)
 		prev = *head;
 		while (prev && prev->next != first)
 			prev = prev->next;
-			
 		if (prev)
 		{
 			prev->next = second;
@@ -93,10 +91,10 @@ t_env	*lst_new(char *content, bool hide)
 
 	equal_len = 0;
 	if (content == NULL)
-		return NULL;
+		return (NULL);
 	new_var = malloc(sizeof(t_env));
 	if (new_var == NULL)
-		return NULL;
+		return (NULL);
 	memset(new_var, '\0', sizeof(t_env));
 	equal = ft_strchr(content, '=');
 	if (equal)
