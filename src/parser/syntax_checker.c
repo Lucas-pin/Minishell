@@ -6,11 +6,35 @@
 /*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:36:02 by manualva          #+#    #+#             */
-/*   Updated: 2025/08/27 17:26:01 by manualva         ###   ########.fr       */
+/*   Updated: 2025/09/03 16:55:44 by manualva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include "../../include/signals.h"
+
+static int	check_pipe_syntax(t_token *tokens, t_token *prev)
+{
+	if (tokens->type == T_PIPE && check_pipe(tokens, prev))
+		return (1);
+	return (0);
+}
+
+static int	check_redir_syntax(t_token *tokens)
+{
+	if ((tokens->type == T_REDIR_IN || tokens->type == T_REDIR_OUT
+			|| tokens->type == T_REDIR_APPEND || tokens->type == T_HEREDOC)
+		&& check_redirection(tokens))
+		return (1);
+	return (0);
+}
+
+static int	check_word_syntax(t_token *tokens)
+{
+	if (tokens->type == T_WORD && check_word(tokens))
+		return (1);
+	return (0);
+}
 
 int	check_syntax(t_token *tokens)
 {
@@ -19,14 +43,13 @@ int	check_syntax(t_token *tokens)
 	prev = NULL;
 	while (tokens)
 	{
-		if (tokens->type == T_PIPE && check_pipe(tokens, prev))
+		if (check_pipe_syntax(tokens, prev)
+			|| check_redir_syntax(tokens)
+			|| check_word_syntax(tokens))
+		{
+			set_exit_status(258);
 			return (1);
-		if ((tokens->type == T_REDIR_IN || tokens->type == T_REDIR_OUT
-				|| tokens->type == T_REDIR_APPEND || tokens->type == T_HEREDOC)
-			&& check_redirection(tokens))
-			return (1);
-		if (tokens->type == T_WORD && check_word(tokens))
-			return (1);
+		}
 		prev = tokens;
 		tokens = tokens->next;
 	}

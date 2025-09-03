@@ -6,13 +6,13 @@
 #    By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 19:58:06 by manualva          #+#    #+#              #
-#    Updated: 2025/09/03 18:49:16 by lpin             ###   ########.fr        #
+#    Updated: 2025/09/03 19:11:10 by lpin             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-SRCS = parser_tester.c \
+SRCS = minishell.c \
 	\
 	src/env/default_env.c \
 	src/parser/cmd_utils.c \
@@ -30,6 +30,7 @@ SRCS = parser_tester.c \
 	src/signals/status.c \
 	src/signals/signals.c \
 	src/parser/expander_utils.c\
+	src/parser/heredoc_utils.c\
 	src/utils/is_utils.c \
 	src/utils/substr_dup.c \
 	src/utils/print_error.c \
@@ -52,7 +53,8 @@ SRCS = parser_tester.c \
 	src/exec/pipe_utils.c \
 	src/exec/single_cmd.c \
 	src/exec/multiple_cmds.c \
-
+	src/exec/minishell_utils.c \
+	src/exec/minishell.c \
 
 OBJS = $(SRCS:.c=.o)
 

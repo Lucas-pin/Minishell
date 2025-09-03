@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpin <lpin@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 09:45:07 by manualva          #+#    #+#             */
-/*   Updated: 2025/08/27 20:43:15 by lpin             ###   ########.fr       */
+/*   Updated: 2025/09/03 19:09:16 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ int			check_redirection(t_token *tok);
 int			check_word(t_token *tok);
 int			check_syntax(t_token *tokens);
 
+int			spawn_heredoc_writer(int wfd, const char *delim);
+
 //Allocates and initializes a new command node.
 t_cmd		*init_cmd(void);
 
@@ -114,5 +116,15 @@ int			count_cmd(t_cmd *cmd);
 
 //Determines the error type and prints an error message.
 int			print_error(char *str, int error);
+
+void		init_env(t_env **_env, char **envp);
+
+void		set_cmd_from_argv(t_cmd *cmds);
+
+t_cmd		*process_tokens(char *line, t_env **_env);
+
+void		handle_line(char *line, t_env **_env);
+
+void		run_shell(t_env **_env);
 
 #endif

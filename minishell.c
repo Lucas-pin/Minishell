@@ -1,35 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
+/*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/29 09:30:59 by manualva          #+#    #+#             */
-/*   Updated: 2025/09/02 18:04:36 by manualva         ###   ########.fr       */
+/*   Created: 2025/05/07 19:56:55 by manualva          #+#    #+#             */
+/*   Updated: 2025/09/03 16:49:30 by manualva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
-#include "../../include/signals.h"
+#include "include/minishell.h"
+#include "include/builtins_utils.h"
 
-int	run_heredoc(const char *delimiter)
+int	main(int argc, char **argv, char **envp)
 {
-	int	pipe_fds[2];
-	int	rc;
+	t_env	*_env;
 
-	if (pipe(pipe_fds) == -1)
-	{
-		perror("pipe");
-		return (-1);
-	}
-	rc = spawn_heredoc_writer(pipe_fds[1], delimiter);
-	if (rc != 0)
-	{
-		close(pipe_fds[0]);
-		if (rc == -1)
-			perror("heredoc");
-		return (-1);
-	}
-	return (pipe_fds[0]);
+	(void)argc;
+	(void)argv;
+	_env = NULL;
+	init_env(&_env, envp);
+	run_shell(&_env);
+	rl_clear_history();
+	lst_free(&_env);
+	return (0);
 }
