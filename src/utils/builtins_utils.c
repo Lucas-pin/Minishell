@@ -6,15 +6,15 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 19:44:38 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/24 19:45:34 by lpin             ###   ########.fr       */
+/*   Updated: 2025/09/03 18:45:05 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/builtins_utils.h"
 
-int args_count(char **args)
+int	args_count(char **args)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (args)
