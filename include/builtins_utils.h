@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 19:48:33 by lpin              #+#    #+#             */
-/*   Updated: 2025/09/02 11:59:46 by lpin             ###   ########.fr       */
+/*   Updated: 2025/09/02 19:22:50 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	node_switch(t_env **head, t_env *prev, t_env *current);
  * typically in the format "KEY=VALUE".
  * @return true if the variable exists in the linked list, false otherwise.
  */
-bool 	exist_key(t_env *_env, char *var);
+bool	exist_key(t_env *_env, char *var);
 
 /**
  * @brief Updates the value of an existing variable in the env linked list.
