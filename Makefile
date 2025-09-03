@@ -6,13 +6,13 @@
 #    By: manualva <manualva@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 19:58:06 by manualva          #+#    #+#              #
-#    Updated: 2025/09/01 16:52:00 by manualva         ###   ########.fr        #
+#    Updated: 2025/09/03 16:47:01 by manualva         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-SRCS = parser_tester.c \
+SRCS = minishell.c \
 	\
 	src/env/default_env.c \
 	src/parser/cmd_utils.c \
@@ -38,6 +38,7 @@ SRCS = parser_tester.c \
 	src/utils/env_utils.c \
 	src/utils/cd_utils.c \
 	src/utils/builtins_utils.c \
+	src/utils/minishell_utils.c \
 	src/builtins/cd.c \
 	src/builtins/echo.c \
 	src/builtins/env.c \
