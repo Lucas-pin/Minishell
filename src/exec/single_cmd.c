@@ -6,12 +6,14 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 20:10:12 by lpin              #+#    #+#             */
-/*   Updated: 2025/09/02 11:14:28 by lpin             ###   ########.fr       */
+/*   Updated: 2025/09/02 19:27:45 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/executor.h"
 #include "../../include/minishell.h"
+#include "../../include/signals.h"
+#include "../../include/builtins.h"
 
 static void	child_process(t_cmd *cmd, t_env **env)
 {
@@ -51,15 +53,15 @@ static int	run_external_fork(t_cmd *cmd, t_env **env)
 
 static int	run_builtin_parent(t_cmd *cmd, t_env **env)
 {
-	int				fd_bkp[2];
-	builtin_func	func;
-	int				status;
+	int	fd_bkp[2];
+	int	(*func)(char **, t_env **);
+	int	status;
 
 	fd_bkp[0] = dup(STDIN_FILENO);
 	fd_bkp[1] = dup(STDOUT_FILENO);
 	if (apply_file_redirs(cmd) == -1)
 		return (-1);
-	func = (builtin_func)cmd->cmd_path;
+	func = (int (*)(char **, t_env **))cmd->cmd_path;
 	status = func(cmd->argv, env);
 	dup2(fd_bkp[0], STDIN_FILENO);
 	dup2(fd_bkp[1], STDOUT_FILENO);
@@ -68,7 +70,7 @@ static int	run_builtin_parent(t_cmd *cmd, t_env **env)
 	return (status);
 }
 
-static int	execute_single_cmd(t_cmd *cmd, t_env **env)
+int	execute_single_cmd(t_cmd *cmd, t_env **env)
 {
 	int	builtin_index;
 

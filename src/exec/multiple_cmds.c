@@ -6,12 +6,14 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 20:23:03 by lpin              #+#    #+#             */
-/*   Updated: 2025/09/02 11:01:22 by lpin             ###   ########.fr       */
+/*   Updated: 2025/09/02 19:28:39 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/executor.h"
 #include "../../include/minishell.h"
+#include "../../include/builtins.h"
+#include "../../include/signals.h"
 
 static void	parent_process(int *pipes, pid_t pid, t_cmd_data *data)
 {
@@ -41,12 +43,13 @@ static int	child_status(int status)
 			ft_putendl_fd("Quit (core dumped)", 2);
 		return (128 + sig);
 	}
+	return (1);
 }
 
 static void	child_process(t_cmd *cmd, t_env **env)
 {
-	builtin_func	func;
-	int				bi;
+	int	(*func)(char **, t_env **);
+	int	bi;
 
 	if (apply_file_redirs(cmd) == -1)
 		exit(1);
@@ -54,7 +57,7 @@ static void	child_process(t_cmd *cmd, t_env **env)
 	bi = is_builtin(cmd->cmd);
 	if (bi != -1)
 	{
-		func = (builtin_func)cmd->cmd_path;
+		func = (int (*)(char **, t_env **))cmd->cmd_path;
 		if (func)
 			exit(func(cmd->argv, env));
 		exit(1);
@@ -83,7 +86,7 @@ static int	wait_pipeline(int total, pid_t last_pid)
 	return (code);
 }
 
-static int	execute_multiple_cmds(t_cmd *cmds, t_env **env)
+int	execute_multiple_cmds(t_cmd *cmds, t_env **env)
 {
 	t_cmd_data	data;
 	pid_t		pid;

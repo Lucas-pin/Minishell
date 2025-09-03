@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 18:00:14 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/29 20:28:25 by lpin             ###   ########.fr       */
+/*   Updated: 2025/09/02 19:25:51 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static void	exit_with_exec_error(const char *name, int err, int name_has_slash)
 	exit(126);
 }
 
-static void	try_exec_or_complain(t_cmd *cmd, t_env **env)
+void	try_exec_or_complain(t_cmd *cmd, t_env **env)
 {
 	char		**envp;
 	int			err;

@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:27:21 by lpin              #+#    #+#             */
-/*   Updated: 2025/09/02 11:33:26 by lpin             ###   ########.fr       */
+/*   Updated: 2025/09/02 19:26:54 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,32 @@ void	init_cmd_data(t_cmd *cmds, t_cmd_data *data);
  * @param cmd a pointer to the t_cmd structure representigs the current cmd.
  */
 int		apply_file_redirs(t_cmd *cmd);
+
+/**
+ * @brief Executes a single command.
+ * @param cmd a pointer to the t_cmd structure representing the command.
+ * @param env a pointer to the t_env structure
+ * representing the environment variables.
+ * @return the exit status of the executed command, or -1 on error.
+ */
+int		execute_single_cmd(t_cmd *cmd, t_env **env);
+
+/**
+ * @brief Executes multiple commands.
+ * @param cmds a pointer to the t_cmd structure representing the command list.
+ * @param env a pointer to the t_env structure
+ * representing the environment variables.
+ * @return the exit status of the last executed command, or -1 on error.
+ */
+int		execute_multiple_cmds(t_cmd *cmds, t_env **env);
+
+/**
+ * @brief Tries to execute a command or prints an error message.
+ * @param cmd a pointer to the t_cmd structure representing the command.
+ * @param env a pointer to the t_env structure
+ * representing the environment variables.
+ * @return void
+ */
+void	try_exec_or_complain(t_cmd *cmd, t_env **env);
 
 #endif
