@@ -6,7 +6,7 @@
 #    By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 19:58:06 by manualva          #+#    #+#              #
-#    Updated: 2025/09/03 18:34:15 by lpin             ###   ########.fr        #
+#    Updated: 2025/09/03 18:49:16 by lpin             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRCS = parser_tester.c \
 	src/parser/heredoc.c \
 	src/parser/lexer.c \
 	src/parser/parser.c \
+	src/parser/quotes_utils.c \
 	src/parser/quotes_utils.c \
 	src/signals/status.c \
 	src/signals/signals.c \
