@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 19:39:24 by lpin              #+#    #+#             */
-/*   Updated: 2025/09/02 12:02:06 by lpin             ###   ########.fr       */
+/*   Updated: 2025/09/03 17:54:55 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ typedef enum e_builtin
 	ENV,
 	EXIT,
 }	t_builtin;
-
-typedef int (*builtin_func)(char **, t_env **);
 
 typedef struct s_token
 {

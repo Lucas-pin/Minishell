@@ -6,29 +6,29 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 00:56:47 by lpin              #+#    #+#             */
-/*   Updated: 2025/09/02 11:33:01 by lpin             ###   ########.fr       */
+/*   Updated: 2025/09/02 19:19:35 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/executor.h"
 #include "../../include/builtins.h"
 
-static builtin_func	get_builtin_func(const t_builtin cmd)
+static void	*get_builtin_func(const t_builtin cmd)
 {
 	if (cmd == CD)
-		return (built_cd);
+		return ((void *)built_cd);
 	if (cmd == ECHO)
-		return (built_echo);
+		return ((void *)built_echo);
 	if (cmd == EXIT)
-		return (built_exit);
+		return ((void *)built_exit);
 	if (cmd == PWD)
-		return (built_pwd);
+		return ((void *)built_pwd);
 	if (cmd == EXPORT)
-		return (built_export);
+		return ((void *)built_export);
 	if (cmd == UNSET)
-		return (built_unset);
+		return ((void *)built_unset);
 	if (cmd == ENV)
-		return (built_env);
+		return ((void *)built_env);
 	return (NULL);
 }
 
@@ -106,7 +106,7 @@ t_cmd	*cmd_path(t_cmd *cmd, t_env **env)
 	{
 		builtin_index = is_builtin(cmd->cmd);
 		if (builtin_index > -1)
-			cmd->cmd_path = (void *)get_builtin_func(builtin_index);
+			cmd->cmd_path = get_builtin_func(builtin_index);
 		else
 			cmd->cmd_path = (void *)get_cmd_path(cmd, raw_path);
 		cmd = cmd->next;
