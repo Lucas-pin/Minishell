@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   test_cmd_path.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 20:14:46 by lpin              #+#    #+#             */
-/*   Updated: 2025/08/01 20:11:39 by lpin             ###   ########.fr       */
+/*   Updated: 2025/09/02 19:10:36 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int main(void) {
         if (builtin_index > -1) {
             printf("Comando '%s' es builtin. Puntero a función: %p\n", aux->cmd, aux->cmd_path);
             // Ejecutar la función builtin mediante el puntero
-            builtin_func func = (builtin_func)aux->cmd_path;
+            int (*func)(char **, t_env **) = (int (*)(char **, t_env **))aux->cmd_path;
             printf("Ejecutando '%s':\n", aux->cmd);
             func(aux->argv, &env);
         } else {
