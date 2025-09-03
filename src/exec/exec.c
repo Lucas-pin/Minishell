@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 18:00:14 by lpin              #+#    #+#             */
-/*   Updated: 2025/09/02 19:25:51 by lpin             ###   ########.fr       */
+/*   Updated: 2025/09/03 19:16:28 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,5 +111,6 @@ int	executor(t_cmd *cmds, t_env **env)
 		status = execute_multiple_cmds(cmds, env);
 	set_last_status(env, status);
 	set_exit_status(status);
+	setup_signals_shell();
 	return (status);
 }
