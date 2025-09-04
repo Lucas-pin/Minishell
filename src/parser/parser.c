@@ -6,7 +6,7 @@
 /*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:50:58 by manualva          #+#    #+#             */
-/*   Updated: 2025/08/27 17:30:28 by manualva         ###   ########.fr       */
+/*   Updated: 2025/09/04 18:08:05 by manualva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,12 @@ static int	handle_last_command(t_token **start, t_cmd **cmds)
 	return (1);
 }
 
-static void	parse_tokens(t_token *tokens, t_cmd **cmds)
+static void	parse_tokens(t_token **tokens, t_cmd **cmds)
 {
 	t_token	*cur;
 	t_token	*start;
 
-	cur = tokens;
+	cur = *tokens;
 	start = cur;
 	while (cur)
 	{
@@ -93,16 +93,15 @@ static void	parse_tokens(t_token *tokens, t_cmd **cmds)
 	}
 	if (start)
 		handle_last_command(&start, cmds);
+	*tokens = start;
 }
 
 t_cmd	*parser(t_token *tokens)
 {
 	t_cmd	*cmds;
-	t_token	*head;
 
 	cmds = NULL;
-	head = tokens;
-	parse_tokens(tokens, &cmds);
-	free_tokens(head);
+	parse_tokens(&tokens, &cmds);
+	free_tokens(tokens);
 	return (cmds);
 }
