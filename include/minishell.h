@@ -6,7 +6,7 @@
 /*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 09:45:07 by manualva          #+#    #+#             */
-/*   Updated: 2025/09/03 16:46:28 by manualva         ###   ########.fr       */
+/*   Updated: 2025/09/05 17:24:18 by manualva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,5 +126,7 @@ t_cmd		*process_tokens(char *line, t_env **_env);
 void		handle_line(char *line, t_env **_env);
 
 void		run_shell(t_env **_env);
+
+t_token		*free_token_range(t_token *start, t_token *end);
 
 #endif

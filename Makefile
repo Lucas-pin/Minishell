@@ -6,7 +6,7 @@
 #    By: manualva <manualva@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 19:58:06 by manualva          #+#    #+#              #
-#    Updated: 2025/09/03 16:47:01 by manualva         ###   ########.fr        #
+#    Updated: 2025/09/05 17:16:12 by manualva         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SRCS = minishell.c \
 	src/utils/cd_utils.c \
 	src/utils/builtins_utils.c \
 	src/utils/minishell_utils.c \
+	src/utils/free_utils.c \
 	src/builtins/cd.c \
 	src/builtins/echo.c \
 	src/builtins/env.c \
