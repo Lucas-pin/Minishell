@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 20:10:12 by lpin              #+#    #+#             */
-/*   Updated: 2025/09/02 19:27:45 by lpin             ###   ########.fr       */
+/*   Updated: 2025/09/08 22:25:41 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static int	run_external_fork(t_cmd *cmd, t_env **env)
 			ft_putendl_fd("Quit (core dumped)", 2);
 		return (128 + sig);
 	}
-	setup_signals_shell();
 	return (1);
 }
 
