@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:50:58 by manualva          #+#    #+#             */
-/*   Updated: 2025/08/28 21:07:16 by lpin             ###   ########.fr       */
+/*   Updated: 2025/09/08 22:55:14 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,49 +40,50 @@ static t_cmd	*init_and_handle_redir(t_token **start, t_token **cur)
 static void	parse_till_pipe(t_token **cur, t_token **start, t_cmd **cmds)
 {
 	t_cmd	*cmd;
+	t_token	*after;
 
 	cmd = init_and_handle_redir(start, cur);
 	if (!cmd)
 		return ;
 	cmd->argv = token_list_to_argv(*start, *cur);
 	append_cmd(cmds, cmd);
-	if (*cur)
-	{
-		*cur = (*cur)->next;
-		*start = *cur;
-	}
+	after = free_token_range(*start, *cur);
+	*cur = after;
+	*start = after;
 }
 
 static int	handle_last_command(t_token **start, t_cmd **cmds)
 {
 	t_cmd	*cmd;
 	int		redir_status;
+	t_token	*after;
 
 	cmd = init_cmd();
 	if (!cmd)
 		return (0);
 	redir_status = handle_redirection(start, cmd);
-	if (redir_status == -1)
+	if (redir_status == -1 || redir_status == -2)
 	{
 		free(cmd);
-		return (0);
-	}
-	if (redir_status == -2)
-	{
-		free(cmd);
+		after = free_token_range(*start, NULL);
+		(void)after;
+		*start = NULL;
 		return (0);
 	}
 	cmd->argv = token_list_to_argv(*start, NULL);
 	append_cmd(cmds, cmd);
+	after = free_token_range(*start, NULL);
+	(void)after;
+	*start = NULL;
 	return (1);
 }
 
-static void	parse_tokens(t_token *tokens, t_cmd **cmds)
+static void	parse_tokens(t_token **tokens, t_cmd **cmds)
 {
 	t_token	*cur;
 	t_token	*start;
 
-	cur = tokens;
+	cur = *tokens;
 	start = cur;
 	while (cur)
 	{
@@ -93,16 +94,14 @@ static void	parse_tokens(t_token *tokens, t_cmd **cmds)
 	}
 	if (start)
 		handle_last_command(&start, cmds);
+	*tokens = NULL;
 }
 
 t_cmd	*parser(t_token *tokens)
 {
 	t_cmd	*cmds;
-	t_token	*head;
 
 	cmds = NULL;
-	head = tokens;
-	parse_tokens(tokens, &cmds);
-	free_tokens(head);
+	parse_tokens(&tokens, &cmds);
 	return (cmds);
 }
