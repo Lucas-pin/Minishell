@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 17:08:14 by manualva          #+#    #+#             */
-/*   Updated: 2025/09/02 18:35:07 by manualva         ###   ########.fr       */
+/*   Updated: 2025/09/08 23:01:44 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ static int	heredoc_loop(int wfd, const char *delim)
 		prompt = "> ";
 	else
 		prompt = "";
-
 	while (1)
 	{
 		rc = heredoc_read_line(wfd, delim, prompt);
@@ -119,4 +118,3 @@ int	spawn_heredoc_writer(int wfd, const char *delim)
 		return (0);
 	return (-1);
 }
-
