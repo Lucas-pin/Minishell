@@ -6,7 +6,7 @@
 #    By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 19:58:06 by manualva          #+#    #+#              #
-#    Updated: 2025/09/08 22:59:18 by lpin             ###   ########.fr        #
+#    Updated: 2025/09/08 23:05:07 by lpin             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,7 @@ SRCS = minishell.c \
 	src/exec/single_cmd.c \
 	src/exec/multiple_cmds.c \
 	src/utils/minishell_utils.c \
+	src/utils/free_utils.c
 
 OBJS = $(SRCS:.c=.o)
 
