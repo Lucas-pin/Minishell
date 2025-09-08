@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 00:14:13 by lpin              #+#    #+#             */
-/*   Updated: 2025/09/03 19:04:24 by lpin             ###   ########.fr       */
+/*   Updated: 2025/09/08 22:37:44 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ static void	create_default_env(t_env **_env)
 	lst_add(_env, lst_new(pwd_var, false));
 	lst_add(_env, lst_new(oldpwd_var, false));
 	lst_add(_env, lst_new("SHLVL=1", false));
-	lst_add(_env, lst_new("?=0", true));
 	free(pwd_var);
 	free(oldpwd_var);
 }
@@ -60,12 +59,6 @@ static void	bump_shlvl(t_env **_env)
 	}
 }
 
-static void	ensure_question_hidden(t_env **_env)
-{
-	if (!find_key(_env, "?="))
-		lst_add(_env, lst_new("?=0", true));
-}
-
 int	envp_to_env(t_env **_env, char **envp)
 {
 	int	i;
@@ -85,6 +78,5 @@ int	envp_to_env(t_env **_env, char **envp)
 		i++;
 	}
 	bump_shlvl(_env);
-	ensure_question_hidden(_env);
 	return (0);
 }

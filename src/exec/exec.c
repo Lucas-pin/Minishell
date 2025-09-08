@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 18:00:14 by lpin              #+#    #+#             */
-/*   Updated: 2025/09/03 19:16:28 by lpin             ###   ########.fr       */
+/*   Updated: 2025/09/08 22:37:57 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,6 @@
 #include "../../include/minishell.h"
 #include "../../include/builtins.h"
 #include "../../include/signals.h"
-
-static int	set_last_status(t_env **env, int status)
-{
-	char	*num;
-	char	*var;
-
-	if (!env)
-		return (-1);
-	num = ft_itoa(status);
-	if (!num)
-		return (-1);
-	var = ft_strjoin_free_s2("?=", num);
-	if (!var)
-		return (-1);
-	update_value(env, var);
-	free(var);
-	return (0);
-}
 
 static void	print_prefixed_err(const char *cmd, const char *msg)
 {
@@ -109,7 +91,6 @@ int	executor(t_cmd *cmds, t_env **env)
 		status = execute_single_cmd(cmds, env);
 	else
 		status = execute_multiple_cmds(cmds, env);
-	set_last_status(env, status);
 	set_exit_status(status);
 	setup_signals_shell();
 	return (status);
