@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
+/*   By: lpin <lpin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 18:00:14 by lpin              #+#    #+#             */
-/*   Updated: 2025/09/08 22:37:57 by lpin             ###   ########.fr       */
+/*   Updated: 2025/09/09 19:08:03 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,9 @@ void	try_exec_or_complain(t_cmd *cmd, t_env **env)
 	int			slash;
 	struct stat	st;
 
+	slash = 0;
+	if (!cmd->argv || !*(cmd)->argv)
+		exit(0);
 	if (ft_strchr(cmd->cmd, '/') != NULL)
 		slash = 1;
 	if (!cmd->cmd_path || ((char *)cmd->cmd_path)[0] == '\0')
