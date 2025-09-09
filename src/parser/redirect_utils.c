@@ -6,7 +6,7 @@
 /*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 17:33:42 by manualva          #+#    #+#             */
-/*   Updated: 2025/08/27 17:39:23 by manualva         ###   ########.fr       */
+/*   Updated: 2025/09/09 17:24:03 by manualva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static int	get_redirection_fd(t_token *cur)
 	{
 		if (cur->type == T_HEREDOC && errno == EINTR)
 			return (-2);
-		perror("minishell");
 	}
 	return (fd);
 }
