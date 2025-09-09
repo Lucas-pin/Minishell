@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
+/*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 09:45:07 by manualva          #+#    #+#             */
-/*   Updated: 2025/09/08 22:54:42 by lpin             ###   ########.fr       */
+/*   Updated: 2025/09/09 17:56:07 by manualva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,5 +128,7 @@ void		handle_line(char *line, t_env **_env);
 void		run_shell(t_env **_env);
 
 t_token		*free_token_range(t_token *start, t_token *end);
+
+void		free_single_cmd(t_cmd *cmd);
 
 #endif

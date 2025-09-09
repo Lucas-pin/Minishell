@@ -6,7 +6,7 @@
 /*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:07:26 by manualva          #+#    #+#             */
-/*   Updated: 2025/08/27 17:24:29 by manualva         ###   ########.fr       */
+/*   Updated: 2025/09/09 18:03:58 by manualva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	append_cmd(t_cmd **head, t_cmd *new_tok)
 	}
 }
 
-static void	free_single_cmd(t_cmd *cmd)
+void	free_single_cmd(t_cmd *cmd)
 {
 	int	i;
 	int	is_ext;
