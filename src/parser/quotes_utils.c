@@ -6,7 +6,7 @@
 /*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 19:49:26 by manualva          #+#    #+#             */
-/*   Updated: 2025/08/28 19:15:35 by manualva         ###   ########.fr       */
+/*   Updated: 2025/09/11 18:43:39 by manualva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,44 @@ static char	*collect_unquoted(const char *input, int *i)
 	return (substr_dup(input, start, *i - start));
 }
 
+char	*str_join_free(char *s1, char *s2)
+{
+	char	*joined;
+
+	if (!s1 && !s2)
+		return (NULL);
+	if (!s1)
+		return (s2);
+	if (!s2)
+		return (s1);
+	joined = ft_strjoin(s1, s2);
+	free(s1);
+	free(s2);
+	return (joined);
+}
+
 char	*collect_word(const char *input, int *i, char *quote_type)
 {
-	if (input[*i] == '"' || input[*i] == '\'')
+	char	*result;
+	char	*part;
+	char	quote;
+
+	result = ft_strdup("");
+	*quote_type = 0;
+	while (input[*i] && !is_space(input[*i]) && !is_operator(input[*i]))
 	{
-		*quote_type = input[*i];
-		return (collect_quoted(input, i));
+		if (input[*i] == '"' || input[*i] == '\'')
+		{
+			quote = input[*i];
+			part = collect_quoted(input, i);
+			if (!part)
+				return (free(result), NULL);
+			if (*quote_type == 0)
+				*quote_type = quote;
+		}
+		else
+			part = collect_unquoted(input, i);
+		result = str_join_free(result, part);
 	}
-	return (collect_unquoted(input, i));
+	return (result);
 }
