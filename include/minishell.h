@@ -6,7 +6,7 @@
 /*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 09:45:07 by manualva          #+#    #+#             */
-/*   Updated: 2025/09/09 17:56:07 by manualva         ###   ########.fr       */
+/*   Updated: 2025/09/15 19:20:34 by manualva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ char		*assemble_expanded(const char *input, int var_start, int var_end,
 
 //Gets the value of an environment variable.
 char		*get_env_value(t_env *env, const char *name);
+
+void		parse_tokens(t_token **tokens, t_cmd **cmds);
 
 //Parses the list of tokens into a list of commands, split by pipes.
 t_cmd		*parser(t_token *tokens);

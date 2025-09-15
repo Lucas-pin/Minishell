@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+         #
+#    By: manualva <manualva@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 19:58:06 by manualva          #+#    #+#              #
-#    Updated: 2025/09/08 23:05:07 by lpin             ###   ########.fr        #
+#    Updated: 2025/09/15 19:23:17 by manualva         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRCS = minishell.c \
 	src/parser/redirect_utils.c \
 	src/parser/heredoc.c \
 	src/parser/lexer.c \
+	src/parser/parser_utils.c \
 	src/parser/parser.c \
 	src/parser/quotes_utils.c \
 	src/signals/status.c \
@@ -40,6 +41,7 @@ SRCS = minishell.c \
 	src/utils/builtins_utils.c \
 	src/utils/cmd_path_utils.c \
 	src/utils/multiple_cmds_utils.c \
+	src/utils/free_utils.c \
 	src/builtins/cd.c \
 	src/builtins/echo.c \
 	src/builtins/env.c \
@@ -52,8 +54,7 @@ SRCS = minishell.c \
 	src/exec/pipe_utils.c \
 	src/exec/single_cmd.c \
 	src/exec/multiple_cmds.c \
-	src/utils/minishell_utils.c \
-	src/utils/free_utils.c
+	src/utils/minishell_utils.c
 
 OBJS = $(SRCS:.c=.o)
 
