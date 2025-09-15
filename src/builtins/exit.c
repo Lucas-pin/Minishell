@@ -3,16 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpin <lpin@student.42malaga.com>           +#+  +:+       +#+        */
+/*   By: lpin <lpin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 21:02:48 by lpin              #+#    #+#             */
-/*   Updated: 2025/09/08 22:37:10 by lpin             ###   ########.fr       */
+/*   Updated: 2025/09/15 18:09:29 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/builtins.h"
 #include "../../include/signals.h"
 #include <limits.h>
+
+static int	exit_logical_error(char *msg)
+{
+	ft_putstr_fd("exit: ", 2);
+	ft_putstr_fd(msg, 2);
+	ft_putendl_fd(": numeric argument required", 2);
+	return (2);
+}
 
 static int	parse_sign(const char *s, int *i, unsigned long long *limit)
 {
@@ -88,10 +96,8 @@ int	built_exit(char **args, t_env **_env)
 		exit(get_exit_status());
 	if (!parse_numeric_ll(args[1], &ll))
 	{
-		ft_putstr_fd("exit: ", 2);
-		ft_putstr_fd(args[1], 2);
-		ft_putendl_fd(": numeric argument required", 2);
-		exit(255);
+		exit_logical_error(args[1]);
+		exit(2);
 	}
 	if (argc > 2)
 	{
