@@ -6,7 +6,7 @@
 /*   By: lpin <lpin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 18:00:14 by lpin              #+#    #+#             */
-/*   Updated: 2025/09/09 19:08:03 by lpin             ###   ########.fr       */
+/*   Updated: 2025/09/15 19:14:15 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ static void	exit_with_exec_error(const char *name, int err, int name_has_slash)
 void	try_exec_or_complain(t_cmd *cmd, t_env **env)
 {
 	char		**envp;
-	int			err;
 	int			slash;
 	struct stat	st;
 
@@ -79,8 +78,7 @@ void	try_exec_or_complain(t_cmd *cmd, t_env **env)
 	}
 	envp = env_to_envp(*env);
 	execve((char *)cmd->cmd_path, cmd->argv, envp);
-	err = errno;
-	exit_with_exec_error(cmd->cmd, err, slash);
+	exit_with_exec_error(cmd->cmd, errno, slash);
 }
 
 int	executor(t_cmd *cmds, t_env **env)
