@@ -6,11 +6,24 @@
 /*   By: lpin <lpin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 17:33:42 by manualva          #+#    #+#             */
-/*   Updated: 2025/09/15 17:58:42 by lpin             ###   ########.fr       */
+/*   Updated: 2025/09/15 19:02:02 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include "../../include/signals.h"
+
+static void	printf_redirection_error(const char *filename)
+{
+	ft_putstr_fd("minishell: ", 2);
+	if (filename && *filename)
+		ft_putstr_fd((char *)filename, 2);
+	else
+		ft_putstr_fd("(null)", 2);
+	ft_putstr_fd(": ", 2);
+	ft_putendl_fd((char *)strerror(errno), 2);
+	set_exit_status(1);
+}
 
 static int	open_file_for_redirection(t_token *file_token, t_token *redir_token)
 {
@@ -34,6 +47,7 @@ static int	get_redirection_fd(t_token *cur)
 	if (!file_token || !file_token->str)
 	{
 		print_error("Near unexpected token 'newline'\n", 1);
+		set_exit_status(-2);
 		return (-1);
 	}
 	if (cur->type == T_HEREDOC)
@@ -44,6 +58,10 @@ static int	get_redirection_fd(t_token *cur)
 	{
 		if (cur->type == T_HEREDOC && errno == EINTR)
 			return (-2);
+		if (file_token && file_token->str)
+			printf_redirection_error(file_token->str);
+		else
+			printf_redirection_error("(null)");
 	}
 	return (fd);
 }
