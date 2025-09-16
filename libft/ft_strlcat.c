@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpin <lpin@student.42.malaga.com>          +#+  +:+       +#+        */
+/*   By: lpin <lpin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 17:41:15 by lpin              #+#    #+#             */
-/*   Updated: 2023/09/23 21:29:21 by lpin             ###   ########.fr       */
+/*   Updated: 2025/09/16 20:40:32 by lpin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 	src_len = ft_strlen(src);
 	i = 0;
 	j = 0;
-	if (dstsize > 0 && dst_len < dstsize)
+	if (dstsize > 0 && src_len > 0 && dst_len < dstsize)
 	{
 		while (dst[i] != '\0')
 			++i;
