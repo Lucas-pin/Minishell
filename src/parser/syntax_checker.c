@@ -6,7 +6,7 @@
 /*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:36:02 by manualva          #+#    #+#             */
-/*   Updated: 2025/09/03 16:55:44 by manualva         ###   ########.fr       */
+/*   Updated: 2025/09/17 20:19:46 by manualva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	check_syntax(t_token *tokens)
 			|| check_redir_syntax(tokens)
 			|| check_word_syntax(tokens))
 		{
-			set_exit_status(258);
+			set_exit_status(2);
 			return (1);
 		}
 		prev = tokens;

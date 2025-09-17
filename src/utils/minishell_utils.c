@@ -6,7 +6,7 @@
 /*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 16:44:38 by manualva          #+#    #+#             */
-/*   Updated: 2025/09/03 16:48:43 by manualva         ###   ########.fr       */
+/*   Updated: 2025/09/17 20:00:54 by manualva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,11 @@ t_cmd	*process_tokens(char *line, t_env **_env)
 
 	tokens = lexer(line);
 	if (!tokens)
+	{
+		free_tokens(tokens);
+		return (NULL);
+	}
+	if (check_syntax(tokens))
 	{
 		free_tokens(tokens);
 		return (NULL);

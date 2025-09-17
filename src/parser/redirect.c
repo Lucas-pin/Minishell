@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpin <lpin@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 09:12:14 by manualva          #+#    #+#             */
-/*   Updated: 2025/08/27 20:44:52 by lpin             ###   ########.fr       */
+/*   Updated: 2025/09/17 20:18:20 by manualva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	handle_single_redirection(t_token **tokens, t_token **cur,
 
 	if (!(*cur)->next)
 	{
-		print_error("Near unexpected token 'newline'\n", 1);
+		print_error("newline", 1);
 		return (-1);
 	}
 	redir_result = process_redirection(*cur, cmd);

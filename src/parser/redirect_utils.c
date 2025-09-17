@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpin <lpin@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 17:33:42 by manualva          #+#    #+#             */
-/*   Updated: 2025/09/15 19:02:02 by lpin             ###   ########.fr       */
+/*   Updated: 2025/09/17 20:18:51 by manualva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,7 @@ static int	get_redirection_fd(t_token *cur)
 	file_token = cur->next;
 	if (!file_token || !file_token->str)
 	{
-		print_error("Near unexpected token 'newline'\n", 1);
-		set_exit_status(-2);
+		print_error("newline", 1);
 		return (-1);
 	}
 	if (cur->type == T_HEREDOC)

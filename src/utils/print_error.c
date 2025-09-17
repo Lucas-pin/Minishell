@@ -6,24 +6,23 @@
 /*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 08:52:07 by manualva          #+#    #+#             */
-/*   Updated: 2025/07/28 18:06:00 by manualva         ###   ########.fr       */
+/*   Updated: 2025/09/17 20:20:48 by manualva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include "../../include/signals.h"
 
-static void	print_error_type(int i)
+int	print_error(char *token_str, int error_type)
 {
-	if (i == 1)
-		ft_printf("Syntax Error: ");
-}
+	if (!token_str)
+		token_str = "newline";
 
-int	print_error(char *str, int error)
-{
-	if (error)
+	if (error_type == 1)
 	{
-		print_error_type(error);
-		ft_printf("%s", str);
+		ft_printf("minishell: syntax error near unexpected token `%s'\n",
+			token_str);
+		set_exit_status(2);
 	}
 	return (1);
 }
