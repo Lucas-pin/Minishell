@@ -6,7 +6,7 @@
 /*   By: manualva <manualva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 19:49:26 by manualva          #+#    #+#             */
-/*   Updated: 2025/09/11 18:43:39 by manualva         ###   ########.fr       */
+/*   Updated: 2025/09/18 18:06:17 by manualva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char	*collect_quoted(const char *input, int *i)
 		(*i)++;
 	if (input[*i] != quote)
 	{
-		ft_printf("Syntax error: Unclosed quote [%c]\n", quote);
+		ft_printf("minishell: unclosed quote [%c]\n", quote);
 		return (NULL);
 	}
 	part = substr_dup(input, start, *i - start);
